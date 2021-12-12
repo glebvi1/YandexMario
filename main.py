@@ -9,6 +9,8 @@ class MainWindow:
         self.mario = Mario((250, 100), "res/mario/0.png")
         self.objects = [
             Block((300, 100), "res/blocks/block.png"),
+            Block((300, 132), "res/blocks/block.png"),
+            Block((300, 164), "res/blocks/block.png"),
             Block((200, 100), "res/blocks/block.png"),
             Block((200, 200), "res/blocks/block.png"),
             Block((232, 200), "res/blocks/block.png"),
@@ -48,13 +50,15 @@ if __name__ == "__main__":
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 game.quit()
+
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_a or event.key == pygame.K_LEFT:
                     direction_x = -1
                 elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
                     direction_x = 1
                 elif event.key == pygame.K_w or event.key == pygame.K_UP:
-                    direction_y = -1
+                    direction_y = 1
+
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_a or event.key == pygame.K_LEFT:
                     direction_x = 0
