@@ -33,7 +33,7 @@ class Mario(Hero):
             if sprite.collide_rect(self, block):
                 is_bottom_collide = True
 
-                if direction_x == 1 and self.on_ground:  # вправо
+                if direction_x == 1:  # вправо
                     self.rect.right = block.rect.left
                     is_bottom_collide = False
 

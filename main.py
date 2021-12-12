@@ -8,13 +8,18 @@ class MainWindow:
         self.running = True
         self.mario = Mario((250, 100), "res/mario/0.png")
         self.objects = [
-            Block((300, 100), "res/blocks/block.png"),
-            Block((300, 132), "res/blocks/block.png"),
-            Block((300, 164), "res/blocks/block.png"),
             Block((200, 100), "res/blocks/block.png"),
-            Block((200, 200), "res/blocks/block.png"),
-            Block((232, 200), "res/blocks/block.png"),
-            Block((264, 200), "res/blocks/block.png")
+            Block((200, 132), "res/blocks/block.png"),
+            Block((200, 164), "res/blocks/block.png"),
+            Block((200, 186), "res/blocks/block.png"),
+            Block((200+32, 186), "res/blocks/block.png"),
+            Block((200+32*2, 186), "res/blocks/block.png"),
+            Block((200+32*3, 186), "res/blocks/block.png"),
+            Block((200+32*4, 186), "res/blocks/block.png"),
+            Block((200-32, 186), "res/blocks/block.png"),
+            Block((200-32*2, 186), "res/blocks/block.png"),
+            Block((200-32*3, 186), "res/blocks/block.png"),
+            Block((200-32*4, 186), "res/blocks/block.png"),
         ]
 
     def quit(self):
