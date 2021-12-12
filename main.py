@@ -41,9 +41,10 @@ if __name__ == "__main__":
     clock = pygame.time.Clock()
     fps = 60
 
+    direction_x = 0
+    direction_y = 0
+
     while game.running:
-        direction_x = 0
-        direction_y = 0
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 game.quit()
@@ -54,6 +55,13 @@ if __name__ == "__main__":
                     direction_x = 1
                 elif event.key == pygame.K_w or event.key == pygame.K_UP:
                     direction_y = -1
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_a or event.key == pygame.K_LEFT:
+                    direction_x = 0
+                elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
+                    direction_x = 0
+                elif event.key == pygame.K_w or event.key == pygame.K_UP:
+                    direction_y = 0
 
         game.move(direction_x, direction_y)
         game.draw(screen)
