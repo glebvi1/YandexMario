@@ -1,5 +1,5 @@
 import pygame
-from models.Hero import Mario
+from models.Mario import Mario
 from models.Blocks import Block
 
 
@@ -34,7 +34,7 @@ class MainWindow:
 
 
 if __name__ == "__main__":
-    coords = 300, 300
+    coords = 800, 600
     pygame.init()
     screen = pygame.display.set_mode(coords)
     game = MainWindow()
