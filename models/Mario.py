@@ -4,7 +4,7 @@ from pygame import sprite
 WIDTH = 22
 HEIGHT = 30
 MOVE_SPEED = 7
-JUMP_SPEED = 100
+JUMP_SPEED = 15
 
 
 class Mario(Hero):
@@ -15,21 +15,19 @@ class Mario(Hero):
     def draw(self, screen):
         screen.blit(self.image, (self.rect.x, self.rect.y))
 
-    def move(self, direction_x, direction_y):
-        self.rect.x += MOVE_SPEED * direction_x
-        if self.on_ground:
-            self.rect.y -= JUMP_SPEED * direction_y
+    def update(self, direction_x, direction_y, blocks):
+        self.rect.y -= JUMP_SPEED * direction_y
         if not self.on_ground:
             self.rect.y += 1
 
-    def update(self, direction_x, direction_y, blocks):
-        if direction_x != 0 and direction_y != 0:
-            self.collide(0, direction_y, blocks)
-            self.collide(direction_x, 0, blocks)
+        if direction_x == 0 and direction_y == 0:
+            self.collide_with_blocks(0, 0, blocks)
         else:
-            self.collide(0, 0, blocks)
+            self.collide_with_blocks(0, direction_y, blocks)
+            self.rect.x += MOVE_SPEED * direction_x
+            self.collide_with_blocks(direction_x, 0, blocks)
 
-    def collide(self, direction_x, direction_y, blocks):
+    def collide_with_blocks(self, direction_x, direction_y, blocks):
         current_on_ground = False
         for block in blocks:
             if sprite.collide_rect(self, block):
@@ -53,4 +51,3 @@ class Mario(Hero):
                     self.rect.bottom = block.rect.top
 
         self.on_ground = current_on_ground
-        print(self.on_ground)

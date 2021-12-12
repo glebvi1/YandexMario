@@ -31,9 +31,6 @@ class MainWindow:
         for widg in self.objects:
             widg.update(delta_time)
 
-    def move(self, direction_x, direction_y):
-        self.mario.move(direction_x, direction_y)
-
 
 if __name__ == "__main__":
     coords = 800, 600
@@ -67,7 +64,6 @@ if __name__ == "__main__":
                 elif event.key == pygame.K_w or event.key == pygame.K_UP:
                     direction_y = 0
 
-        game.move(direction_x, direction_y)
         game.draw(screen)
         game.update(clock.tick(fps), direction_x, direction_y)
         pygame.display.flip()
