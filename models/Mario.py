@@ -3,22 +3,32 @@ from pygame import sprite
 
 WIDTH = 22
 HEIGHT = 30
-MOVE_SPEED = 7
-JUMP_SPEED = 15
+MOVE_SPEED = 5
+JUMP_SPEED = 100
+GRAVITATION = 2.5
 
 
 class Mario(Hero):
     def __init__(self, coordinate: tuple, image_path: str):
         super().__init__(coordinate, image_path)
         self.on_ground = False
+        self.can_jump = False
 
-    def draw(self, screen):
-        screen.blit(self.image, (self.rect.x, self.rect.y))
+    def update(self, direction_x, direction_y, blocks, enemies):
+        if self.collide_with_enemies(enemies):
+            return False
 
-    def update(self, direction_x, direction_y, blocks):
-        self.rect.y -= JUMP_SPEED * direction_y
-        if not self.on_ground:
-            self.rect.y += 1
+        self.move(direction_x, direction_y, blocks)
+        return True
+
+    def move(self, direction_x, direction_y, blocks):
+        is_jumping = self.can_jump and direction_y != 0
+        if not self.on_ground and direction_y == 0:
+            self.rect.y += GRAVITATION
+
+        if is_jumping:
+            self.rect.y -= JUMP_SPEED * direction_y
+            self.can_jump = False
 
         if direction_x == 0 and direction_y == 0:
             self.collide_with_blocks(0, 0, blocks)
@@ -49,5 +59,15 @@ class Mario(Hero):
                 if is_bottom_collide:  # вниз
                     current_on_ground = True
                     self.rect.bottom = block.rect.top
+                    self.can_jump = True
 
         self.on_ground = current_on_ground
+
+    def collide_with_enemies(self, enemies: list) -> bool:
+        """True - если было пересечение с врагом, иначе False
+        :param enemies: списое врагов
+        """
+        for enemie in enemies:
+            if sprite.collide_rect(self, enemie):
+                return True
+        return False

@@ -1,13 +1,14 @@
 import pygame
 from models.Mario import Mario
 from models.Blocks import Block
+from models.Fire import Fire
 
 
 class MainWindow:
     def __init__(self):
         self.running = True
-        self.mario = Mario((250, 100), "res/mario/0.png")
-        self.objects = [
+        self.mario = Mario((100, 100), "res/mario/0.png")
+        self.blocks = [
             Block((200, 100), "res/blocks/block.png"),
             Block((200, 132), "res/blocks/block.png"),
             Block((200, 164), "res/blocks/block.png"),
@@ -19,7 +20,10 @@ class MainWindow:
             Block((200-32, 186), "res/blocks/block.png"),
             Block((200-32*2, 186), "res/blocks/block.png"),
             Block((200-32*3, 186), "res/blocks/block.png"),
-            Block((200-32*4, 186), "res/blocks/block.png"),
+            Block((200-32*4, 186), "res/blocks/block.png")
+        ]
+        self.enemies = [
+            Fire((200 + 32 * 2, 186 - 32), "res/enemies/fire.png")
         ]
 
     def quit(self):
@@ -28,17 +32,23 @@ class MainWindow:
     def draw(self, screen):
         screen.fill((0, 200, 0))
         self.mario.draw(screen)
-        for widg in self.objects:
+        for widg in self.blocks:
+            widg.draw(screen)
+        for widg in self.enemies:
             widg.draw(screen)
 
     def update(self, delta_time, direction_x, direction_y):
-        self.mario.update(direction_x, direction_y, self.objects)
-        for widg in self.objects:
+        if not self.mario.update(direction_x, direction_y, self.blocks, self.enemies):
+            self.quit()
+
+        for widg in self.blocks:
+            widg.update(delta_time)
+        for widg in self.enemies:
             widg.update(delta_time)
 
 
 if __name__ == "__main__":
-    coords = 800, 600
+    coords = 700, 600
     pygame.init()
     screen = pygame.display.set_mode(coords)
     game = MainWindow()

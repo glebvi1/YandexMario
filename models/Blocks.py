@@ -13,5 +13,5 @@ class Block(sprite.Sprite):
     def draw(self, screen):
         screen.blit(self.image, (self.rect.x, self.rect.y))
 
-    def move(self):
+    def update(self, delta_time):
         pass
