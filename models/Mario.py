@@ -1,4 +1,4 @@
-from models.Hero import Hero
+from models.MarioObject import MarioObject
 from pygame import sprite
 
 WIDTH = 22
@@ -8,7 +8,7 @@ JUMP_SPEED = 100
 GRAVITATION = 2.5
 
 
-class Mario(Hero):
+class Mario(MarioObject):
     def __init__(self, coordinate: tuple, image_path: str):
         super().__init__(coordinate, image_path)
         self.on_ground = False

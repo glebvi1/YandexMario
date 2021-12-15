@@ -1,7 +1,7 @@
 from pygame import sprite, image
 
 
-class Hero(sprite.Sprite):
+class MarioObject(sprite.Sprite):
     def __init__(self, coordinate: tuple, image_path: str, life=3):
         sprite.Sprite.__init__(self)
         self.coordinate = coordinate
