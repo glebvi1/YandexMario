@@ -14,8 +14,10 @@ class Mario(MarioObject):
         self.on_ground = False
         self.can_jump = False
 
-    def update(self, direction_x, direction_y, blocks, enemies):
+    def update(self, direction_x, direction_y, blocks, enemies, princess):
         if self.collide_with_enemies(enemies):
+            return False
+        if sprite.collide_mask(self, princess):
             return False
 
         self.move(direction_x, direction_y, blocks)
