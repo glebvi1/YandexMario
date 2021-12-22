@@ -3,6 +3,7 @@ from models.Mario import Mario
 from models.Blocks import Block
 from models.MarioObject import MarioObject
 from models.Fire import Fire
+from models import STATE_CONTINUE, STATE_END, STATE_WIN
 
 
 class MainWindow:
@@ -42,8 +43,13 @@ class MainWindow:
             widg.draw(screen)
 
     def update(self, delta_time, vector):
-        if not self.mario.update(delta_time, vector, self.blocks):
-            self.quit()
+        state = self.mario.update(delta_time, vector, self)
+        if state == STATE_END:
+            print("Марио проиграл")
+            pygame.quit()
+        if state == STATE_WIN:
+            print("Марио выиграл")
+            pygame.quit()
 
         for widg in self.blocks:
             widg.update(delta_time)
