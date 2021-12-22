@@ -41,8 +41,8 @@ class MainWindow:
         for widg in self.enemies:
             widg.draw(screen)
 
-    def update(self, delta_time, direction_x, direction_y):
-        if not self.mario.update(direction_x, direction_y, self.blocks, self.enemies, self.princess):
+    def update(self, delta_time, vector):
+        if not self.mario.update(delta_time, vector, self.blocks):
             self.quit()
 
         for widg in self.blocks:
@@ -60,30 +60,32 @@ if __name__ == "__main__":
     clock = pygame.time.Clock()
     fps = 60
 
-    direction_x = 0
-    direction_y = 0
+    right = left = up = False
 
     while game.running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                print("quit")
                 game.quit()
 
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_a or event.key == pygame.K_LEFT:
-                    direction_x = -1
+                    left = True
                 elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
-                    direction_x = 1
-                elif event.key == pygame.K_w or event.key == pygame.K_UP:
-                    direction_y = 1
+                    right = True
+                elif event.key == pygame.K_w or event.key == pygame.K_SPACE\
+                        or event.key == pygame.K_UP:
+                    up = True
 
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_a or event.key == pygame.K_LEFT:
-                    direction_x = 0
+                    left = False
                 elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
-                    direction_x = 0
-                elif event.key == pygame.K_w or event.key == pygame.K_UP:
-                    direction_y = 0
+                    right = False
+                elif event.key == pygame.K_w or event.key == pygame.K_SPACE\
+                        or event.key == pygame.K_UP:
+                    up = False
 
         game.draw(screen)
-        game.update(clock.tick(fps), direction_x, direction_y)
+        game.update(clock.tick(fps), (right, left, up))
         pygame.display.flip()
