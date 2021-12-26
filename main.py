@@ -1,6 +1,5 @@
 import pygame
 from models.Mario import Mario
-from models.Blocks import Block
 from models.MarioObject import MarioObject
 from models.MoveFire import MoveFire
 from models import STATE_END, STATE_WIN
@@ -15,28 +14,6 @@ class MainWindow:
         self.mario = Mario((100, 100), "res/heros/0.png")
         self.princess = MarioObject((600, 152-20), "res/heros/princess.png")
 
-        """
-        self.blocks = [
-            Block((200, 100), "res/blocks/block.png"),
-            Block((200, 132), "res/blocks/block.png"),
-            Block((200, 164), "res/blocks/block.png"),
-            Block((200, 186), "res/blocks/block.png"),
-            Block((200+32, 186), "res/blocks/block.png"),
-            Block((200+32*2, 186), "res/blocks/block.png"),
-            Block((200+32*3, 186), "res/blocks/block.png"),
-            Block((200+32*4, 186), "res/blocks/block.png"),
-            Block((200+32*5, 186), "res/blocks/block.png"),
-            Block((200+32*6, 186), "res/blocks/block.png"),
-            Block((200+32*7, 186), "res/blocks/block.png"),
-            Block((200+32*8, 186), "res/blocks/block.png"),
-            Block((200+32*9, 186), "res/blocks/block.png"),
-            Block((200+32*10, 186), "res/blocks/block.png"),
-            Block((200-32, 186), "res/blocks/block.png"),
-            Block((200-32*2, 186), "res/blocks/block.png"),
-            Block((200-32*3, 186), "res/blocks/block.png"),
-            Block((200-32*4, 186), "res/blocks/block.png"),
-        ]
-        """
         self.blocks = []
         self.enemies = [
             MarioObject((200 + 32 * 5, 186), "res/enemies/fire.png"),
@@ -65,7 +42,7 @@ class MainWindow:
         for a in self.level:
             for elem in a:
                 if elem == "-":
-                    block = Block((x, y), "res/blocks/block.png")
+                    block = MarioObject((x, y), "res/blocks/block.png")
                     self.blocks.append(block)
                 x += 32
             x = 0
@@ -84,10 +61,8 @@ class MainWindow:
         self.princess.draw(screen, self.camera)
 
         for widg in self.blocks:
-            #screen.blit(widg.image, self.camera.apply(widg))
             widg.draw(screen, self.camera)
         for widg in self.enemies:
-            #screen.blit(widg.image, self.camera.apply(widg))
             widg.draw(screen, self.camera)
 
     def update(self, delta_time, vector):
