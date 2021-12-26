@@ -1,4 +1,5 @@
 from pygame import sprite, image
+from math import ceil, floor
 
 
 class MarioObject(sprite.Sprite):
@@ -13,3 +14,10 @@ class MarioObject(sprite.Sprite):
 
     def draw(self, screen):
         screen.blit(self.image, (self.rect.x, self.rect.y))
+
+    @staticmethod
+    def direction_round(direction):
+        """Метод округляет направление до целого числа
+        :param direction: направление
+        """
+        return ceil(direction) if direction > 0 else floor(direction)

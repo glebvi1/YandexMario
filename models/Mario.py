@@ -1,7 +1,7 @@
 from models import STATE_CONTINUE, STATE_END, STATE_WIN
 from models.MarioObject import MarioObject
 from pygame import sprite
-from math import ceil, floor
+
 
 WIDTH = 22
 HEIGHT = 30
@@ -31,24 +31,23 @@ class Mario(MarioObject):
 
     def move(self, dt, platforms):
         self.on_ground = False
-        self.rect.y += Mario.direction_round(self.direction_y * dt / 100)
+        self.rect.y += MarioObject.direction_round(self.direction_y * dt / 100)
         self.collide_with_blocks(0, self.direction_y, platforms)
 
-        self.rect.x += Mario.direction_round(self.direction_x * dt / 100)
+        self.rect.x += MarioObject.direction_round(self.direction_x * dt / 100)
         self.collide_with_blocks(self.direction_x, 0, platforms)
 
     def set_direction(self, vector):
         right, left, up = vector
 
-        if up:
-            if self.on_ground:  # прыгаем, только когда можем оттолкнуться от земли
-                self.direction_y = -JUMP_POWER
+        if up and self.on_ground:
+            self.direction_y = -JUMP_POWER
 
         if left:
-            self.direction_x = -MOVE_SPEED  # Лево = x- n
+            self.direction_x = -MOVE_SPEED
 
         if right:
-            self.direction_x = MOVE_SPEED  # Право = x + n
+            self.direction_x = MOVE_SPEED
 
         if not (left or right):
             self.direction_x = 0
@@ -83,10 +82,3 @@ class Mario(MarioObject):
             if sprite.collide_rect(self, enemie):
                 return True
         return False
-
-    @staticmethod
-    def direction_round(direction):
-        """Метод округляет направление до целого числа
-        :param direction: направление
-        """
-        return ceil(direction) if direction > 0 else floor(direction)
