@@ -1,7 +1,6 @@
 from models.MarioObject import MarioObject
 from math import fabs
-
-SPEED = 10
+from models import FIRE_MOVE
 
 
 class MoveFire(MarioObject):
@@ -10,10 +9,10 @@ class MoveFire(MarioObject):
         super().__init__(coordinates, image_path)
 
         self.max_len = max_len
-        self.dir_x = SPEED
+        self.dir_x = FIRE_MOVE
 
     def update(self, dt):
-        self.rect.x += MarioObject.direction_round(self.dir_x * dt / 100)
+        self.rect.x += MarioObject._direction_round(self.dir_x * dt / 100)
 
         if fabs(self.coordinate[0] - self.rect.x) >= self.max_len:
             self.dir_x = -self.dir_x

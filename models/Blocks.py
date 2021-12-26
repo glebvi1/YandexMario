@@ -1,7 +1,8 @@
 from pygame import sprite, image
+from models.MarioObject import MarioObject
 
 
-class Block(sprite.Sprite):
+class Block(MarioObject):
     def __init__(self, coordinate: tuple, image_path: str):
         sprite.Sprite.__init__(self)
         self.coordinate = coordinate
@@ -9,9 +10,3 @@ class Block(sprite.Sprite):
 
         self.image = image.load(image_path).convert_alpha()
         self.rect = self.image.get_rect(center=(coordinate[0], coordinate[1]))
-
-    def draw(self, screen):
-        screen.blit(self.image, (self.rect.x, self.rect.y))
-
-    def update(self, delta_time):
-        pass

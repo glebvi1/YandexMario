@@ -80,16 +80,15 @@ class MainWindow:
     def draw(self, screen):
         screen.fill((0, 200, 0))
 
-        self.mario.draw(screen)
-
-        screen.blit(self.princess.image, self.camera.apply(self.princess))
+        self.mario.draw(screen, self.camera)
+        self.princess.draw(screen, self.camera)
 
         for widg in self.blocks:
             #screen.blit(widg.image, self.camera.apply(widg))
-            widg.draw(screen)
+            widg.draw(screen, self.camera)
         for widg in self.enemies:
             #screen.blit(widg.image, self.camera.apply(widg))
-            widg.draw(screen)
+            widg.draw(screen, self.camera)
 
     def update(self, delta_time, vector):
         state = self.mario.update(delta_time, vector, self)
@@ -101,10 +100,8 @@ class MainWindow:
             print("Марио выиграл")
             pygame.quit()
 
-        #self.camera.update(self.mario)
+        self.camera.update(self.mario)
 
-        for widg in self.blocks:
-            widg.update(delta_time)
         for widg in self.enemies:
             widg.update(delta_time)
 
