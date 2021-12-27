@@ -5,50 +5,47 @@ from models.MoveFire import MoveFire
 from models import STATE_END, STATE_WIN
 from config import HEIGHT, WIDTH
 from config.Camera import Camera
+from config import LEVEL1_PATH, MARIO_PATH, PRINCESS_PATH, FIRE_PATH, BLOCKS_PATH
+
+from pytmx import load_pygame
 
 
 class MainWindow:
     def __init__(self):
         self.running = True
 
-        self.mario = Mario((100, 100), "res/heros/0.png")
-        self.princess = MarioObject((600, 152-20), "res/heros/princess.png")
-
+        self.mario = None
+        self.princess = None
         self.blocks = []
-        self.enemies = [
-            MarioObject((200 + 32 * 5, 186), "res/enemies/fire.png"),
-            MoveFire((200 + 32 * 2, 186 - 32), "res/enemies/fire.png", 100)
-        ]
-        self.level = [
-            "-----------------------------------------",
-            "                                         ",
-            "                                         ",
-            "        -                                ",
-            "        -                                ",
-            "------------   -------------------       ",
-            "                                         ",
-            "                      -                  ",
-            "                    -                    ",
-            "                    --                   ",
-            "         -                               ",
-            "                  ----                   ",
-            "        ---     -                        ",
-            "                -                        ",
-            "-----------------------------------------",
-            "                                         ",
-        ]
-        x = 0
-        y = 0
-        for a in self.level:
-            for elem in a:
-                if elem == "-":
-                    block = MarioObject((x, y), "res/blocks/block.png")
-                    self.blocks.append(block)
-                x += 32
-            x = 0
-            y += 32
+        self.enemies = []
 
-        self.camera = Camera(len(self.level[0])*32, len(self.level)*32)
+        self.map = load_pygame(LEVEL1_PATH)
+        self.tile_size = self.map.tilewidth
+
+        self.load_game()
+
+        self.camera = Camera(self.map.width * self.tile_size, self.map.height * self.tile_size)
+
+    def load_game(self):
+        for y in range(self.map.height):
+            for x in range(self.map.width):
+                image = self.map.get_tile_image(x, y, 0)
+                if image is None:
+                    continue
+                mario_object_id = self.map.tiledgidmap[self.map.get_tile_gid(x, y, 0)]
+                self.add_mario_object(mario_object_id, x, y)
+
+    def add_mario_object(self, mo_id, x, y):
+        coords = (x * self.tile_size, y * self.tile_size)
+
+        if mo_id == 1:
+            self.blocks.append(MarioObject(coords, BLOCKS_PATH))
+        elif mo_id == 2:
+            self.enemies.append(MoveFire(coords, FIRE_PATH, 50))
+        elif mo_id == 3:
+            self.princess = MarioObject(coords, PRINCESS_PATH)
+        elif mo_id == 4:
+            self.mario = Mario(coords, MARIO_PATH)
 
     def quit(self):
         print("quit")
