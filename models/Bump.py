@@ -5,9 +5,9 @@ from math import fabs
 
 
 class Bump(MarioObject):
-    def __init__(self, coordinates: tuple, image_path: str):
+    def __init__(self, coordinates: tuple, image_path: str, direction: int):
         super().__init__(coordinates, image_path)
-        self.dir_x = BUMP_MOVE
+        self.dir_x = BUMP_MOVE * direction
 
     def update(self, dt):
         self.rect.x += MarioObject._direction_round(self.dir_x * dt / 100)

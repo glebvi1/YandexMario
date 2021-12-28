@@ -57,11 +57,12 @@ class Mario(MarioObject):
         self.rect.x += MarioObject._direction_round(self.direction_x * dt / 100)
         self.__collide_with_blocks(self.direction_x, 0, platforms)
 
-    def __throw_bump(self):
+    def __throw_bump(self, left):
         if self.count_bumps > 0 and self.active_bump is None:
-            self.count_bumps -= 1
+            direction = -1 if left else 1
             bumps_coords = (self.rect.x + 10, self.rect.y + MARIO_HEIGHT // 2)
-            bump = Bump(bumps_coords, BUMP_PATH)
+            bump = Bump(bumps_coords, BUMP_PATH, direction)
+            self.count_bumps -= 1
             self.active_bump = bump
 
     def __set_direction(self, vector: tuple) -> None:
@@ -96,7 +97,7 @@ class Mario(MarioObject):
             self.direction_y += GRAVITATION
 
         if throw:
-            self.__throw_bump()
+            self.__throw_bump(left)
 
     def __collide_with_blocks(self, control_x: float, control_y: float, platforms: list) -> None:
         """Определяем столкновения с блоками
@@ -127,8 +128,8 @@ class Mario(MarioObject):
         """True - если было пересечение с врагом, иначе - False
         :param enemies: список врагов
         """
-        for enemie in enemies:
-            if sprite.collide_rect(self, enemie):
+        for enemy in enemies:
+            if sprite.collide_rect(self, enemy):
                 return True
         return False
 
@@ -139,4 +140,5 @@ class Mario(MarioObject):
         """
         screen.blit(self.image, (self.rect.x - camera.state.x, self.rect.y - camera.state.y))
         if self.active_bump is not None:
-            screen.blit(self.active_bump.image, (self.active_bump.rect.x - camera.state.x, self.active_bump.rect.y - camera.state.y))
+            screen.blit(self.active_bump.image,
+                        (self.active_bump.rect.x - camera.state.x, self.active_bump.rect.y - camera.state.y))
