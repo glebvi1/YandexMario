@@ -1,11 +1,12 @@
 import pygame
+from models import STATE_END, STATE_WIN
 from models.Mario import Mario
 from models.MarioObject import MarioObject
 from models.MoveFire import MoveFire
-from models import STATE_END, STATE_WIN
-from config import HEIGHT, WIDTH
+
+from config import HEIGHT, WIDTH, LEVEL1_PATH, MARIO_PATH, PRINCESS_PATH, \
+    FIRE_PATH, BLOCKS_PATH
 from config.Camera import Camera
-from config import LEVEL1_PATH, MARIO_PATH, PRINCESS_PATH, FIRE_PATH, BLOCKS_PATH
 
 from pytmx import load_pygame
 

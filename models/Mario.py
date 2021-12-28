@@ -1,7 +1,9 @@
-from models import STATE_CONTINUE, STATE_END, STATE_WIN
+from models import STATE_CONTINUE, STATE_END, STATE_WIN, MARIO_SPEED,\
+    MARIO_JUMP_POWER, GRAVITATION
 from models.MarioObject import MarioObject
-from pygame import sprite
-from models import MARIO_SPEED, MARIO_JUMP_POWER, GRAVITATION
+from config import ANIMATED_RIGHT, ANIMATED_JUMP, ANIMATED_LEFT, ANIMATED_STATE, \
+    ANIMATED_LJUMP, ANIMATED_RJUMP
+from pygame import sprite, image
 
 
 class Mario(MarioObject):
@@ -16,6 +18,7 @@ class Mario(MarioObject):
         self.y = coordinate[1]
         self.direction_x = 0
         self.direction_y = 0
+        self.count_bumps = 3
 
     def update(self, dt: int, vector: tuple, window) -> int:
         """Метод определяет состояние игры
@@ -44,24 +47,32 @@ class Mario(MarioObject):
         self.rect.x += MarioObject._direction_round(self.direction_x * dt / 100)
         self.__collide_with_blocks(self.direction_x, 0, platforms)
 
+    def __throw(self):
+        self.count_bumps -= 1
+        bumps_coords = (self.rect.x + 10, self.rect.y // 2)
+
+
     def __set_direction(self, vector: tuple) -> None:
         """Метод задает направление движения
         :param vector: кортеж с направлениями
         :return:
         """
         right, left, up = vector
+        is_gump = up and self.on_ground
 
-        if up and self.on_ground:
+        if is_gump:
             self.direction_y = -MARIO_JUMP_POWER
+            self.image = image.load(ANIMATED_JUMP).convert_alpha()
 
         if left:
             self.direction_x = -MARIO_SPEED
-
-        if right:
+            self.image = image.load(ANIMATED_LEFT).convert_alpha()
+        elif right:
             self.direction_x = MARIO_SPEED
-
-        if not (left or right):
+            self.image = image.load(ANIMATED_RIGHT).convert_alpha()
+        else:
             self.direction_x = 0
+            self.image = image.load(ANIMATED_STATE).convert_alpha()
 
         if not self.on_ground:
             self.direction_y += GRAVITATION
