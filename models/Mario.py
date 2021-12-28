@@ -1,11 +1,11 @@
 from models.MarioObject import MarioObject
 from models.Bump import Bump
-from models import STATE_CONTINUE, STATE_END, STATE_WIN, MARIO_SPEED,\
-    MARIO_JUMP_POWER, GRAVITATION, MARIO_HEIGHT
-
+from models import MARIO_SPEED, MARIO_JUMP_POWER, GRAVITATION, MARIO_HEIGHT, BUMP_WIDTH
 from config import ANIMATED_RIGHT, ANIMATED_JUMP, ANIMATED_LEFT, ANIMATED_STATE, \
-    ANIMATED_LJUMP, ANIMATED_RJUMP, BUMP_PATH
+    ANIMATED_LJUMP, ANIMATED_RJUMP, BUMP_PATH, BUMBS_SOUND_PATH, START_SOUND_PATH,\
+    DIE_SOUND_PATH, STATE_CONTINUE, STATE_END, STATE_WIN
 from pygame import sprite, image
+from pygame.mixer import Sound
 
 
 class Mario(MarioObject):
@@ -24,6 +24,8 @@ class Mario(MarioObject):
         self.count_bumps = 3
         self.active_bump = None
 
+        Sound(START_SOUND_PATH).play()
+
     def update(self, dt: int, vector: tuple, window) -> int:
         """Метод определяет состояние игры
         :param dt: время в милисекундах
@@ -31,6 +33,7 @@ class Mario(MarioObject):
         :param window: главное окно
         """
         if self.__collide_with_enemies(window.enemies):
+            Sound(DIE_SOUND_PATH).play()
             return STATE_END
         if sprite.collide_mask(self, window.princess):
             return STATE_WIN
@@ -63,10 +66,11 @@ class Mario(MarioObject):
         """
         if self.count_bumps > 0 and self.active_bump is None:
             direction = -1 if left else 1
-            bumps_coords = (self.rect.x + 10, self.rect.y + MARIO_HEIGHT // 2)
+            bumps_coords = (self.rect.x + BUMP_WIDTH, self.rect.y + MARIO_HEIGHT // 2)
             bump = Bump(bumps_coords, BUMP_PATH, direction)
             self.count_bumps -= 1
             self.active_bump = bump
+            Sound(BUMBS_SOUND_PATH).play()
 
     def __set_direction(self, vector: tuple) -> None:
         """Метод задает направление движения
@@ -107,7 +111,6 @@ class Mario(MarioObject):
         :param control_x: направление по x
         :param platforms: лист с блоками
         :param control_y: направление по y
-        :return:
         """
         for p in platforms:
             if sprite.collide_rect(self, p):

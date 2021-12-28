@@ -1,12 +1,11 @@
 import pygame
 from pygame.mixer import music
-from models import STATE_END, STATE_WIN
 from models.Mario import Mario
 from models.MarioObject import MarioObject
 from models.MoveFire import MoveFire
 
 from config import HEIGHT, WIDTH, LEVEL1_PATH, MARIO_PATH, PRINCESS_PATH, \
-    FIRE_PATH, BLOCKS_PATH, BACKGROUND_MUSIC_PATH
+    FIRE_PATH, BLOCKS_PATH, BACKGROUND_MUSIC_PATH, STATE_END, STATE_WIN
 from config.Camera import Camera
 
 from pytmx import load_pygame
