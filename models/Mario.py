@@ -1,8 +1,10 @@
-from models import STATE_CONTINUE, STATE_END, STATE_WIN, MARIO_SPEED,\
-    MARIO_JUMP_POWER, GRAVITATION
 from models.MarioObject import MarioObject
+from models.Bump import Bump
+from models import STATE_CONTINUE, STATE_END, STATE_WIN, MARIO_SPEED,\
+    MARIO_JUMP_POWER, GRAVITATION, MARIO_HEIGHT
+
 from config import ANIMATED_RIGHT, ANIMATED_JUMP, ANIMATED_LEFT, ANIMATED_STATE, \
-    ANIMATED_LJUMP, ANIMATED_RJUMP
+    ANIMATED_LJUMP, ANIMATED_RJUMP, BUMP_PATH
 from pygame import sprite, image
 
 
@@ -18,7 +20,9 @@ class Mario(MarioObject):
         self.y = coordinate[1]
         self.direction_x = 0
         self.direction_y = 0
+
         self.count_bumps = 3
+        self.active_bump = None
 
     def update(self, dt: int, vector: tuple, window) -> int:
         """Метод определяет состояние игры
@@ -30,6 +34,12 @@ class Mario(MarioObject):
             return STATE_END
         if sprite.collide_mask(self, window.princess):
             return STATE_WIN
+
+        if self.active_bump is not None:
+            if not self.active_bump.update(dt):
+                self.active_bump = None
+            elif self.active_bump.is_collide(window.blocks, window.enemies):
+                self.active_bump = None
 
         self.__set_direction(vector)
         self.__move(dt, window.blocks)
@@ -47,35 +57,46 @@ class Mario(MarioObject):
         self.rect.x += MarioObject._direction_round(self.direction_x * dt / 100)
         self.__collide_with_blocks(self.direction_x, 0, platforms)
 
-    def __throw(self):
-        self.count_bumps -= 1
-        bumps_coords = (self.rect.x + 10, self.rect.y // 2)
-
+    def __throw_bump(self):
+        if self.count_bumps > 0 and self.active_bump is None:
+            self.count_bumps -= 1
+            bumps_coords = (self.rect.x + 10, self.rect.y + MARIO_HEIGHT // 2)
+            bump = Bump(bumps_coords, BUMP_PATH)
+            self.active_bump = bump
 
     def __set_direction(self, vector: tuple) -> None:
         """Метод задает направление движения
         :param vector: кортеж с направлениями
-        :return:
         """
-        right, left, up = vector
-        is_gump = up and self.on_ground
+        right, left, up, throw = vector
 
-        if is_gump:
-            self.direction_y = -MARIO_JUMP_POWER
+        if up:
+            if self.on_ground:
+                self.direction_y = -MARIO_JUMP_POWER
             self.image = image.load(ANIMATED_JUMP).convert_alpha()
 
         if left:
             self.direction_x = -MARIO_SPEED
-            self.image = image.load(ANIMATED_LEFT).convert_alpha()
+            if not up:
+                self.image = image.load(ANIMATED_LEFT).convert_alpha()
+            else:
+                self.image = image.load(ANIMATED_LJUMP).convert_alpha()
         elif right:
             self.direction_x = MARIO_SPEED
-            self.image = image.load(ANIMATED_RIGHT).convert_alpha()
+            if not up:
+                self.image = image.load(ANIMATED_RIGHT).convert_alpha()
+            else:
+                self.image = image.load(ANIMATED_RJUMP).convert_alpha()
         else:
             self.direction_x = 0
-            self.image = image.load(ANIMATED_STATE).convert_alpha()
+            if not up:
+                self.image = image.load(ANIMATED_STATE).convert_alpha()
 
         if not self.on_ground:
             self.direction_y += GRAVITATION
+
+        if throw:
+            self.__throw_bump()
 
     def __collide_with_blocks(self, control_x: float, control_y: float, platforms: list) -> None:
         """Определяем столкновения с блоками
@@ -110,3 +131,12 @@ class Mario(MarioObject):
             if sprite.collide_rect(self, enemie):
                 return True
         return False
+
+    def draw(self, screen, camera):
+        """Отрисовываем спрайт
+        :param screen: экран игры
+        :param camera: камера
+        """
+        screen.blit(self.image, (self.rect.x - camera.state.x, self.rect.y - camera.state.y))
+        if self.active_bump is not None:
+            screen.blit(self.active_bump.image, (self.active_bump.rect.x - camera.state.x, self.active_bump.rect.y - camera.state.y))

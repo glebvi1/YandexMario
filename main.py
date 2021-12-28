@@ -68,10 +68,10 @@ class MainWindow:
 
         if state == STATE_END:
             print("Марио проиграл")
-            pygame.quit()
+            self.quit()
         if state == STATE_WIN:
             print("Марио выиграл")
-            pygame.quit()
+            self.quit()
 
         self.camera.update(self.mario)
 
@@ -89,7 +89,7 @@ def main():
     clock = pygame.time.Clock()
 
     fps = 60
-    right = left = up = False
+    right = left = up = throw = False
 
     while game.running:
         for event in pygame.event.get():
@@ -102,21 +102,23 @@ def main():
                     left = True
                 elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
                     right = True
-                elif event.key == pygame.K_w or event.key == pygame.K_SPACE \
-                        or event.key == pygame.K_UP:
+                elif event.key == pygame.K_w or event.key == pygame.K_UP:
                     up = True
+                elif event.key == pygame.K_SPACE:
+                    throw = True
 
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_a or event.key == pygame.K_LEFT:
                     left = False
                 elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
                     right = False
-                elif event.key == pygame.K_w or event.key == pygame.K_SPACE \
-                        or event.key == pygame.K_UP:
+                elif event.key == pygame.K_w or event.key == pygame.K_UP:
                     up = False
+                elif event.key == pygame.K_SPACE:
+                    throw = False
 
         game.draw(screen)
-        game.update(clock.tick(fps), (right, left, up))
+        game.update(clock.tick(fps), (right, left, up, throw))
         pygame.display.flip()
 
 
