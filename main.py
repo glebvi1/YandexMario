@@ -1,11 +1,12 @@
 import pygame
+from pygame.mixer import music
 from models import STATE_END, STATE_WIN
 from models.Mario import Mario
 from models.MarioObject import MarioObject
 from models.MoveFire import MoveFire
 
 from config import HEIGHT, WIDTH, LEVEL1_PATH, MARIO_PATH, PRINCESS_PATH, \
-    FIRE_PATH, BLOCKS_PATH
+    FIRE_PATH, BLOCKS_PATH, BACKGROUND_MUSIC_PATH
 from config.Camera import Camera
 
 from pytmx import load_pygame
@@ -79,11 +80,17 @@ class MainWindow:
             widg.update(delta_time)
 
 
+def load_background_music():
+    music.load(BACKGROUND_MUSIC_PATH)
+    music.play(-1, 0.0)
+
+
 def main():
     coords = WIDTH, HEIGHT
     pygame.init()
     screen = pygame.display.set_mode(coords)
     pygame.display.set_caption("Супер Марио")
+    load_background_music()
 
     game = MainWindow()
     clock = pygame.time.Clock()

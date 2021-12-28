@@ -57,7 +57,10 @@ class Mario(MarioObject):
         self.rect.x += MarioObject._direction_round(self.direction_x * dt / 100)
         self.__collide_with_blocks(self.direction_x, 0, platforms)
 
-    def __throw_bump(self, left):
+    def __throw_bump(self, left) -> None:
+        """Марио бросает шишку
+        :param left: двигается ли герой на лево
+        """
         if self.count_bumps > 0 and self.active_bump is None:
             direction = -1 if left else 1
             bumps_coords = (self.rect.x + 10, self.rect.y + MARIO_HEIGHT // 2)
