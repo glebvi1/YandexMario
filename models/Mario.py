@@ -1,13 +1,16 @@
+import time
 from typing import Tuple, List
 
-from models.MarioObject import MarioObject
-from models.Bump import Bump
-from models import MARIO_SPEED, MARIO_JUMP_POWER, GRAVITATION, MARIO_HEIGHT, BUMP_WIDTH
-from config import ANIMATED_RIGHT, ANIMATED_JUMP, ANIMATED_LEFT, ANIMATED_STATE, \
-    ANIMATED_LJUMP, ANIMATED_RJUMP, BUMP_PATH, BUMBS_SOUND_PATH, START_SOUND_PATH,\
-    DIE_SOUND_PATH, STATE_CONTINUE, STATE_END, STATE_WIN, STATE_DIE
-from pygame import sprite, image, time
+from pygame import sprite, image
 from pygame.mixer import Sound
+
+from config import ANIMATED_RIGHT, ANIMATED_JUMP, ANIMATED_LEFT, ANIMATED_STATE, \
+    ANIMATED_LJUMP, ANIMATED_RJUMP, BUMP_PATH, BUMBS_SOUND_PATH, START_SOUND_PATH, \
+    STATE_CONTINUE, STATE_END, STATE_WIN
+from dao.db_mario_handler import save_win_game
+from models import MARIO_SPEED, MARIO_JUMP_POWER, GRAVITATION, MARIO_HEIGHT, BUMP_WIDTH
+from models.Bump import Bump
+from models.MarioObject import MarioObject
 
 
 class Mario(MarioObject):
@@ -25,6 +28,8 @@ class Mario(MarioObject):
 
         self.count_bumps = 3
         self.active_bump = None
+
+        self.start_time = time.perf_counter()
 
         Sound(START_SOUND_PATH).play()
 
@@ -47,6 +52,10 @@ class Mario(MarioObject):
         if self.__collide_with_enemies(window.enemies):
             return STATE_END
         if sprite.collide_mask(self, window.princess):
+            game_time = time.perf_counter() - self.start_time
+            game_time = Mario.__get_str_time(game_time)
+
+            save_win_game(True, game_time, window.level_number)
             return STATE_WIN
 
         if self.active_bump is not None:
@@ -150,3 +159,13 @@ class Mario(MarioObject):
             if sprite.collide_rect(self, enemy):
                 return True
         return False
+
+    @staticmethod
+    def __get_str_time(game_time):
+        minutes = int(game_time // 60)
+        if minutes < 10:
+            minutes = f"0{minutes}"
+        seconds = int(game_time % 60)
+        if seconds < 10:
+            seconds = f"0{seconds}"
+        return f"{minutes}:{seconds}"

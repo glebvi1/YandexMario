@@ -1,6 +1,6 @@
 from pygame import font, draw
 
-from config import COLOR_BUTTON, COLOR_TEXT_BUTTON
+from config import COLOR_TEXT_BUTTON, COLOR_WIN_BUTTON, COLOR_LOSE_BUTTON
 
 
 class Button:
@@ -8,13 +8,14 @@ class Button:
         self.button_coords = button_coords
         f1 = font.Font(None, 36)
         self.text = f1.render(text, True, COLOR_TEXT_BUTTON)
+        self.color = COLOR_LOSE_BUTTON
 
     def draw(self, screen):
-        draw.rect(screen, COLOR_BUTTON, self.button_coords)
+        draw.rect(screen, self.color, self.button_coords)
         screen.blit(self.text, self.button_coords)
 
-    def update(self, delta_time):
-        pass
+    def set_win_color(self):
+        self.color = COLOR_WIN_BUTTON
 
     def click(self, position, button) -> bool:
         if 1 != button:

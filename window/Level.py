@@ -9,11 +9,13 @@ from models.MoveFire import MoveFire
 
 
 class Level:
-    def __init__(self, level_path: str):
+    def __init__(self, level_path: str, level_number: int):
         self.mario = None
         self.princess = None
         self.blocks = []
         self.enemies = []
+
+        self.level_number = level_number
 
         self.map = load_pygame(level_path)
         self.tile_size = self.map.tilewidth
