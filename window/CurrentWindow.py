@@ -8,16 +8,17 @@ class CurrentWindow:
     def __init__(self):
         self.running = True
 
+        self.buttons = []
+        self.__set_buttons()
+        self.current_level = None
+
+    def __set_buttons(self):
         self.buttons = [
             Button((100, 100, 150, 50), "Level1"),
             Button((100, 200, 150, 50), "Level2"),
             Button((100, 300, 150, 50), "Level3"),
             Button((100, 400, 150, 50), "Level4"),
         ]
-        self.__set_color_buttons()
-        self.current_level = None
-
-    def __set_color_buttons(self):
         win_levels = get_win_level_number()
         for number in win_levels:
             self.buttons[number[0] - 1].set_win_color()
@@ -36,10 +37,12 @@ class CurrentWindow:
 
             if state == STATE_END:
                 print("Марио проиграл")
-                self.quit()
+                self.current_level = None
+                self.__set_buttons()
             elif state == STATE_WIN:
                 print("Марио выиграл")
-                self.quit()
+                self.current_level = None
+                self.__set_buttons()
 
         else:
             for number, widg in enumerate(self.buttons):

@@ -5,6 +5,7 @@ def save_win_game(is_win, time, level_number):
     connection = sqlite3.connect("dao/mario.db")
     cursor = connection.cursor()
 
+    cursor.execute(f"DELETE FROM games WHERE level_number={level_number}")
     cursor.execute(f"INSERT INTO games (is_win, time, level_number)"
                    f"VALUES {is_win, time, level_number}")
     connection.commit()
