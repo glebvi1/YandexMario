@@ -26,3 +26,6 @@ ANIMATED_RIGHT = f"{RESOURCES_DIR}/heros/right.png"
 ANIMATED_JUMP = f"{RESOURCES_DIR}/heros/jump.png"
 ANIMATED_LJUMP = f"{RESOURCES_DIR}/heros/jump_left.png"
 ANIMATED_RJUMP = f"{RESOURCES_DIR}/heros/jump_right.png"
+
+COLOR_BUTTON = (0, 0, 0)
+COLOR_TEXT_BUTTON = (255, 255, 255)

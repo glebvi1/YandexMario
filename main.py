@@ -1,32 +1,33 @@
 import pygame
 from pygame.mixer import music
+from pytmx import load_pygame
 
+from config import HEIGHT, WIDTH, LEVEL1_PATH, MARIO_PATH, PRINCESS_PATH, \
+    FIRE_PATH, BLOCKS_PATH, BACKGROUND_MUSIC_PATH, STATE_END, STATE_WIN
+from config.Button import Button
+from config.Camera import Camera
 from models.Mario import Mario
 from models.MarioObject import MarioObject
 from models.MoveFire import MoveFire
 
-from config import HEIGHT, WIDTH, LEVEL1_PATH, MARIO_PATH, PRINCESS_PATH, \
-    FIRE_PATH, BLOCKS_PATH, BACKGROUND_MUSIC_PATH, STATE_END, STATE_WIN, STATE_DIE
-from config.Camera import Camera
 
-from pytmx import load_pygame
-
-
-class MainWindow:
-    def __init__(self):
-        self.running = True
-
-        self.mario = Mario((0, 0), MARIO_PATH)
-        self.princess = MarioObject((100, 100), PRINCESS_PATH)
+class Level:
+    def __init__(self, level_path: str, window):
+        self.mario = None
+        self.princess = None
         self.blocks = []
         self.enemies = []
 
-        self.map = load_pygame(LEVEL1_PATH)
+        self.window = window
+
+        self.map = load_pygame(level_path)
         self.tile_size = self.map.tilewidth
 
         self.load_game()
 
         self.camera = Camera(self.map.width * self.tile_size, self.map.height * self.tile_size)
+
+        load_background_music()
 
     def load_game(self):
         for y in range(self.map.height):
@@ -49,10 +50,6 @@ class MainWindow:
         elif mo_id == 4:
             self.mario = Mario(coords, MARIO_PATH)
 
-    def quit(self):
-        print("quit")
-        self.running = False
-
     def draw(self, screen):
         screen.fill((0, 200, 0))
 
@@ -71,14 +68,48 @@ class MainWindow:
         for widg in self.enemies:
             widg.update(delta_time)
 
-        if state == STATE_END:
-            print("Марио проиграл")
-            self.quit()
-        elif state == STATE_WIN:
-            print("Марио выиграл")
-            self.quit()
-        elif state == STATE_DIE:
-            pass
+        return state
+
+    def quit(self):
+        self.window = None
+
+
+class Window:
+    def __init__(self):
+        self.running = True
+
+        self.buttons = [
+            Button((100, 100, 150, 50), "Level1")
+        ]
+        self.current_level = None
+
+    def quit(self):
+        print("quit")
+        self.running = False
+
+    def draw(self, screen):
+        if self.current_level is not None:
+            self.current_level.draw(screen)
+        else:
+            screen.fill((0, 200, 0))
+            for widg in self.buttons:
+                widg.draw(screen)
+
+    def update(self, delta_time, vector, position, button):
+        if self.current_level is not None:
+            state = self.current_level.update(delta_time, vector)
+
+            if state == STATE_END:
+                print("Марио проиграл")
+                self.quit()
+            elif state == STATE_WIN:
+                print("Марио выиграл")
+                self.quit()
+
+        else:
+            for number, widg in enumerate(self.buttons):
+                if widg.click(position, button):
+                    self.current_level = Level(LEVEL1_PATH, self)
 
 
 def load_background_music():
@@ -91,15 +122,15 @@ def main():
     pygame.init()
     screen = pygame.display.set_mode(coords)
     pygame.display.set_caption("Супер Марио")
-    load_background_music()
 
-    game = MainWindow()
+    game = Window()
     clock = pygame.time.Clock()
 
     fps = 60
     right = left = up = throw = False
 
     while game.running:
+        button, position = 0, 0
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 game.quit()
@@ -125,8 +156,11 @@ def main():
                 elif event.key == pygame.K_SPACE:
                     throw = False
 
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                position, button = event.pos, event.button
+
         game.draw(screen)
-        game.update(clock.tick(fps), (right, left, up, throw))
+        game.update(clock.tick(fps), (right, left, up, throw), position, button)
         pygame.display.flip()
 
 
