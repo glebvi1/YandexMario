@@ -1,11 +1,12 @@
 import pygame
 from pygame.mixer import music
+
 from models.Mario import Mario
 from models.MarioObject import MarioObject
 from models.MoveFire import MoveFire
 
 from config import HEIGHT, WIDTH, LEVEL1_PATH, MARIO_PATH, PRINCESS_PATH, \
-    FIRE_PATH, BLOCKS_PATH, BACKGROUND_MUSIC_PATH, STATE_END, STATE_WIN
+    FIRE_PATH, BLOCKS_PATH, BACKGROUND_MUSIC_PATH, STATE_END, STATE_WIN, STATE_DIE
 from config.Camera import Camera
 
 from pytmx import load_pygame
@@ -15,8 +16,8 @@ class MainWindow:
     def __init__(self):
         self.running = True
 
-        self.mario = None
-        self.princess = None
+        self.mario = Mario((0, 0), MARIO_PATH)
+        self.princess = MarioObject((100, 100), PRINCESS_PATH)
         self.blocks = []
         self.enemies = []
 
@@ -65,18 +66,19 @@ class MainWindow:
 
     def update(self, delta_time, vector):
         state = self.mario.update(delta_time, vector, self)
-
-        if state == STATE_END:
-            print("Марио проиграл")
-            self.quit()
-        if state == STATE_WIN:
-            print("Марио выиграл")
-            self.quit()
-
         self.camera.update(self.mario)
 
         for widg in self.enemies:
             widg.update(delta_time)
+
+        if state == STATE_END:
+            print("Марио проиграл")
+            self.quit()
+        elif state == STATE_WIN:
+            print("Марио выиграл")
+            self.quit()
+        elif state == STATE_DIE:
+            pass
 
 
 def load_background_music():

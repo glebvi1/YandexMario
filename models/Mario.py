@@ -1,15 +1,17 @@
+from typing import Tuple, List
+
 from models.MarioObject import MarioObject
 from models.Bump import Bump
 from models import MARIO_SPEED, MARIO_JUMP_POWER, GRAVITATION, MARIO_HEIGHT, BUMP_WIDTH
 from config import ANIMATED_RIGHT, ANIMATED_JUMP, ANIMATED_LEFT, ANIMATED_STATE, \
     ANIMATED_LJUMP, ANIMATED_RJUMP, BUMP_PATH, BUMBS_SOUND_PATH, START_SOUND_PATH,\
-    DIE_SOUND_PATH, STATE_CONTINUE, STATE_END, STATE_WIN
-from pygame import sprite, image
+    DIE_SOUND_PATH, STATE_CONTINUE, STATE_END, STATE_WIN, STATE_DIE
+from pygame import sprite, image, time
 from pygame.mixer import Sound
 
 
 class Mario(MarioObject):
-    def __init__(self, coordinate: tuple, image_path: str) -> None:
+    def __init__(self, coordinate: Tuple[int, int], image_path: str) -> None:
         """Главный персонаж - Марио
         :param coordinate: начальные координаты
         :param image_path: путь к картинке
@@ -26,14 +28,23 @@ class Mario(MarioObject):
 
         Sound(START_SOUND_PATH).play()
 
-    def update(self, dt: int, vector: tuple, window) -> int:
+    def draw(self, screen, camera) -> None:
+        """Отрисовываем спрайт
+        :param screen: экран игры
+        :param camera: камера
+        """
+        screen.blit(self.image, (self.rect.x - camera.state.x, self.rect.y - camera.state.y))
+        if self.active_bump is not None:
+            screen.blit(self.active_bump.image,
+                        (self.active_bump.rect.x - camera.state.x, self.active_bump.rect.y - camera.state.y))
+
+    def update(self, dt: int, vector: Tuple[bool, bool, bool, bool], window) -> int:
         """Метод определяет состояние игры
         :param dt: время в милисекундах
         :param vector: кортеж с направлениями
         :param window: главное окно
         """
         if self.__collide_with_enemies(window.enemies):
-            Sound(DIE_SOUND_PATH).play()
             return STATE_END
         if sprite.collide_mask(self, window.princess):
             return STATE_WIN
@@ -48,7 +59,7 @@ class Mario(MarioObject):
         self.__move(dt, window.blocks)
         return STATE_CONTINUE
 
-    def __move(self, dt: int, platforms: list) -> None:
+    def __move(self, dt: int, platforms: List[MarioObject]) -> None:
         """Метод передвигает Марио
         :param dt: время в милисекундах
         :param platforms: лист с блоками
@@ -60,7 +71,7 @@ class Mario(MarioObject):
         self.rect.x += MarioObject._direction_round(self.direction_x * dt / 100)
         self.__collide_with_blocks(self.direction_x, 0, platforms)
 
-    def __throw_bump(self, left) -> None:
+    def __throw_bump(self, left: bool) -> None:
         """Марио бросает шишку
         :param left: двигается ли герой на лево
         """
@@ -72,7 +83,7 @@ class Mario(MarioObject):
             self.active_bump = bump
             Sound(BUMBS_SOUND_PATH).play()
 
-    def __set_direction(self, vector: tuple) -> None:
+    def __set_direction(self, vector: Tuple[bool, bool, bool, bool]) -> None:
         """Метод задает направление движения
         :param vector: кортеж с направлениями
         """
@@ -106,7 +117,8 @@ class Mario(MarioObject):
         if throw:
             self.__throw_bump(left)
 
-    def __collide_with_blocks(self, control_x: float, control_y: float, platforms: list) -> None:
+    def __collide_with_blocks(self, control_x: float, control_y: float,
+                              platforms: List[MarioObject]) -> None:
         """Определяем столкновения с блоками
         :param control_x: направление по x
         :param platforms: лист с блоками
@@ -130,7 +142,7 @@ class Mario(MarioObject):
                     self.rect.top = p.rect.bottom
                     self.direction_y = 0
 
-    def __collide_with_enemies(self, enemies: list) -> bool:
+    def __collide_with_enemies(self, enemies: List[MarioObject]) -> bool:
         """True - если было пересечение с врагом, иначе - False
         :param enemies: список врагов
         """
@@ -138,13 +150,3 @@ class Mario(MarioObject):
             if sprite.collide_rect(self, enemy):
                 return True
         return False
-
-    def draw(self, screen, camera):
-        """Отрисовываем спрайт
-        :param screen: экран игры
-        :param camera: камера
-        """
-        screen.blit(self.image, (self.rect.x - camera.state.x, self.rect.y - camera.state.y))
-        if self.active_bump is not None:
-            screen.blit(self.active_bump.image,
-                        (self.active_bump.rect.x - camera.state.x, self.active_bump.rect.y - camera.state.y))
