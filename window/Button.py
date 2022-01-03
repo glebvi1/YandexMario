@@ -4,18 +4,24 @@ from config import COLOR_TEXT_BUTTON, COLOR_WIN_BUTTON, COLOR_LOSE_BUTTON
 
 
 class Button:
-    def __init__(self, button_coords: tuple[int, int, int, int], text):
+    def __init__(self, button_coords: tuple[int, int, int, int], text: str, text_description=""):
         self.button_coords = button_coords
-        f1 = font.Font(None, 36)
-        self.text = f1.render(text, True, COLOR_TEXT_BUTTON)
+        self.text = font.Font(None, 36).render(text, True, COLOR_TEXT_BUTTON)
+        self.text_description = font.Font(None, 18).render(text_description, True, COLOR_TEXT_BUTTON)
+        self.text_description_coords = (button_coords[0], button_coords[1] + button_coords[3] // 2,
+                                        button_coords[2], button_coords[3])
         self.color = COLOR_LOSE_BUTTON
 
     def draw(self, screen):
         draw.rect(screen, self.color, self.button_coords)
         screen.blit(self.text, self.button_coords)
+        screen.blit(self.text_description, self.text_description_coords)
 
     def set_win_color(self):
         self.color = COLOR_WIN_BUTTON
+
+    def set_text_description(self, text_description):
+        self.text_description = font.Font(None, 36).render(text_description, True, COLOR_TEXT_BUTTON)
 
     def click(self, position, button) -> bool:
         if 1 != button:
