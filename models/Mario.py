@@ -53,7 +53,7 @@ class Mario(MarioObject):
             self.__save_lose_game(window.level_number)
             return STATE_END
         if sprite.collide_mask(self, window.princess):
-            save_game(True, self.__get_current_time(), window.level_number)
+            save_game(True, self.__get_current_time(), window.level_number, self.count_bumps)
             return STATE_WIN
 
         if self.active_bump is not None:
@@ -164,7 +164,7 @@ class Mario(MarioObject):
         for level in win_games:
             if level[0] == level_number:
                 return
-        save_game(False, self.__get_current_time(), level_number)
+        save_game(False, self.__get_current_time(), level_number, self.count_bumps)
 
     def __get_current_time(self):
         return Mario.__get_str_time(time.perf_counter() - self.start_time)

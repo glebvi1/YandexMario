@@ -24,7 +24,7 @@ class Button:
         self.color = COLOR_LOSE_BUTTON
 
     def set_text_description(self, text_description):
-        self.text_description = font.Font(None, 36).render(text_description, True, COLOR_TEXT_BUTTON)
+        self.text_description = font.Font(None, 25).render(text_description, True, COLOR_TEXT_BUTTON)
 
     def click(self, position, button) -> bool:
         if 1 != button:
