@@ -1,6 +1,6 @@
 import pygame
 
-from config import HEIGHT, WIDTH
+from config import HEIGHT, WIDTH, CAPTION, FPS
 from window.CurrentWindow import CurrentWindow
 
 
@@ -8,12 +8,11 @@ def main():
     coords = WIDTH, HEIGHT
     pygame.init()
     screen = pygame.display.set_mode(coords)
-    pygame.display.set_caption("Супер Марио")
+    pygame.display.set_caption(CAPTION)
 
     game = CurrentWindow()
     clock = pygame.time.Clock()
 
-    fps = 60
     right = left = up = throw = False
 
     while game.running:
@@ -47,7 +46,7 @@ def main():
                 position, button = event.pos, event.button
 
         game.draw(screen)
-        game.update(clock.tick(fps), (right, left, up, throw), position, button)
+        game.update(clock.tick(FPS), (right, left, up, throw), position, button)
         pygame.display.flip()
 
 

@@ -14,12 +14,12 @@ def save_game(is_win, time, level_number):
     connection.close()
 
 
-def get_win_level_number():
+def get_level_number_by_win(is_win):
     connection = sqlite3.connect("dao/mario.db")
     cursor = connection.cursor()
 
     win_levels = cursor.execute(f"SELECT level_number, time FROM games "
-                   f"WHERE is_win=1").fetchall()
+                   f"WHERE is_win={is_win}").fetchall()
     connection.commit()
 
     cursor.close()

@@ -7,7 +7,7 @@ from pygame.mixer import Sound
 from config import ANIMATED_RIGHT, ANIMATED_JUMP, ANIMATED_LEFT, ANIMATED_STATE, \
     ANIMATED_LJUMP, ANIMATED_RJUMP, BUMP_PATH, BUMBS_SOUND_PATH, START_SOUND_PATH, \
     STATE_CONTINUE, STATE_END, STATE_WIN
-from dao.db_mario_handler import save_game
+from dao.db_mario_handler import save_game, get_level_number_by_win
 from models import MARIO_SPEED, MARIO_JUMP_POWER, GRAVITATION, MARIO_HEIGHT, BUMP_WIDTH
 from models.Bump import Bump
 from models.MarioObject import MarioObject
@@ -50,7 +50,7 @@ class Mario(MarioObject):
         :param window: главное окно
         """
         if self.__collide_with_enemies(window.enemies):
-            save_game(False, self.__get_current_time(), window.level_number)
+            self.__save_lose_game(window.level_number)
             return STATE_END
         if sprite.collide_mask(self, window.princess):
             save_game(True, self.__get_current_time(), window.level_number)
@@ -157,6 +157,14 @@ class Mario(MarioObject):
             if sprite.collide_rect(self, enemy):
                 return True
         return False
+
+    def __save_lose_game(self, level_number) -> None:
+        win_games = get_level_number_by_win(is_win=True)
+
+        for level in win_games:
+            if level[0] == level_number:
+                return
+        save_game(False, self.__get_current_time(), level_number)
 
     def __get_current_time(self):
         return Mario.__get_str_time(time.perf_counter() - self.start_time)

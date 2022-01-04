@@ -1,5 +1,5 @@
 from config import LEVEL1_PATH, STATE_END, STATE_WIN
-from dao.db_mario_handler import get_win_level_number
+from dao.db_mario_handler import get_level_number_by_win
 from window.Button import Button
 from window.Level import Level
 
@@ -19,9 +19,14 @@ class CurrentWindow:
             Button((100, 300, 150, 50), "Уровень 3"),
             Button((100, 400, 150, 50), "Уровень 4"),
         ]
-        win_levels = get_win_level_number()
+        win_levels = get_level_number_by_win(is_win=True)
         for number, time in win_levels:
             self.buttons[number - 1].set_win_color()
+            self.buttons[number - 1].set_text_description(time)
+
+        lose_levels = get_level_number_by_win(is_win=False)
+        for number, time in lose_levels:
+            self.buttons[number - 1].set_lose_color()
             self.buttons[number - 1].set_text_description(time)
 
     def draw(self, screen):
