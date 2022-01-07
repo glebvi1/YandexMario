@@ -53,7 +53,7 @@ class Mario(MarioObject):
             self.__save_lose_game(window.level_number)
             return STATE_END
         if sprite.collide_mask(self, window.princess):
-            save_game(True, self.__get_current_time(), window.level_number, self.count_bumps)
+            save_game(True, self.get_current_time(), window.level_number, self.count_bumps)
             return STATE_WIN
 
         if self.active_bump is not None:
@@ -159,18 +159,23 @@ class Mario(MarioObject):
         return False
 
     def __save_lose_game(self, level_number) -> None:
+        """Сохранение проигранного уровня в БД
+        :param level_number: номер уровня
+        """
         win_games = get_level_number_by_win(is_win=True)
 
         for level in win_games:
             if level[0] == level_number:
                 return
-        save_game(False, self.__get_current_time(), level_number, self.count_bumps)
+        save_game(False, self.get_current_time(), level_number, self.count_bumps)
 
-    def __get_current_time(self):
+    def get_current_time(self) -> str:
+        """Время, проведенное в игре"""
         return Mario.__get_str_time(time.perf_counter() - self.start_time)
 
     @staticmethod
-    def __get_str_time(game_time):
+    def __get_str_time(game_time) -> str:
+        """Перевод времени в строку"""
         minutes = int(game_time // 60)
         if minutes < 10:
             minutes = f"0{minutes}"

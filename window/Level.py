@@ -1,7 +1,8 @@
+from pygame import font
 from pygame.mixer import music
 from pytmx import load_pygame
 
-from config import MARIO_PATH, PRINCESS_PATH, FIRE_PATH, BLOCKS_PATH, BACKGROUND_MUSIC_PATH
+from config import MARIO_PATH, PRINCESS_PATH, FIRE_PATH, BLOCKS_PATH, BACKGROUND_MUSIC_PATH, COLOR_TEXT_BUTTON
 from config.Camera import Camera
 from models.Mario import Mario
 from models.MarioObject import MarioObject
@@ -47,7 +48,7 @@ class Level:
         elif mo_id == 4:
             self.mario = Mario(coords, MARIO_PATH)
 
-    def draw(self, screen):
+    def draw(self, screen) -> None:
         screen.fill((0, 200, 0))
 
         self.mario.draw(screen, self.camera)
@@ -58,7 +59,9 @@ class Level:
         for widg in self.enemies:
             widg.draw(screen, self.camera)
 
-    def update(self, delta_time, vector):
+        self.__draw_information(screen)
+
+    def update(self, delta_time, vector) -> int:
         state = self.mario.update(delta_time, vector, self)
         self.camera.update(self.mario)
 
@@ -66,6 +69,14 @@ class Level:
             widg.update(delta_time)
 
         return state
+
+    def __draw_information(self, screen) -> None:
+        timer_text = font.Font(None, 36).render(self.mario.get_current_time(), True, COLOR_TEXT_BUTTON)
+        bumps_text = f"Шишки X {self.mario.count_bumps}"
+        bumps_text = font.Font(None, 36).render(bumps_text, True, COLOR_TEXT_BUTTON)
+
+        screen.blit(timer_text, (0, 0, 150, 50))
+        screen.blit(bumps_text, (100, 0, 150, 50))
 
     @staticmethod
     def load_background_music():
