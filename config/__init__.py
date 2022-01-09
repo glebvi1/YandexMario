@@ -8,10 +8,10 @@ CAPTION = "Супер Марио"
 STATE_CONTINUE = 1
 STATE_END = 2
 STATE_WIN = 3
-STATE_DIE = 4
 
 LEVEL1_PATH = f"{RESOURCES_DIR}/maps/level1/MarioLevel1.tmx"
 BLOCKS_PATH = f"{RESOURCES_DIR}/blocks/block.png"
+QBLOCKS_PATH = f"{RESOURCES_DIR}/blocks/q_block.png"
 MARIO_PATH = f"{RESOURCES_DIR}/heros/0.png"
 PRINCESS_PATH = f"{RESOURCES_DIR}/heros/princess.png"
 FIRE_PATH = f"{RESOURCES_DIR}/enemies/fire.png"

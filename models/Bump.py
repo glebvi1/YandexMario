@@ -1,7 +1,9 @@
-from models.MarioObject import MarioObject
-from models import BUMP_MOVE, BUMP_MAX_LEN
-from pygame import sprite
 from math import fabs
+
+from pygame import sprite
+
+from models import BUMP_MOVE, BUMP_MAX_LEN
+from models.MarioObject import MarioObject
 
 
 class Bump(MarioObject):
@@ -15,16 +17,16 @@ class Bump(MarioObject):
             return False
         return True
 
-    def __collide_with_blocks(self, blocks: list) -> bool:
-        for block in blocks:
-            if sprite.collide_mask(self, block):
-                return True
-        return False
-
     def __collide_with_enemies(self, enemies: list) -> bool:
         for enemy in enemies:
             if sprite.collide_mask(self, enemy):
                 enemies.remove(enemy)
+                return True
+        return False
+
+    def __collide_with_blocks(self, blocks: list) -> bool:
+        for block in blocks:
+            if sprite.collide_mask(self, block):
                 return True
         return False
 

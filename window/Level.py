@@ -2,7 +2,8 @@ from pygame import font
 from pygame.mixer import music
 from pytmx import load_pygame
 
-from config import MARIO_PATH, PRINCESS_PATH, FIRE_PATH, BLOCKS_PATH, BACKGROUND_MUSIC_PATH, COLOR_TEXT_BUTTON
+from config import MARIO_PATH, PRINCESS_PATH, FIRE_PATH, BLOCKS_PATH, QBLOCKS_PATH, BACKGROUND_MUSIC_PATH, \
+    COLOR_TEXT_BUTTON, STATE_END, STATE_WIN
 from config.Camera import Camera
 from models.Mario import Mario
 from models.MarioObject import MarioObject
@@ -47,6 +48,8 @@ class Level:
             self.princess = MarioObject(coords, PRINCESS_PATH)
         elif mo_id == 4:
             self.mario = Mario(coords, MARIO_PATH)
+        elif mo_id == 5:
+            self.blocks.append(MarioObject(coords, QBLOCKS_PATH))
 
     def draw(self, screen) -> None:
         screen.fill((0, 200, 0))
@@ -67,6 +70,8 @@ class Level:
 
         for widg in self.enemies:
             widg.update(delta_time)
+        if state in (STATE_END, STATE_WIN):
+            music.stop()
 
         return state
 
@@ -82,4 +87,3 @@ class Level:
     def load_background_music():
         music.load(BACKGROUND_MUSIC_PATH)
         music.play(-1, 0.0)
-
