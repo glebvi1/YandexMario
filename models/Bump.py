@@ -4,6 +4,7 @@ from pygame import sprite
 
 from models import BUMP_MOVE, BUMP_MAX_LEN
 from models.MarioObject import MarioObject
+from models.QBlock import QBlock
 
 
 class Bump(MarioObject):
@@ -24,11 +25,13 @@ class Bump(MarioObject):
                 return True
         return False
 
-    def __collide_with_blocks(self, blocks: list) -> bool:
+    def __collide_with_blocks(self, blocks: list, enemies: list) -> bool:
         for block in blocks:
             if sprite.collide_mask(self, block):
+                if isinstance(block, QBlock):
+                    block.get_action(blocks, enemies)
                 return True
         return False
 
     def is_collide(self, blocks, enemies) -> bool:
-        return self.__collide_with_blocks(blocks) or self.__collide_with_enemies(enemies)
+        return self.__collide_with_blocks(blocks, enemies) or self.__collide_with_enemies(enemies)
