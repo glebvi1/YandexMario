@@ -10,10 +10,11 @@ STATE_END = 2
 STATE_WIN = 3
 
 LEVEL1_PATH = f"{RESOURCES_DIR}/maps/level1/MarioLevel1.tmx"
-BLOCKS_PATH = f"{RESOURCES_DIR}/blocks/block.png"
-QBLOCKS_PATH = f"{RESOURCES_DIR}/blocks/q_block.png"
 MARIO_PATH = f"{RESOURCES_DIR}/heros/0.png"
 PRINCESS_PATH = f"{RESOURCES_DIR}/heros/princess.png"
+MONEY_PATH = f"{RESOURCES_DIR}/blocks/money.png"
+BLOCKS_PATH = f"{RESOURCES_DIR}/blocks/block.png"
+QBLOCKS_PATH = f"{RESOURCES_DIR}/blocks/q_block.png"
 BUMP_PATH = f"{RESOURCES_DIR}/blocks/bump.png"
 FIRE_PATH = f"{RESOURCES_DIR}/enemies/fire.png"
 FLY_DEATH_PATH = f"{RESOURCES_DIR}/enemies/fly_death.png"

@@ -25,13 +25,13 @@ class Bump(MarioObject):
                 return True
         return False
 
-    def __collide_with_blocks(self, blocks: list, enemies: list) -> bool:
+    def __collide_with_blocks(self, blocks: list, enemies: list, bonus: list) -> bool:
         for block in blocks:
             if sprite.collide_mask(self, block):
                 if isinstance(block, QBlock):
-                    block.get_action(blocks, enemies)
+                    block.get_action(blocks, enemies, bonus)
                 return True
         return False
 
-    def is_collide(self, blocks, enemies) -> bool:
-        return self.__collide_with_blocks(blocks, enemies) or self.__collide_with_enemies(enemies)
+    def is_collide(self, blocks, enemies, bonus) -> bool:
+        return self.__collide_with_blocks(blocks, enemies, bonus) or self.__collide_with_enemies(enemies)

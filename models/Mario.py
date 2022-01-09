@@ -27,6 +27,7 @@ class Mario(MarioObject):
         self.direction_y = 0
 
         self.count_bumps = 3
+        self.count_money = 0
         self.active_bump = None
 
         self.start_time = time.perf_counter()
@@ -59,9 +60,10 @@ class Mario(MarioObject):
         if self.active_bump is not None:
             if not self.active_bump.update(dt):
                 self.active_bump = None
-            elif self.active_bump.is_collide(window.blocks, window.enemies):
+            elif self.active_bump.is_collide(window.blocks, window.enemies, window.bonus):
                 self.active_bump = None
 
+        self.__collide_with_bonus(window.bonus)
         self.__set_direction(vector)
         self.__move(dt, window.blocks)
         return STATE_CONTINUE
@@ -156,6 +158,18 @@ class Mario(MarioObject):
         for enemy in enemies:
             if sprite.collide_rect(self, enemy):
                 return True
+        return False
+
+    def __collide_with_bonus(self, bonus: List[MarioObject]):
+        for bon in bonus.copy():
+            if sprite.collide_rect(self, bon):
+                if isinstance(bon, Bump):
+                    self.count_bumps += 1
+                else:
+                    self.count_money += 1
+
+                bonus.remove(bon)
+
         return False
 
     def __save_lose_game(self, level_number) -> None:

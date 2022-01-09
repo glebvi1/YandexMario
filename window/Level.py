@@ -2,8 +2,8 @@ from pygame import font
 from pygame.mixer import music
 from pytmx import load_pygame
 
-from config import MARIO_PATH, PRINCESS_PATH, FIRE_PATH, BLOCKS_PATH, QBLOCKS_PATH, BACKGROUND_MUSIC_PATH, \
-    COLOR_TEXT_BUTTON, STATE_END, STATE_WIN, FLY_DEATH_PATH
+from config import MARIO_PATH, PRINCESS_PATH, FIRE_PATH, BLOCKS_PATH, QBLOCKS_PATH, FLY_DEATH_PATH, MONEY_PATH, \
+    COLOR_TEXT_BUTTON, STATE_END, STATE_WIN, BACKGROUND_MUSIC_PATH
 from config.Camera import Camera
 from models.FlyDeath import FlyDeath
 from models.Mario import Mario
@@ -18,6 +18,7 @@ class Level:
         self.princess = None
         self.blocks = []
         self.enemies = []
+        self.bonus = []
 
         self.level_number = level_number
 
@@ -54,6 +55,8 @@ class Level:
             self.blocks.append(QBlock(coords, QBLOCKS_PATH))
         elif mo_id == 6:
             self.enemies.append(FlyDeath(coords, FLY_DEATH_PATH))
+        elif mo_id == 7:
+            self.bonus.append(MarioObject(coords, MONEY_PATH))
 
     def draw(self, screen) -> None:
         screen.fill((0, 200, 0))
@@ -64,6 +67,8 @@ class Level:
         for widg in self.blocks:
             widg.draw(screen, self.camera)
         for widg in self.enemies:
+            widg.draw(screen, self.camera)
+        for widg in self.bonus:
             widg.draw(screen, self.camera)
 
         self.__draw_information(screen)
