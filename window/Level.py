@@ -3,9 +3,9 @@ from pygame.mixer import music
 from pytmx import load_pygame
 
 from config import MARIO_PATH, PRINCESS_PATH, FIRE_PATH, BLOCKS_PATH, QBLOCKS_PATH, BACKGROUND_MUSIC_PATH, \
-    COLOR_TEXT_BUTTON, STATE_END, STATE_WIN
+    COLOR_TEXT_BUTTON, STATE_END, STATE_WIN, FLY_DEATH_PATH
 from config.Camera import Camera
-from models import FIRE_MAX_LEN
+from models.FlyDeath import FlyDeath
 from models.Mario import Mario
 from models.MarioObject import MarioObject
 from models.MoveFire import MoveFire
@@ -45,13 +45,15 @@ class Level:
         if mo_id == 1:
             self.blocks.append(MarioObject(coords, BLOCKS_PATH))
         elif mo_id == 2:
-            self.enemies.append(MoveFire(coords, FIRE_PATH, FIRE_MAX_LEN))
+            self.enemies.append(MoveFire(coords, FIRE_PATH))
         elif mo_id == 3:
             self.princess = MarioObject(coords, PRINCESS_PATH)
         elif mo_id == 4:
             self.mario = Mario(coords, MARIO_PATH)
         elif mo_id == 5:
             self.blocks.append(QBlock(coords, QBLOCKS_PATH))
+        elif mo_id == 6:
+            self.enemies.append(FlyDeath(coords, FLY_DEATH_PATH))
 
     def draw(self, screen) -> None:
         screen.fill((0, 200, 0))
@@ -71,7 +73,7 @@ class Level:
         self.camera.update(self.mario)
 
         for widg in self.enemies:
-            widg.update(delta_time)
+            widg.update(delta_time, self.blocks)
         if state in (STATE_END, STATE_WIN):
             music.stop()
 

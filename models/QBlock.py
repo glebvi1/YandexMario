@@ -16,8 +16,7 @@ ACTION = {
 class QBlock(MarioObject):
     def __init__(self, coordinates: tuple, image_path: str) -> None:
         super().__init__(coordinates, image_path)
-        self.action = ACTION[rd.randint(1, 3)]
-        print(self.action)
+        self.action = ACTION[rd.randint(1, len(ACTION))]
 
     def get_action(self, blocks: List[MarioObject], enemies: List[MarioObject]):
         print("get_action")
