@@ -16,7 +16,6 @@ class QBlock(MarioObject):
     def __init__(self, coordinates: tuple, image_path: str) -> None:
         super().__init__(coordinates, image_path)
         self.action = ACTION[rd.randint(1, len(ACTION))]
-        self.action = "Bump"
 
     def get_action(self, blocks: List[MarioObject], enemies: List[MarioObject], bonus: List[MarioObject]):
         blocks.remove(self)

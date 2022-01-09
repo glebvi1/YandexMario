@@ -14,21 +14,21 @@ class CurrentWindow:
 
     def __set_buttons(self):
         self.buttons = [
-            Button((100, 100, 200, 50), "Уровень 1"),
-            Button((100, 200, 200, 50), "Уровень 2"),
-            Button((100, 300, 200, 50), "Уровень 3"),
-            Button((100, 400, 200, 50), "Уровень 4"),
+            Button((100, 100, 220, 50), "Уровень 1"),
+            Button((100, 200, 220, 50), "Уровень 2"),
+            Button((100, 300, 220, 50), "Уровень 3"),
+            Button((100, 400, 220, 50), "Уровень 4"),
         ]
         win_levels = get_level_number_by_win(is_win=True)
         for number, time, count_bumps in win_levels:
             self.buttons[number - 1].set_win_color()
-            text_description = f"Время: {time}, шишки: {count_bumps}"
+            text_description = f"Время: {time}, монетки: {count_bumps}"
             self.buttons[number - 1].set_text_description(text_description)
 
         lose_levels = get_level_number_by_win(is_win=False)
         for number, time, count_bumps in lose_levels:
             self.buttons[number - 1].set_lose_color()
-            text_description = f"Время: {time}, шишки: {count_bumps}"
+            text_description = f"Время: {time}, монетки: {count_bumps}"
             self.buttons[number - 1].set_text_description(text_description)
 
     def draw(self, screen):
