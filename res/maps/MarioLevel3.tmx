@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="100" height="25" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="19">
+ <tileset firstgid="1" name="tiles" tilewidth="32" tileheight="32" tilecount="117" columns="13">
+  <image source="../../../../SuperMarioBoy-0.2.2/levels/tiles.png" width="417" height="288"/>
+ </tileset>
+ <tileset firstgid="118" name="[BACKGROUND] Bottom sky" tilewidth="32" tileheight="32" tilecount="196" columns="14">
+  <image source="../../../../MarioPoject/SuperMarioBoy-0.2.2/levels/[BACKGROUND] Bottom sky.png" width="468" height="468"/>
+ </tileset>
+ <tileset firstgid="314" name="[TILESET] Tileset" tilewidth="32" tileheight="32" tilecount="81" columns="9">
+  <image source="../../../../MarioPoject/SuperMarioBoy-0.2.2/levels/[TILESET] Tileset.png" width="300" height="300"/>
+ </tileset>
+ <tileset firstgid="395" name="[BACKGROUND] Mountain bg" tilewidth="32" tileheight="32" tilecount="196" columns="14">
+  <image source="../../../../MarioPoject/SuperMarioBoy-0.2.2/levels/[BACKGROUND] Mountain bg.png" width="468" height="468"/>
+ </tileset>
+ <tileset firstgid="591" name="fire" tilewidth="32" tileheight="32" tilecount="1" columns="1">
+  <image source="../enemies/fire.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="592" name="0" tilewidth="20" tileheight="34" tilecount="1" columns="1">
+  <image source="../heros/0.png" width="20" height="34"/>
+ </tileset>
+ <tileset firstgid="593" name="princess" tilewidth="20" tileheight="34" tilecount="1" columns="1">
+  <image source="../heros/princess.png" width="21" height="34"/>
+ </tileset>
+ <layer id="1" name="Фон" width="100" height="25">
+  <data encoding="base64" compression="zlib">
+   eJy9mUeXHTUQRvs9VmR2ZHYsWflP8IvI4DI55wyGIWeT8wAOhBlyfuT8OCTHJo+NuYLWeRodqaukHljc0z7TelKpPn0ltTzfNM0z8Cw8B+thA2yETfA8vADzhnbHwLFwHBwPJ8CJcBKcDKfAahBYA6fCaZm/zStYYn4RXoIFWDS20cYtjak01pfhFXgVXoPX4Q14E96Ct+EdY7vT4Qw4E86Cs+EcOBfOg/PhArgQLoKL4ZIuD6U5q9HD2m7IGHF+rPl9F96DD+BD+Ag+hk/gU/gMPocv4EtDOxf/pXAZXA5XwJVwFVwN18C1cB1cD2vhBrgx0mPRMOdUnvCU4C3BYyKA5wQ/Cr4U/Cn4VPCr4FvBv4KPBT9Lqv/JAD18fmp//+2A3/4IP3W/d+tgDm6Cm+EWuBVug9vhDrgT7oK74R64F+4LdJh01OiBzwS/Cb4T/Cf4UPCj4EvBn4JPBb8KvhX8K/hY8LOktJgOyMlR3dpwzzXdc3X31NbGwoBxU55eB/fDA/AgPAQPwyPwKDwGj8MT8CQ8BU8HfU47auLBZ4LfBN8J/hN8KPhR8KXgT8Gngl8F3wr+FXws+FlSWrSVMUw6PXJoa2PBOM5Kezr397ajJg/4TPCb4DvBf4IPBT8KvhT8KfhU8KvgW8G/go9lrstBrMVoVDevadcmpYVlbVj1yHm6xlOTnvcuD46aPOAzwW+C7wT/CT4U/Cj4UvCn4FPBr4JvBf8KPpZ1gR6hFrV6tD16WNdGjR4+duuZ4f1mtjdMlbFqvNEq732OtT5cm6ZyTfhxQj2ODv5tXRu13wxubO1M9hV8Dd80s72hVeZVmoNp059r997nWOtjd9C2xqPud5syevixtL5qvxnc2N/x/B5+aGZnrc2wBbbCNtgOO5rZ3uDXUO35NOXTPj1aRQ/fx1/NMD18HJpmWl+13wxu7F95/ga/wx/wJyzBTtiVmKNnY1N/Pk3VmL61H9agvjpVuz7imqidVzQ95pq6b4YaPfxzQ1N/Po1rjFarwvFzNWbXgPUR10TtvKLpUfvNUOuP9d0aqT2fhufSRtGjjcZPecPHOmR9hLFMM7G48fzc+/QoOcPE+S3VIqzHtefTcM/Q9mn3bnOGLbAVtsF22AEt/Dz6pxaY18diFEubyeF0BfXwvl5JPWq/ebwWYd+5mF0MS6PlWPQoWR+LibnmvLpSerSZHJfoUXpe6dMi7rvPz3uOl7Nk0KN07VjiCWv1UD38njdEj9o7sliLVN99fj5wrOc/pnStWOKxztuSl1yO/2s9Yi1yfae84dsdadBjPF6Ods+Qqot9erT/kx5WLWrvHUMt+voPcxWeYV27VePy/Vy7Zwj/vyZ1zok9VFL/LGt0qB6+9sRYv3m1/sNctYl28Z7u2Ok0czUNdkODbqPOH9o9w6RZvi/E8cQeypGau2WNDtXD3yXG5OIMx7f0H+YqVdfiPd2xF+wN+8C+sB/sDweM9fG8R6Y978P1bJm/z7tWK1PrzY9ryVXbzO4SY1IxltSW+L1Wh34Z/bu/Ow6Cg+EQOBQOg8PhCIMe3iO5c2cb5Dk393j+vr1WK/v2Uet3h79LjEnFWKLHUtROq0N7jGf7ex+apt4DfbkJzxaW+XtdtFrZl+uSO6sUqRhz328pSvcFp8eqcfp3JX342LUaHd6xafP3umj5HKqH9c43F+fQ3NXsd9Z22h7TGvqI5/w3zwJoMg==
+  </data>
+ </layer>
+ <layer id="6" name="Промежуточный фон" width="100" height="25">
+  <data encoding="base64" compression="zlib">
+   eJztwQENAAAAwqD3T20ON6AAAAAAAAAAAADg3wAnEAAB
+  </data>
+ </layer>
+ <layer id="2" name="Блоки" width="100" height="25">
+  <data encoding="base64" compression="zlib">
+   eJztmM1uwjAMgAPHHdgGvFe36zZpEuMGD8Cx79wXIBWzZFl2/pqAFfxJFig0ruKvuE0n59xUMSg1cz9LGDowH7owH7owH7owH7owH7owH7owH2VcVreg3/fkuM91Xl7zkQ6ue+wYKWKYjzCpdcT8ruSI5XoGFzthnPaW1qQ46d1HrH8s6S0lzD6GQP7e+9Xo1/3i8mNs5IMD++/VB6yR88HxSB+YXn0A2EeMe/kI9cPefNC1go8c7P/RDu0+6PXTiw+pB2j3QWnh48uv5ZvET+X14T3Fu4+tcJxGH0vuH3he6jM5d1zO8/ySPQMNzgf3fEt/Bx+wZ5T2lDlrSiHkA9YDjJF9Uso5W+2zagI+au0VaR1DSD4gB/XBOSmpcamXg5/35+P4P3/+SH2FGutbuX0tBa6OIcDHB1oUzjHHsL4FHqt1nZ98njOTi9ZdGt/4ePXxVnDuIfNdeAiun9E6zsTemU2O77m09qFxC/nexdULrm8ceN4Vft3/tA==
+  </data>
+ </layer>
+</map>
