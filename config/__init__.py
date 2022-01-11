@@ -24,13 +24,6 @@ BUMBS_SOUND_PATH = f"{RESOURCES_DIR}/music/bumbs_sound.mp3"
 DIE_SOUND_PATH = f"{RESOURCES_DIR}/music/die_sound.mp3"
 START_SOUND_PATH = f"{RESOURCES_DIR}/music/start_sound.mp3"
 
-ANIMATED_LEFT = f"{RESOURCES_DIR}/heros/left.png"
-ANIMATED_STATE = f"{RESOURCES_DIR}/heros/0.png"
-ANIMATED_RIGHT = f"{RESOURCES_DIR}/heros/right.png"
-ANIMATED_JUMP = f"{RESOURCES_DIR}/heros/jump.png"
-ANIMATED_LJUMP = f"{RESOURCES_DIR}/heros/jump_left.png"
-ANIMATED_RJUMP = f"{RESOURCES_DIR}/heros/jump_right.png"
-
 COLOR_WIN_BUTTON = (200, 200, 0)
 COLOR_LOSE_BUTTON = (255, 0, 0)
 COLOR_NEUTRAL_BUTTON = (0, 0, 0)
