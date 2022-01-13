@@ -75,10 +75,6 @@ class Level:
         else:
             self.dead_mario.draw(screen, self.camera)
         self.princess.draw(screen, self.camera)
-        screen.blit(
-            self.kiss_image,
-            (self.princess.rect.x - self.camera.state.x, self.princess.rect.y - self.camera.state.y)
-        )
 
         if self.is_win_end:
             self.is_win = True
