@@ -2,7 +2,7 @@ from pygame import sprite, image
 from math import ceil, floor
 
 
-class MarioObject(sprite.Sprite):
+class BaseMarioObject(sprite.Sprite):
     def __init__(self, coordinate: tuple, image_path: str) -> None:
         """Базовый класс для любого объекта игры
         :param coordinate: начальные координаты спрайта
@@ -12,7 +12,7 @@ class MarioObject(sprite.Sprite):
         self.coordinate = coordinate
 
         self.image_path = image_path
-        self.image = image.load(image_path).convert_alpha()
+        self.image = image.load(self.image_path).convert_alpha()
         self.rect = self.image.get_rect(center=(coordinate[0], coordinate[1]))
 
     def draw(self, screen, camera) -> None:
@@ -28,3 +28,8 @@ class MarioObject(sprite.Sprite):
         :param direction: направление
         """
         return ceil(direction) if direction > 0 else floor(direction)
+
+
+class MarioObject(BaseMarioObject):
+    def __init__(self, coordinate: tuple, image_path: str) -> None:
+        super().__init__(coordinate, image.load(image_path).convert_alpha())

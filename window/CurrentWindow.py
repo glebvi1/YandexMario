@@ -1,13 +1,18 @@
-from config import LEVEL1_PATH, STATE_END, STATE_WIN
+from config import LEVEL1_PATH, LEVEL2_PATH, LEVEL3_PATH, LEVEL4_PATH, STATE_END, STATE_WIN
 from dao.db_mario_handler import get_level_number_by_win
 from window.Button import Button
-from window.Level import Level
+from window.Level import Level, LevelWithLayers
 
 
 class CurrentWindow:
     def __init__(self):
         self.running = True
-
+        self.levels = [
+            LEVEL1_PATH,
+            LEVEL2_PATH,
+            LEVEL3_PATH,
+            LEVEL4_PATH,
+        ]
         self.buttons = []
         self.__set_buttons()
         self.current_level = None
@@ -55,7 +60,10 @@ class CurrentWindow:
         else:
             for number, widg in enumerate(self.buttons):
                 if widg.click(position, button):
-                    self.current_level = Level(LEVEL1_PATH, number + 1)
+                    if number == 0:
+                        self.current_level = Level(self.levels[number], number + 1)
+                    else:
+                        self.current_level = LevelWithLayers(self.levels[number], number + 1)
 
     def quit(self):
         print("quit")
