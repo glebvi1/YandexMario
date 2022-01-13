@@ -18,11 +18,13 @@ QBLOCKS_PATH = f"{RESOURCES_DIR}/blocks/q_block.png"
 BUMP_PATH = f"{RESOURCES_DIR}/blocks/bump.png"
 FIRE_PATH = f"{RESOURCES_DIR}/enemies/fire.png"
 FLY_DEATH_PATH = f"{RESOURCES_DIR}/enemies/fly_death.png"
+KISS_PATH = f"{RESOURCES_DIR}/heros/kiss.png"
 
 BACKGROUND_MUSIC_PATH = f"{RESOURCES_DIR}/music/background_music.mp3"
 BUMBS_SOUND_PATH = f"{RESOURCES_DIR}/music/bumbs_sound.mp3"
 DIE_SOUND_PATH = f"{RESOURCES_DIR}/music/die_sound.mp3"
 START_SOUND_PATH = f"{RESOURCES_DIR}/music/start_sound.mp3"
+KISS_SOUND_PATH = f"{RESOURCES_DIR}/music/kiss_sound.mp3"
 
 COLOR_WIN_BUTTON = (200, 200, 0)
 COLOR_LOSE_BUTTON = (255, 0, 0)

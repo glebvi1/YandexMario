@@ -4,7 +4,7 @@ from typing import Tuple, List
 from pygame import sprite, image
 from pygame.mixer import Sound
 
-from config import BUMP_PATH, BUMBS_SOUND_PATH, STATE_CONTINUE, STATE_END, STATE_WIN
+from config import BUMP_PATH, BUMBS_SOUND_PATH, STATE_CONTINUE, STATE_END, STATE_WIN, START_SOUND_PATH
 from dao.db_mario_handler import save_game, get_level_number_by_win
 from models import MARIO_SPEED, MARIO_JUMP_POWER, GRAVITATION, MARIO_HEIGHT, BUMP_WIDTH, ANIMATED_RIGHT, \
     ANIMATED_JUMP, ANIMATED_LEFT, ANIMATED_STATE, ANIMATED_LJUMP, ANIMATED_RJUMP
@@ -31,7 +31,7 @@ class Mario(MarioObject):
 
         self.start_time = time.perf_counter()
 
-        #Sound(START_SOUND_PATH).play()
+        Sound(START_SOUND_PATH).play()
 
     def draw(self, screen, camera) -> None:
         """Отрисовываем спрайт

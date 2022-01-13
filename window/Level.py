@@ -1,9 +1,10 @@
-from pygame import font
-from pygame.mixer import music
+from pygame import font, image
+from pygame.mixer import music, Sound
+from pygame.time import wait
 from pytmx import load_pygame
 
 from config import MARIO_PATH, PRINCESS_PATH, FIRE_PATH, BLOCKS_PATH, QBLOCKS_PATH, FLY_DEATH_PATH, MONEY_PATH, \
-    COLOR_TEXT_BUTTON, STATE_END, STATE_WIN, STATE_CONTINUE, BACKGROUND_MUSIC_PATH
+    KISS_PATH, COLOR_TEXT_BUTTON, STATE_END, STATE_WIN, STATE_CONTINUE, KISS_SOUND_PATH, BACKGROUND_MUSIC_PATH
 from config.Camera import Camera
 from models import ANIMATED_DIE
 from models.DeadMario import DeadMario
@@ -22,7 +23,10 @@ class Level:
         self.blocks = []
         self.enemies = []
         self.bonus = []
+
         self.is_end = False
+        self.is_win = False
+        self.is_win_end = False
 
         self.level_number = level_number
 
@@ -33,13 +37,14 @@ class Level:
 
         self.camera = Camera(self.map.width * self.tile_size, self.map.height * self.tile_size)
 
-        #Level.load_background_music()
+        self.kiss_image = image.load(KISS_PATH).convert_alpha()
+        Level.load_background_music()
 
     def load_game(self):
         for y in range(self.map.height):
             for x in range(self.map.width):
-                image = self.map.get_tile_image(x, y, 0)
-                if image is None:
+                image_cur = self.map.get_tile_image(x, y, 0)
+                if image_cur is None:
                     continue
                 mario_object_id = self.map.tiledgidmap[self.map.get_tile_gid(x, y, 0)]
                 self.add_mario_object(mario_object_id, x, y)
@@ -70,6 +75,19 @@ class Level:
         else:
             self.dead_mario.draw(screen, self.camera)
         self.princess.draw(screen, self.camera)
+        screen.blit(
+            self.kiss_image,
+            (self.princess.rect.x - self.camera.state.x, self.princess.rect.y - self.camera.state.y)
+        )
+
+        if self.is_win_end:
+            self.is_win = True
+            screen.blit(
+                self.kiss_image,
+                (self.princess.rect.x - self.camera.state.x, self.princess.rect.y - self.camera.state.y)
+            )
+            Sound(KISS_SOUND_PATH).play()
+            wait(1000)
 
         for widg in self.blocks:
             widg.draw(screen, self.camera)
@@ -96,9 +114,13 @@ class Level:
             music.stop()
             if state == STATE_END and self.dead_mario is None:
                 self.dead_mario = DeadMario(self.mario, ANIMATED_DIE)
+            if state == STATE_WIN:
+                self.is_win_end = True
 
         if state == STATE_END:
             return STATE_END if self.is_end else STATE_CONTINUE
+        if state == STATE_WIN:
+            return STATE_WIN if self.is_win else STATE_CONTINUE
 
         return state
 
