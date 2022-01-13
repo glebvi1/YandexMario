@@ -3,12 +3,11 @@ from typing import Tuple, List
 
 from pygame import sprite, image
 from pygame.mixer import Sound
-from pygame.time import wait
 
-from config import BUMP_PATH, BUMBS_SOUND_PATH, START_SOUND_PATH, STATE_CONTINUE, STATE_END, STATE_WIN
+from config import BUMP_PATH, BUMBS_SOUND_PATH, STATE_CONTINUE, STATE_END, STATE_WIN
 from dao.db_mario_handler import save_game, get_level_number_by_win
 from models import MARIO_SPEED, MARIO_JUMP_POWER, GRAVITATION, MARIO_HEIGHT, BUMP_WIDTH, ANIMATED_RIGHT, \
-    ANIMATED_JUMP, ANIMATED_LEFT, ANIMATED_STATE, ANIMATED_LJUMP, ANIMATED_RJUMP, ANIMATED_DIE
+    ANIMATED_JUMP, ANIMATED_LEFT, ANIMATED_STATE, ANIMATED_LJUMP, ANIMATED_RJUMP
 from models.Bump import Bump
 from models.MarioObject import MarioObject
 
@@ -32,7 +31,7 @@ class Mario(MarioObject):
 
         self.start_time = time.perf_counter()
 
-        Sound(START_SOUND_PATH).play()
+        #Sound(START_SOUND_PATH).play()
 
     def draw(self, screen, camera) -> None:
         """Отрисовываем спрайт
@@ -52,7 +51,6 @@ class Mario(MarioObject):
         """
         if self.__collide_with_enemies(window.enemies):
             self.__save_lose_game(window.level_number)
-            self.__die()
             return STATE_END
         if sprite.collide_mask(self, window.princess):
             save_game(True, self.get_current_time(), window.level_number, self.count_money)
@@ -183,10 +181,6 @@ class Mario(MarioObject):
             if level[0] == level_number:
                 return
         save_game(False, self.get_current_time(), level_number, self.count_money)
-
-    def __die(self):
-        self.image = image.load(ANIMATED_DIE).convert_alpha()
-        wait(1000)
 
     def get_current_time(self) -> str:
         """Время, проведенное в игре"""
