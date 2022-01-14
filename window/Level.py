@@ -65,9 +65,13 @@ class Level:
     def draw(self, screen) -> None:
         screen.fill((0, 200, 0))
 
+
+        for widg in self.background1:
+            widg.draw(screen, self.camera)
+        for widg in self.background2:
+            widg.draw(screen, self.camera)
         self.mario.draw(screen, self.camera)
         self.princess.draw(screen, self.camera)
-
         for widg in self.blocks:
             widg.draw(screen, self.camera)
         for widg in self.enemies:
@@ -120,7 +124,7 @@ class LevelWithLayers(Level):
             self.mario = Mario(coords, MARIO_PATH)
         elif mo_id == 596:
             self.princess = MarioObject(coords, PRINCESS_PATH)
-        elif 213 < mo_id < 269 or mo_id == 479:
+        elif 198 < mo_id <= 269 or mo_id == 479:
             self.background1.append(BaseMarioObject(coords, image))
         elif mo_id in [27, 28, 29, 30, 31, 155, 40, 41, 42, 43, 44, 53, 54, 55, 56, 57, 66, \
                        67, 68, 69, 70, 79, 80, 81, 82, 83, 14, 15, 16, 17, 18, 92, 93, 94, 95,\
@@ -134,5 +138,5 @@ class LevelWithLayers(Level):
             self.enemies.append(FlyDeath(coords, FLY_DEATH_PATH))
         elif mo_id == 592:
             self.bonus.append(MarioObject(coords, MONEY_PATH))
-        elif mo_id in [180, 189]:
+        elif mo_id in [10, 180, 189]:
             self.blocks.append(BaseMarioObject(coords, image))

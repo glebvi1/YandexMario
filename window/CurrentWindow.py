@@ -38,7 +38,7 @@ class CurrentWindow:
         if self.current_level is not None:
             self.current_level.draw(screen)
         else:
-            screen.fill((0, 200, 0))
+            screen.fill((200, 100, 50))
             for widg in self.buttons:
                 widg.draw(screen)
 
