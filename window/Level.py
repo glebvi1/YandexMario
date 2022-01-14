@@ -103,13 +103,11 @@ class Level:
 
 
 class LevelWithLayers(Level):
-    LAYER_COUNT = 3
-
     def load_game(self):
-        for layer in range(self.LAYER_COUNT):
+        for layer in range(3):
             for y in range(self.map.height):
                 for x in range(self.map.width):
-                    image = self.map.get_tile_image(x, y, 0)
+                    image = self.map.get_tile_image(x, y, layer)
                     if image is not None:
                         tile_id = self.map.tiledgidmap[self.map.get_tile_gid(x, y, layer)]
                         self.add_mario_object(tile_id, x, y, image)
@@ -117,18 +115,17 @@ class LevelWithLayers(Level):
     def add_mario_object(self, mo_id, x, y, image):
         coords = (x * self.tile_size, y * self.tile_size)
 
-        tile = BaseMarioObject(coords, image)
 
         if mo_id == 595:
             self.mario = Mario(coords, MARIO_PATH)
         elif mo_id == 596:
             self.princess = MarioObject(coords, PRINCESS_PATH)
-        elif 213 < mo_id < 269 or mo_id == 479 :
-            self.background1.append(tile)
+        elif 213 < mo_id < 269 or mo_id == 479:
+            self.background1.append(BaseMarioObject(coords, image))
         elif mo_id in [27, 28, 29, 30, 31, 155, 40, 41, 42, 43, 44, 53, 54, 55, 56, 57, 66, \
                        67, 68, 69, 70, 79, 80, 81, 82, 83, 14, 15, 16, 17, 18, 92, 93, 94, 95,\
                        96, 20, 19]:
-            self.background2.append(tile)
+            self.background2.append(BaseMarioObject(coords, image))
         elif mo_id == 593:
             self.enemies.append(MoveFire(coords, FIRE_PATH))
         elif mo_id == 591:
@@ -138,4 +135,4 @@ class LevelWithLayers(Level):
         elif mo_id == 592:
             self.bonus.append(MarioObject(coords, MONEY_PATH))
         elif mo_id in [180, 189]:
-            self.blocks.append(tile)
+            self.blocks.append(BaseMarioObject(coords, image))

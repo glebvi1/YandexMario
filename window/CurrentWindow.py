@@ -61,7 +61,7 @@ class CurrentWindow:
                     if number == 0:
                         self.current_level = Level(LEVEL1_PATH, number + 1)
                     else:
-                        self.current_level = LevelWithLayers(LEVEL1_PATH, number + 1)
+                        self.current_level = LevelWithLayers(LEVEL2_PATH, number + 1)
 
     def quit(self):
         print("quit")
