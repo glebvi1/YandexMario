@@ -138,5 +138,5 @@ class LevelWithLayers(Level):
             self.enemies.append(FlyDeath(coords, FLY_DEATH_PATH))
         elif mo_id == 592:
             self.bonus.append(MarioObject(coords, MONEY_PATH))
-        elif mo_id in [10, 51, 52, 180, 189]:
+        elif mo_id in [45, 10, 51, 52, 180, 189]:
             self.blocks.append(BaseMarioObject(coords, image))
