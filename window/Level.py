@@ -7,7 +7,7 @@ from config import MARIO_PATH, PRINCESS_PATH, FIRE_PATH, BLOCKS_PATH, QBLOCKS_PA
 from config.Camera import Camera
 from models.FlyDeath import FlyDeath
 from models.Mario import Mario
-from models.MarioObject import MarioObject
+from models.MarioObject import MarioObject, BaseMarioObject
 from models.MoveFire import MoveFire
 from models.QBlock import QBlock
 
@@ -19,6 +19,10 @@ class Level:
         self.blocks = []
         self.enemies = []
         self.bonus = []
+
+        self.background1 = []
+        self.background2 = []
+
 
         self.level_number = level_number
 
@@ -37,8 +41,8 @@ class Level:
                 image = self.map.get_tile_image(x, y, 0)
                 if image is None:
                     continue
-                mario_object_id = self.map.tiledgidmap[self.map.get_tile_gid(x, y, 0)]
-                self.add_mario_object(mario_object_id, x, y)
+                tile_id = self.map.tiledgidmap[self.map.get_tile_gid(x, y, 0)]
+                self.add_mario_object(tile_id, x, y)
 
     def add_mario_object(self, mo_id, x, y):
         coords = (x * self.tile_size, y * self.tile_size)
@@ -96,3 +100,42 @@ class Level:
     def load_background_music():
         music.load(BACKGROUND_MUSIC_PATH)
         music.play(-1, 0.0)
+
+
+class LevelWithLayers(Level):
+    LAYER_COUNT = 3
+
+    def load_game(self):
+        for layer in range(self.LAYER_COUNT):
+            for y in range(self.map.height):
+                for x in range(self.map.width):
+                    image = self.map.get_tile_image(x, y, 0)
+                    if image is not None:
+                        tile_id = self.map.tiledgidmap[self.map.get_tile_gid(x, y, layer)]
+                        self.add_mario_object(tile_id, x, y, image)
+
+    def add_mario_object(self, mo_id, x, y, image):
+        coords = (x * self.tile_size, y * self.tile_size)
+
+        tile = BaseMarioObject(coords, image)
+
+        if mo_id == 595:
+            self.mario = Mario(coords, MARIO_PATH)
+        elif mo_id == 596:
+            self.princess = MarioObject(coords, PRINCESS_PATH)
+        elif 213 < mo_id < 269 or mo_id == 479 :
+            self.background1.append(tile)
+        elif mo_id in [27, 28, 29, 30, 31, 155, 40, 41, 42, 43, 44, 53, 54, 55, 56, 57, 66, \
+                       67, 68, 69, 70, 79, 80, 81, 82, 83, 14, 15, 16, 17, 18, 92, 93, 94, 95,\
+                       96, 20, 19]:
+            self.background2.append(tile)
+        elif mo_id == 593:
+            self.enemies.append(MoveFire(coords, FIRE_PATH))
+        elif mo_id == 591:
+            self.blocks.append(QBlock(coords, QBLOCKS_PATH))
+        elif mo_id == 594:
+            self.enemies.append(FlyDeath(coords, FLY_DEATH_PATH))
+        elif mo_id == 592:
+            self.bonus.append(MarioObject(coords, MONEY_PATH))
+        elif mo_id in [180, 189]:
+            self.blocks.append(tile)

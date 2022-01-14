@@ -10,6 +10,8 @@ STATE_END = 2
 STATE_WIN = 3
 
 LEVEL1_PATH = f"{RESOURCES_DIR}/maps/level1/MarioLevel1.tmx"
+LEVEL2_PATH = f"{RESOURCES_DIR}/maps/MarioLevel2.tmx"
+
 MARIO_PATH = f"{RESOURCES_DIR}/heros/0.png"
 PRINCESS_PATH = f"{RESOURCES_DIR}/heros/princess.png"
 MONEY_PATH = f"{RESOURCES_DIR}/blocks/money.png"
