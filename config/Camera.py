@@ -10,3 +10,4 @@ class Camera:
     def update(self, target: Mario):
         self.state.x = target.rect.x - WIDTH // 2
         self.state.y = target.rect.y - HEIGHT // 2
+
