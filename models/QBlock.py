@@ -1,7 +1,7 @@
 import random as rd
 from typing import List
 
-from config import BLOCKS_PATH, FIRE_PATH, BUMP_PATH
+from config import BLOCKS_PATH, MOVE_FIRE_PATH, BUMP_PATH
 from models.MarioObject import MarioObject
 from models.MoveFire import MoveFire
 
@@ -22,7 +22,7 @@ class QBlock(MarioObject):
         if self.action == "Block":
             blocks.append(MarioObject(self.coordinate, BLOCKS_PATH))
         elif self.action == "Enemy":
-            enemies.append(MoveFire(self.coordinate, FIRE_PATH))
+            enemies.append(MoveFire(self.coordinate, MOVE_FIRE_PATH))
         elif self.action == "Bump":
             from models.Bump import Bump
             bonus.append(Bump(self.coordinate, BUMP_PATH, direction=0))

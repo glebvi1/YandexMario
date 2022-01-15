@@ -3,7 +3,7 @@ from pygame.mixer import music, Sound
 from pygame.time import wait
 from pytmx import load_pygame
 
-from config import MARIO_PATH, PRINCESS_PATH, FIRE_PATH, BLOCKS_PATH, QBLOCKS_PATH, FLY_DEATH_PATH, MONEY_PATH, \
+from config import MARIO_PATH, PRINCESS_PATH, MOVE_FIRE_PATH, BLOCKS_PATH, QBLOCKS_PATH, FLY_DEATH_PATH, MONEY_PATH, \
     KISS_PATH, COLOR_TEXT_BUTTON, STATE_END, STATE_WIN, STATE_CONTINUE, KISS_SOUND_PATH, BACKGROUND_MUSIC_PATH
 from config.Camera import Camera
 from models import ANIMATED_DIE
@@ -55,7 +55,7 @@ class Level:
         if mo_id == 1:
             self.blocks.append(MarioObject(coords, BLOCKS_PATH))
         elif mo_id == 2:
-            self.enemies.append(MoveFire(coords, FIRE_PATH))
+            self.enemies.append(MoveFire(coords, MOVE_FIRE_PATH))
         elif mo_id == 3:
             self.princess = MarioObject(coords, PRINCESS_PATH)
         elif mo_id == 4:
