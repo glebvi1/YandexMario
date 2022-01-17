@@ -5,9 +5,9 @@ from models.MarioObject import MarioObject
 
 
 class MoveFire(MarioObject):
-    def __init__(self, coordinates: tuple, image_path: str) -> None:
+    def __init__(self, coordinates: tuple, image_path: str, direction=1) -> None:
         super().__init__(coordinates, image_path)
-        self.dir_x = FIRE_MOVE
+        self.dir_x = FIRE_MOVE * direction
 
     def update(self, dt, blocks):
         self.rect.x += MarioObject._direction_round(self.dir_x * dt / 100)
