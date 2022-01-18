@@ -10,6 +10,11 @@ STATE_END = 2
 STATE_WIN = 3
 
 LEVEL1_PATH = f"{RESOURCES_DIR}/maps/level1/MarioLevel1.tmx"
+LEVEL2_PATH = f"{RESOURCES_DIR}/maps/MarioLevel2.tmx"
+LEVEL3_PATH = f"{RESOURCES_DIR}/maps/MarioLevel3.tmx"
+LEVEL4_PATH = f"{RESOURCES_DIR}/maps/MarioLevel4.tmx"
+LEVEL5_PATH = f"{RESOURCES_DIR}/maps/MarioLevel5.tmx"
+
 MARIO_PATH = f"{RESOURCES_DIR}/heros/0.png"
 PRINCESS_PATH = f"{RESOURCES_DIR}/heros/princess.png"
 MONEY_PATH = f"{RESOURCES_DIR}/blocks/money.png"
@@ -22,6 +27,7 @@ STATIC_FIRE_PATH = f"{RESOURCES_DIR}/enemies/static_fire.png"
 KISS_PATH = f"{RESOURCES_DIR}/heros/kiss.png"
 
 BACKGROUND_MUSIC_PATH = f"{RESOURCES_DIR}/music/background_music.mp3"
+
 BUMBS_SOUND_PATH = f"{RESOURCES_DIR}/music/bumbs_sound.mp3"
 DIE_SOUND_PATH = f"{RESOURCES_DIR}/music/die_sound.mp3"
 START_SOUND_PATH = f"{RESOURCES_DIR}/music/start_sound.mp3"
