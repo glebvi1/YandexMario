@@ -22,7 +22,7 @@ class QBlock(MarioObject):
         if self.action == "Block":
             blocks.append(MarioObject(self.coordinate, BLOCKS_PATH))
         elif self.action == "Enemy":
-            enemies.append(MoveFire(self.coordinate, MOVE_FIRE_PATH))
+            enemies.append(MoveFire(self.coordinate, MOVE_FIRE_PATH, direction=0))
         elif self.action == "Bump":
             from models.Bump import Bump
             bonus.append(Bump(self.coordinate, BUMP_PATH, direction=0))

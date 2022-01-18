@@ -4,7 +4,8 @@ from pygame.time import wait
 from pytmx import load_pygame
 
 from config import MARIO_PATH, PRINCESS_PATH, MOVE_FIRE_PATH, BLOCKS_PATH, QBLOCKS_PATH, FLY_DEATH_PATH, MONEY_PATH, \
-    KISS_PATH, COLOR_TEXT_BUTTON, STATE_END, STATE_WIN, STATE_CONTINUE, KISS_SOUND_PATH, BACKGROUND_MUSIC_PATH
+    KISS_PATH, COLOR_TEXT_BUTTON, STATE_END, STATE_WIN, STATE_CONTINUE, KISS_SOUND_PATH, BACKGROUND_MUSIC_PATH, \
+    STATIC_FIRE_PATH
 from config.Camera import Camera
 from models import ANIMATED_DIE
 from models.DeadMario import DeadMario
@@ -26,7 +27,6 @@ class Level:
 
         self.background1 = []
         self.background2 = []
-
 
         self.is_end = False
         self.is_win = False
@@ -73,7 +73,6 @@ class Level:
 
     def draw(self, screen) -> None:
         screen.fill((0, 200, 0))
-
 
         for widg in self.background1:
             widg.draw(screen, self.camera)
@@ -158,19 +157,18 @@ class Level2(Level):
     def add_mario_object(self, mo_id, x, y, image):
         coords = (x * self.tile_size, y * self.tile_size)
 
-
         if mo_id == 595:
             self.mario = Mario(coords, MARIO_PATH)
         elif mo_id == 596 or mo_id == 478:
             self.princess = MarioObject(coords, PRINCESS_PATH)
         elif 198 < mo_id <= 269 or mo_id == 479:
             self.background1.append(BaseMarioObject(coords, image))
-        elif mo_id in [27, 28, 29, 30, 31, 155, 40, 41, 42, 43, 44, 53, 54, 55, 56, 57, 66, \
-                       67, 68, 69, 70, 79, 80, 81, 82, 83, 14, 15, 16, 17, 18, 92, 93, 94, 95,\
+        elif mo_id in [27, 28, 29, 30, 31, 155, 40, 41, 42, 43, 44, 53, 54, 55, 56, 57, 66,
+                       67, 68, 69, 70, 79, 80, 81, 82, 83, 14, 15, 16, 17, 18, 92, 93, 94, 95,
                        96, 20, 19]:
             self.background2.append(BaseMarioObject(coords, image))
         elif mo_id == 593:
-            self.enemies.append(MoveFire(coords, FIRE_PATH))
+            self.enemies.append(MoveFire(coords, STATIC_FIRE_PATH))
         elif mo_id == 591:
             self.blocks.append(QBlock(coords, QBLOCKS_PATH))
         elif mo_id == 594:
@@ -180,10 +178,10 @@ class Level2(Level):
         elif mo_id in [45, 75, 76, 77, 10, 51, 52, 180, 189]:
             self.blocks.append(BaseMarioObject(coords, image))
 
+
 class Level3(Level2):
     def add_mario_object(self, mo_id, x, y, image):
         coords = (x * self.tile_size, y * self.tile_size)
-
 
         if mo_id == 474:
             self.mario = Mario(coords, MARIO_PATH)
@@ -191,12 +189,12 @@ class Level3(Level2):
             self.princess = MarioObject(coords, PRINCESS_PATH)
         elif 1 <= mo_id <= 71 or mo_id == 281:
             self.background1.append(BaseMarioObject(coords, image))
-        elif mo_id in [561, 537, 80, 481, 482, 499, 493, 494, 495, 506, 507, 508, 509, 510,\
-                       519, 520, 521, 522, 523, 532, 533, 534, 535, 536, 545, 546, 547, \
+        elif mo_id in [561, 537, 80, 481, 482, 499, 493, 494, 495, 506, 507, 508, 509, 510,
+                       519, 520, 521, 522, 523, 532, 533, 534, 535, 536, 545, 546, 547,
                        548, 549, 558, 559, 560, 561, 562, 571, 572, 573, 574, 575]:
             self.background2.append(BaseMarioObject(coords, image))
         elif mo_id == 475:
-            self.enemies.append(MoveFire(coords, FIRE_PATH))
+            self.enemies.append(MoveFire(coords, STATIC_FIRE_PATH))
         elif mo_id == 479:
             self.blocks.append(QBlock(coords, QBLOCKS_PATH))
         elif mo_id == 476:
@@ -211,19 +209,18 @@ class Level4(Level3):
     def add_mario_object(self, mo_id, x, y, image):
         coords = (x * self.tile_size, y * self.tile_size)
 
-
         if mo_id == 595 or mo_id == 474:
             self.mario = Mario(coords, MARIO_PATH)
         elif mo_id == 596 or mo_id == 478:
             self.princess = MarioObject(coords, PRINCESS_PATH)
         elif 198 < mo_id <= 269 or mo_id == 479:
             self.background1.append(BaseMarioObject(coords, image))
-        elif mo_id in [27, 28, 29, 30, 31, 155, 40, 41, 42, 43, 44, 53, 54, 55, 56, 57, 66, \
-                       67, 68, 69, 70, 79, 80, 81, 82, 83, 14, 15, 16, 17, 18, 92, 93, 94, 95,\
+        elif mo_id in [27, 28, 29, 30, 31, 155, 40, 41, 42, 43, 44, 53, 54, 55, 56, 57, 66,
+                       67, 68, 69, 70, 79, 80, 81, 82, 83, 14, 15, 16, 17, 18, 92, 93, 94, 95,
                        96, 20, 19]:
             self.background2.append(BaseMarioObject(coords, image))
         elif mo_id == 593:
-            self.enemies.append(MoveFire(coords, FIRE_PATH))
+            self.enemies.append(MoveFire(coords, STATIC_FIRE_PATH))
         elif mo_id == 591:
             self.blocks.append(QBlock(coords, QBLOCKS_PATH))
         elif mo_id == 594:
@@ -238,19 +235,18 @@ class Level5(Level4):
     def add_mario_object(self, mo_id, x, y, image):
         coords = (x * self.tile_size, y * self.tile_size)
 
-
         if mo_id == 595 or mo_id == 474:
             self.mario = Mario(coords, MARIO_PATH)
         elif mo_id == 596 or mo_id == 478:
             self.princess = MarioObject(coords, PRINCESS_PATH)
         elif 198 < mo_id <= 269 or mo_id == 479:
             self.background1.append(BaseMarioObject(coords, image))
-        elif mo_id in [27, 28, 29, 30, 31, 155, 40, 41, 42, 43, 44, 53, 54, 55, 56, 57, 66, \
-                       67, 68, 69, 70, 79, 80, 81, 82, 83, 14, 15, 16, 17, 18, 92, 93, 94, 95,\
+        elif mo_id in [27, 28, 29, 30, 31, 155, 40, 41, 42, 43, 44, 53, 54, 55, 56, 57, 66,
+                       67, 68, 69, 70, 79, 80, 81, 82, 83, 14, 15, 16, 17, 18, 92, 93, 94, 95,
                        96, 20, 19]:
             self.background2.append(BaseMarioObject(coords, image))
         elif mo_id == 593:
-            self.enemies.append(MoveFire(coords, FIRE_PATH))
+            self.enemies.append(MoveFire(coords, STATIC_FIRE_PATH))
         elif mo_id == 591:
             self.blocks.append(QBlock(coords, QBLOCKS_PATH))
         elif mo_id == 594:
