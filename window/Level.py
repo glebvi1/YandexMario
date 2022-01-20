@@ -72,7 +72,7 @@ class Level:
             self.bonus.append(MarioObject(coords, MONEY_PATH))
 
     def draw(self, screen) -> None:
-        screen.fill((0, 200, 0))
+        screen.fill((85, 146, 203))
 
         for widg in self.background1:
             widg.draw(screen, self.camera)
@@ -176,7 +176,7 @@ class Level2(Level):
             self.enemies.append(FlyDeath(coords, FLY_DEATH_PATH))
         elif mo_id == 592:
             self.bonus.append(MarioObject(coords, MONEY_PATH))
-        elif mo_id in [45, 75, 76, 77, 10, 51, 52, 180, 189]:
+        elif mo_id in [45, 75, 76, 77, 10, 51, 52, 180, 189, 270]:
             self.blocks.append(BaseMarioObject(coords, image))
 
 
@@ -195,15 +195,17 @@ class Level3(Level2):
                        548, 549, 558, 559, 560, 561, 562, 571, 572, 573, 574, 575]:
             self.background2.append(BaseMarioObject(coords, image))
         elif mo_id == 475:
-            self.enemies.append(MoveFire(coords, STATIC_FIRE_PATH))
+            self.enemies.append(MoveFire(coords, MOVE_FIRE_PATH))
         elif mo_id == 479:
             self.blocks.append(QBlock(coords, QBLOCKS_PATH))
         elif mo_id == 476:
             self.enemies.append(FlyDeath(coords, FLY_DEATH_PATH))
         elif mo_id == 477:
             self.bonus.append(MarioObject(coords, MONEY_PATH))
-        elif mo_id in [524, 464, 455, 477, 551, 550, 563, 564, 530, 531, 554, 555, 556, 552, 597]:
+        elif mo_id in [524, 464, 455, 477, 551, 550, 563, 564, 530, 531, 554, 555, 556, 552, 72]:
             self.blocks.append(BaseMarioObject(coords, image))
+        elif mo_id == 597:
+            self.enemies.append(BaseMarioObject(coords, image))
 
 
 class Level4(Level3):
