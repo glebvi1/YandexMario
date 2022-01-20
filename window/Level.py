@@ -4,7 +4,7 @@ from pygame.time import wait
 from pytmx import load_pygame
 
 from config import MARIO_PATH, PRINCESS_PATH, MOVE_FIRE_PATH, BLOCKS_PATH, QBLOCKS_PATH, FLY_DEATH_PATH, MONEY_PATH, \
-    KISS_PATH, COLOR_TEXT_BUTTON, STATE_END, STATE_WIN, STATE_CONTINUE, KISS_SOUND_PATH, BACKGROUND_MUSIC_PATH, \
+    KISS_PATH, COLOR_TEXT_BUTTON, STATE_END, STATE_WIN, STATE_CONTINUE, KISS_SOUND_PATH, \
     STATIC_FIRE_PATH, WIDTH, HEIGHT, KISS_SIZE
 from config.Camera import Camera
 from models import ANIMATED_DIE
@@ -42,7 +42,6 @@ class Level:
         self.camera = Camera(self.map.width * self.tile_size, self.map.height * self.tile_size)
 
         self.kiss_image = image.load(KISS_PATH).convert_alpha()
-        Level.load_background_music()
 
     def load_game(self):
         for y in range(self.map.height):
@@ -86,6 +85,13 @@ class Level:
             self.dead_mario.draw(screen, self.camera)
         self.princess.draw(screen, self.camera)
 
+        for widg in self.blocks:
+            widg.draw(screen, self.camera)
+        for widg in self.enemies:
+            widg.draw(screen, self.camera)
+        for widg in self.bonus:
+            widg.draw(screen, self.camera)
+
         if self.is_win_end:
             self.is_win += 1
 
@@ -95,13 +101,6 @@ class Level:
             )
             Sound(KISS_SOUND_PATH).play()
             wait(1000)
-
-        for widg in self.blocks:
-            widg.draw(screen, self.camera)
-        for widg in self.enemies:
-            widg.draw(screen, self.camera)
-        for widg in self.bonus:
-            widg.draw(screen, self.camera)
 
         self.__draw_information(screen)
 
@@ -141,8 +140,8 @@ class Level:
         screen.blit(money_text, (275, 0, 150, 50))
 
     @staticmethod
-    def load_background_music():
-        music.load(BACKGROUND_MUSIC_PATH)
+    def load_background_music(music_path):
+        music.load(music_path)
         music.play(-1, 0.0)
 
 
