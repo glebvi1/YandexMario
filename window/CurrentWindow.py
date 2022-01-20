@@ -13,9 +13,6 @@ class CurrentWindow:
         self.__set_buttons()
         self.current_level = None
 
-        self.levels = [LEVEL1_PATH,
-                       LEVEL2_PATH]
-
     def __set_buttons(self):
         self.buttons = [
             Button((100, 100, 220, 50), "Уровень 1"),

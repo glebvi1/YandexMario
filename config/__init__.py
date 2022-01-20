@@ -31,7 +31,7 @@ KISS_SIZE = 500
 MUS_PATH1 = f"{RESOURCES_DIR}/music/background_music.mp3"
 MUS_PATH2 = f"{RESOURCES_DIR}/music/background_music2.mp3"
 MUS_PATH3 = f"{RESOURCES_DIR}/music/background_music3.mp3"
-MUS_PATH4 = f"{RESOURCES_DIR}/music/background_music.mp3"
+MUS_PATH4 = f"{RESOURCES_DIR}/music/background_music4.mp3"
 MUS_PATH5 = f"{RESOURCES_DIR}/music/background_music.mp3"
 
 BUMBS_SOUND_PATH = f"{RESOURCES_DIR}/music/bumbs_sound.mp3"

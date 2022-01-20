@@ -16,6 +16,7 @@ from models.MoveFire import MoveFire
 from models.QBlock import QBlock
 
 
+
 class Level:
     def __init__(self, level_path: str, level_number: int):
         self.mario = None
@@ -212,26 +213,29 @@ class Level4(Level3):
     def add_mario_object(self, mo_id, x, y, image):
         coords = (x * self.tile_size, y * self.tile_size)
 
-        if mo_id == 595 or mo_id == 474:
+        if mo_id == 596:
             self.mario = Mario(coords, MARIO_PATH)
-        elif mo_id == 596 or mo_id == 478:
+        elif mo_id == 597:
             self.princess = MarioObject(coords, PRINCESS_PATH)
-        elif 198 < mo_id <= 269 or mo_id == 479:
+        elif 81 < mo_id <= 152 or mo_id in [362, 505]:
             self.background1.append(BaseMarioObject(coords, image))
-        elif mo_id in [27, 28, 29, 30, 31, 155, 40, 41, 42, 43, 44, 53, 54, 55, 56, 57, 66,
-                       67, 68, 69, 70, 79, 80, 81, 82, 83, 14, 15, 16, 17, 18, 92, 93, 94, 95,
-                       96, 20, 19]:
+        elif  mo_id in [500, 501, 502, 503, 504, 513, 514, 515, 516, 517, 526, \
+                        527, 528, 529, 530, 539, 540, 541, 542, 543, 552, 553, \
+                        554, 555, 556, 565, 566, 567, 568, 569]:
             self.background2.append(BaseMarioObject(coords, image))
         elif mo_id == 593:
-            self.enemies.append(MoveFire(coords, STATIC_FIRE_PATH))
+            self.enemies.append(MoveFire(coords, MOVE_FIRE_PATH))
+        elif mo_id == 595:
+            self.enemies.append(MoveFire(coords, STATIC_FIRE_PATH, direction=0))
         elif mo_id == 591:
             self.blocks.append(QBlock(coords, QBLOCKS_PATH))
         elif mo_id == 594:
             self.enemies.append(FlyDeath(coords, FLY_DEATH_PATH))
         elif mo_id == 592:
             self.bonus.append(MarioObject(coords, MONEY_PATH))
-        elif mo_id in [45, 75, 76, 77, 10, 51, 52, 180, 189]:
+        elif mo_id in [63, 153, 72, 483, 548, 549, 524, 525]:
             self.blocks.append(BaseMarioObject(coords, image))
+
 
 
 class Level5(Level4):
