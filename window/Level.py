@@ -5,7 +5,7 @@ from pytmx import load_pygame
 
 from config import MARIO_PATH, PRINCESS_PATH, MOVE_FIRE_PATH, BLOCKS_PATH, QBLOCKS_PATH, FLY_DEATH_PATH, MONEY_PATH, \
     KISS_PATH, COLOR_TEXT_BUTTON, STATE_END, STATE_WIN, STATE_CONTINUE, KISS_SOUND_PATH, BACKGROUND_MUSIC_PATH, \
-    STATIC_FIRE_PATH
+    STATIC_FIRE_PATH, WIDTH, HEIGHT, KISS_SIZE
 from config.Camera import Camera
 from models import ANIMATED_DIE
 from models.DeadMario import DeadMario
@@ -29,7 +29,7 @@ class Level:
         self.background2 = []
 
         self.is_end = False
-        self.is_win = False
+        self.is_win = 0
         self.is_win_end = False
 
         self.level_number = level_number
@@ -53,7 +53,7 @@ class Level:
                 tile_id = self.map.tiledgidmap[self.map.get_tile_gid(x, y, 0)]
                 self.add_mario_object(tile_id, x, y)
 
-    def add_mario_object(self, mo_id, x, y):
+    def add_mario_object(self, mo_id, x, y, image=""):
         coords = (x * self.tile_size, y * self.tile_size)
 
         if mo_id == 1:
@@ -78,7 +78,7 @@ class Level:
             widg.draw(screen, self.camera)
         for widg in self.background2:
             widg.draw(screen, self.camera)
-        self.mario.draw(screen, self.camera)
+
         if self.dead_mario is None:
             self.mario.draw(screen, self.camera)
         else:
@@ -86,10 +86,11 @@ class Level:
         self.princess.draw(screen, self.camera)
 
         if self.is_win_end:
-            self.is_win = True
+            self.is_win += 1
+
             screen.blit(
                 self.kiss_image,
-                (self.princess.rect.x - self.camera.state.x, self.princess.rect.y - self.camera.state.y)
+                ((WIDTH - KISS_SIZE) // 2, (HEIGHT - KISS_SIZE) // 2)
             )
             Sound(KISS_SOUND_PATH).play()
             wait(1000)
@@ -125,7 +126,7 @@ class Level:
         if state == STATE_END:
             return STATE_END if self.is_end else STATE_CONTINUE
         if state == STATE_WIN:
-            return STATE_WIN if self.is_win else STATE_CONTINUE
+            return STATE_WIN if self.is_win == 2 else STATE_CONTINUE
 
         return state
 
@@ -154,7 +155,7 @@ class Level2(Level):
                         tile_id = self.map.tiledgidmap[self.map.get_tile_gid(x, y, layer)]
                         self.add_mario_object(tile_id, x, y, image)
 
-    def add_mario_object(self, mo_id, x, y, image):
+    def add_mario_object(self, mo_id, x, y, image=""):
         coords = (x * self.tile_size, y * self.tile_size)
 
         if mo_id == 595:

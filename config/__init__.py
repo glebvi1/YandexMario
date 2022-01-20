@@ -26,6 +26,8 @@ FLY_DEATH_PATH = f"{RESOURCES_DIR}/enemies/fly_death.png"
 STATIC_FIRE_PATH = f"{RESOURCES_DIR}/enemies/static_fire.png"
 KISS_PATH = f"{RESOURCES_DIR}/heros/kiss.png"
 
+KISS_SIZE = 500
+
 BACKGROUND_MUSIC_PATH = f"{RESOURCES_DIR}/music/background_music.mp3"
 
 BUMBS_SOUND_PATH = f"{RESOURCES_DIR}/music/bumbs_sound.mp3"
