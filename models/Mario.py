@@ -28,6 +28,7 @@ class Mario(MarioObject):
         self.count_bumps = 3
         self.count_money = 0
         self.active_bump = None
+        self.last_throw = 100
 
         self.start_time = time.perf_counter()
 
@@ -59,6 +60,7 @@ class Mario(MarioObject):
         if self.active_bump is not None:
             if not self.active_bump.update(dt):
                 self.active_bump = None
+
             elif self.active_bump.is_collide(window.blocks, window.enemies, window.bonus):
                 self.active_bump = None
 
@@ -72,6 +74,7 @@ class Mario(MarioObject):
         :param dt: время в милисекундах
         :param platforms: лист с блоками
         """
+        self.was_collide = False
         self.on_ground = False
         self.rect.y += MarioObject._direction_round(self.direction_y * dt / 100)
         self.__collide_with_blocks(0, self.direction_y, platforms)
@@ -83,12 +86,14 @@ class Mario(MarioObject):
         """Марио бросает шишку
         :param left: двигается ли герой на лево
         """
-        if self.count_bumps > 0 and self.active_bump is None:
+        if self.count_bumps > 0 and self.active_bump is None and time.time() - self.last_throw > 0.5:
             direction = -1 if left else 1
             bumps_coords = (self.rect.x + BUMP_WIDTH, self.rect.y + MARIO_HEIGHT // 2)
             bump = Bump(bumps_coords, BUMP_PATH, direction)
+
             self.count_bumps -= 1
             self.active_bump = bump
+            self.last_throw = time.time()
             Sound(BUMBS_SOUND_PATH).play()
 
     def __set_direction(self, vector: Tuple[bool, bool, bool, bool]) -> None:
@@ -122,7 +127,7 @@ class Mario(MarioObject):
         if not self.on_ground:
             self.direction_y += GRAVITATION
 
-        if throw:
+        if throw and not self.was_collide:
             self.__throw_bump(left)
 
     def __collide_with_blocks(self, control_x: float, control_y: float,
@@ -137,9 +142,11 @@ class Mario(MarioObject):
 
                 if control_x > 0:  # вправо
                     self.rect.right = p.rect.left
+                    self.was_collide = True
 
                 if control_x < 0:  # влево
                     self.rect.left = p.rect.right
+                    self.was_collide = True
 
                 if control_y > 0:  # вниз
                     self.rect.bottom = p.rect.top
