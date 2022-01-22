@@ -140,8 +140,6 @@ class Mario(MarioObject):
         """
         for p in platforms:
             if sprite.collide_rect(self, p):
-                if isinstance(p, Teleport):
-                    self.__teleporting(p)
 
                 if control_x > 0:  # вправо
                     self.rect.right = p.rect.left
@@ -152,9 +150,12 @@ class Mario(MarioObject):
                     self.was_collide = True
 
                 if control_y > 0:  # вниз
-                    self.rect.bottom = p.rect.top
-                    self.on_ground = True
-                    self.direction_y = 0
+                    if isinstance(p, Teleport):
+                        self.__teleporting(p)
+                    else:
+                        self.rect.bottom = p.rect.top
+                        self.on_ground = True
+                        self.direction_y = 0
 
                 if control_y < 0:  # вверх
                     self.rect.top = p.rect.bottom
@@ -193,7 +194,10 @@ class Mario(MarioObject):
         save_game(False, self.get_current_time(), level_number, self.count_money)
 
     def __teleporting(self, teleport):
-        self.rect.x, self.rect.y = teleport.go_coords[0] + 20, teleport.go_coords[1] + 15
+        print(self.rect.x, self.rect.y)
+        print(teleport.go_coords[0] + 20, teleport.go_coords[1] + 15)
+        self.rect.x, self.rect.y = teleport.go_coords[0] + 20, teleport.go_coords[1] - 20
+        print(self.rect.x, self.rect.y)
 
     def get_current_time(self) -> str:
         """Время, проведенное в игре"""
