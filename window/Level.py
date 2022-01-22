@@ -170,7 +170,9 @@ class Level2(Level):
                        96, 20, 19]:
             self.background2.append(BaseMarioObject(coords, image))
         elif mo_id == 593:
-            self.enemies.append(MoveFire(coords, STATIC_FIRE_PATH))
+            self.enemies.append(MoveFire(coords, MOVE_FIRE_PATH))
+        elif mo_id == 597:
+            self.enemies.append(MoveFire(coords, STATIC_FIRE_PATH, direction=0))
         elif mo_id == 591:
             self.blocks.append(QBlock(coords, QBLOCKS_PATH))
         elif mo_id == 594:
@@ -242,23 +244,26 @@ class Level5(Level4):
     def add_mario_object(self, mo_id, x, y, image):
         coords = (x * self.tile_size, y * self.tile_size)
 
-        if mo_id == 595 or mo_id == 474:
+        if mo_id == 593:
             self.mario = Mario(coords, MARIO_PATH)
-        elif mo_id == 596 or mo_id == 478:
-            self.princess = MarioObject(coords, PRINCESS_PATH)
-        elif 198 < mo_id <= 269 or mo_id == 479:
-            self.background1.append(BaseMarioObject(coords, image))
-        elif mo_id in [27, 28, 29, 30, 31, 155, 40, 41, 42, 43, 44, 53, 54, 55, 56, 57, 66,
-                       67, 68, 69, 70, 79, 80, 81, 82, 83, 14, 15, 16, 17, 18, 92, 93, 94, 95,
-                       96, 20, 19]:
-            self.background2.append(BaseMarioObject(coords, image))
-        elif mo_id == 593:
-            self.enemies.append(MoveFire(coords, STATIC_FIRE_PATH))
-        elif mo_id == 591:
-            self.blocks.append(QBlock(coords, QBLOCKS_PATH))
         elif mo_id == 594:
+            self.princess = MarioObject(coords, PRINCESS_PATH)
+        elif 1 <= mo_id <= 71 or mo_id == 281:
+            self.background1.append(BaseMarioObject(coords, image))
+        elif mo_id in [533, 502, 503, 504, 505, 506, 515, 516, 517, 518, 519, 528, 529, 530, 531, \
+                       532, 541, 542, 543, 544, 545, 554, 555, 556, 557, 558, 567, 568, 569,\
+                       570, 571, 398, 399, 476, 477, 478, 479, 480, 407, 408, 489, 490, 491, \
+                       492, 493, 416, 417, 495, 494]:
+            self.background2.append(BaseMarioObject(coords, image))
+        elif mo_id == 595:
+            self.enemies.append(MoveFire(coords, MOVE_FIRE_PATH))
+        elif mo_id == 597:
+            self.enemies.append(MoveFire(coords, STATIC_FIRE_PATH, direction=0))
+        elif mo_id == 475:
+            self.blocks.append(QBlock(coords, QBLOCKS_PATH))
+        elif mo_id == 596:
             self.enemies.append(FlyDeath(coords, FLY_DEATH_PATH))
-        elif mo_id == 592:
+        elif mo_id == 474:
             self.bonus.append(MarioObject(coords, MONEY_PATH))
-        elif mo_id in [45, 75, 76, 77, 10, 51, 52, 180, 189]:
+        elif mo_id in [72, 520, 455, 464, 595, 546, 559, 560, 547, 550, 551, 552, 548, 526, 527]:
             self.blocks.append(BaseMarioObject(coords, image))
