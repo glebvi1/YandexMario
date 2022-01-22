@@ -193,7 +193,7 @@ class Mario(MarioObject):
         save_game(False, self.get_current_time(), level_number, self.count_money)
 
     def __teleporting(self, teleport):
-        self.rect.x, self.rect.y = teleport.go_coords
+        self.rect.x, self.rect.y = teleport.go_coords[0] + 20, teleport.go_coords[1] + 15
 
     def get_current_time(self) -> str:
         """Время, проведенное в игре"""

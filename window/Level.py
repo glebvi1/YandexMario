@@ -45,8 +45,8 @@ class Level:
         self.kiss_image = image.load(KISS_PATH).convert_alpha()
 
         # drop code
-        self.blocks.append(Teleport((100, 100), QBLOCKS_PATH, (200, 100)))
-        self.blocks.append(Teleport((200, 100), QBLOCKS_PATH, (100, 100)))
+        self.blocks.append(Teleport((100, 120), QBLOCKS_PATH, (200, 120)))
+        self.blocks.append(Teleport((200, 120), QBLOCKS_PATH, (100, 120)))
 
     def load_game(self):
         for y in range(self.map.height):
