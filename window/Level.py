@@ -5,7 +5,7 @@ from pytmx import load_pygame
 
 from config import MARIO_PATH, PRINCESS_PATH, MOVE_FIRE_PATH, BLOCKS_PATH, QBLOCKS_PATH, FLY_DEATH_PATH, MONEY_PATH, \
     KISS_PATH, COLOR_TEXT_BUTTON, STATE_END, STATE_WIN, STATE_CONTINUE, KISS_SOUND_PATH, \
-    STATIC_FIRE_PATH, WIDTH, HEIGHT, KISS_SIZE
+    STATIC_FIRE_PATH, WIDTH, HEIGHT, KISS_SIZE, TELEPORT_PATH
 from config.Camera import Camera
 from models import ANIMATED_DIE
 from models.DeadMario import DeadMario
@@ -44,10 +44,6 @@ class Level:
 
         self.kiss_image = image.load(KISS_PATH).convert_alpha()
 
-        # drop code
-        self.blocks.append(Teleport((100, 120), QBLOCKS_PATH, (200, 120)))
-        self.blocks.append(Teleport((200, 120), QBLOCKS_PATH, (100, 120)))
-
     def load_game(self):
         for y in range(self.map.height):
             for x in range(self.map.width):
@@ -75,6 +71,8 @@ class Level:
             self.enemies.append(FlyDeath(coords, FLY_DEATH_PATH))
         elif mo_id == 7:
             self.bonus.append(MarioObject(coords, MONEY_PATH))
+        self.blocks.append(Teleport((100, 160), TELEPORT_PATH, (900, 160)))
+        self.blocks.append(Teleport((900, 160), TELEPORT_PATH, (100, 160)))
 
     def draw(self, screen) -> None:
         screen.fill((85, 146, 203))

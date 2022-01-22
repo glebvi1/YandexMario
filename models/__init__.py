@@ -20,8 +20,10 @@ FLY_DEATH_MAX_LEN = 100
 FLY_DEATH_MAX_HEIGHT = 50
 
 ANIMATED_LEFT = f"{RESOURCES_DIR}/heros/left.png"
+ANIMATED_LEFT2 = f"{RESOURCES_DIR}/heros/left2.png"
 ANIMATED_STATE = f"{RESOURCES_DIR}/heros/0.png"
 ANIMATED_RIGHT = f"{RESOURCES_DIR}/heros/right.png"
+ANIMATED_RIGHT2 = f"{RESOURCES_DIR}/heros/right2.png"
 ANIMATED_JUMP = f"{RESOURCES_DIR}/heros/jump.png"
 ANIMATED_LJUMP = f"{RESOURCES_DIR}/heros/jump_left.png"
 ANIMATED_RJUMP = f"{RESOURCES_DIR}/heros/jump_right.png"
