@@ -25,7 +25,7 @@ class Mario(MarioObject):
         self.direction_x = 0
         self.direction_y = 0
 
-        self.count_bumps = 3
+        self.count_bumps = 5
         self.count_money = 0
         self.active_bump = None
         self.last_throw = 100
