@@ -1,7 +1,7 @@
-import MarioObject
+from models.MarioObject import MarioObject, BaseMarioObject
 
 
-class BlockTeleport(MarioObject):
+class BlockTeleport(BaseMarioObject):
     def __init__(self, x, y, goX,goY):
         super().__init__(self, x, y)
         self.goX = goX # координаты назначения перемещения
