@@ -1,5 +1,4 @@
 import sqlite3
-from typing import List, Tuple
 
 
 def save_game(is_win: bool, time: str, level_number: int, count_money: int) -> None:
@@ -21,7 +20,7 @@ def save_game(is_win: bool, time: str, level_number: int, count_money: int) -> N
     connection.close()
 
 
-def get_level_number_by_win(is_win: bool) -> List[Tuple[int, str, int], ...]:
+def get_level_number_by_win(is_win: bool):
     """Возращаем выигранные уровни, если is_win=True, иначе - проигранные
     :param is_win: True = выигранные; False = проигранные
     """
