@@ -9,7 +9,6 @@ class Camera:
         self.state = Rect(0, 0, w, h)
         self.w = w
         self.h = h
-        print(w, h)
 
     def update(self, target: Mario):
         self.state.x = min(max(target.rect.x - WIDTH // 2, 0), self.w)

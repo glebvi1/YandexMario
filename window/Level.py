@@ -14,7 +14,7 @@ from models.Mario import Mario
 from models.MarioObject import MarioObject, BaseMarioObject
 from models.MoveFire import MoveFire
 from models.QBlock import QBlock
-
+from models.Teleport import Teleport
 
 
 class Level:
@@ -43,6 +43,10 @@ class Level:
         self.camera = Camera(self.map.width * self.tile_size, self.map.height * self.tile_size)
 
         self.kiss_image = image.load(KISS_PATH).convert_alpha()
+
+        # drop code
+        self.blocks.append(Teleport((100, 100), QBLOCKS_PATH, (200, 100)))
+        self.blocks.append(Teleport((200, 100), QBLOCKS_PATH, (100, 100)))
 
     def load_game(self):
         for y in range(self.map.height):
@@ -221,8 +225,8 @@ class Level4(Level3):
             self.princess = MarioObject(coords, PRINCESS_PATH)
         elif 81 < mo_id <= 152 or mo_id in [362, 505]:
             self.background1.append(BaseMarioObject(coords, image))
-        elif  mo_id in [500, 501, 502, 503, 504, 513, 514, 515, 516, 517, 526, \
-                        527, 528, 529, 530, 539, 540, 541, 542, 543, 552, 553, \
+        elif  mo_id in [500, 501, 502, 503, 504, 513, 514, 515, 516, 517, 526,
+                        527, 528, 529, 530, 539, 540, 541, 542, 543, 552, 553,
                         554, 555, 556, 565, 566, 567, 568, 569]:
             self.background2.append(BaseMarioObject(coords, image))
         elif mo_id == 593:
@@ -250,9 +254,9 @@ class Level5(Level4):
             self.princess = MarioObject(coords, PRINCESS_PATH)
         elif 1 <= mo_id <= 71 or mo_id == 281:
             self.background1.append(BaseMarioObject(coords, image))
-        elif mo_id in [533, 502, 503, 504, 505, 506, 515, 516, 517, 518, 519, 528, 529, 530, 531, \
-                       532, 541, 542, 543, 544, 545, 554, 555, 556, 557, 558, 567, 568, 569,\
-                       570, 571, 398, 399, 476, 477, 478, 479, 480, 407, 408, 489, 490, 491, \
+        elif mo_id in [533, 502, 503, 504, 505, 506, 515, 516, 517, 518, 519, 528, 529, 530, 531,
+                       532, 541, 542, 543, 544, 545, 554, 555, 556, 557, 558, 567, 568, 569,
+                       570, 571, 398, 399, 476, 477, 478, 479, 480, 407, 408, 489, 490, 491,
                        492, 493, 416, 417, 495, 494]:
             self.background2.append(BaseMarioObject(coords, image))
         elif mo_id == 595:

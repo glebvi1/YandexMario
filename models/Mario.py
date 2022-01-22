@@ -10,6 +10,7 @@ from models import MARIO_SPEED, MARIO_JUMP_POWER, GRAVITATION, MARIO_HEIGHT, BUM
     ANIMATED_JUMP, ANIMATED_LEFT, ANIMATED_STATE, ANIMATED_LJUMP, ANIMATED_RJUMP
 from models.Bump import Bump
 from models.MarioObject import MarioObject
+from models.Teleport import Teleport
 
 
 class Mario(MarioObject):
@@ -25,7 +26,7 @@ class Mario(MarioObject):
         self.direction_x = 0
         self.direction_y = 0
 
-        self.count_bumps = 3
+        self.count_bumps = 5
         self.count_money = 0
         self.active_bump = None
         self.last_throw = 100
@@ -139,6 +140,8 @@ class Mario(MarioObject):
         """
         for p in platforms:
             if sprite.collide_rect(self, p):
+                if isinstance(p, Teleport):
+                    self.__teleporting(p)
 
                 if control_x > 0:  # вправо
                     self.rect.right = p.rect.left
@@ -189,10 +192,12 @@ class Mario(MarioObject):
                 return
         save_game(False, self.get_current_time(), level_number, self.count_money)
 
+    def __teleporting(self, teleport):
+        self.rect.x, self.rect.y = teleport.go_coords
+
     def get_current_time(self) -> str:
         """Время, проведенное в игре"""
         return Mario.__get_str_time(time.perf_counter() - self.start_time)
-
     @staticmethod
     def __get_str_time(game_time) -> str:
         """Перевод времени в строку"""

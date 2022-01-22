@@ -1,5 +1,6 @@
-from pygame import sprite, image
 from math import ceil, floor
+
+from pygame import sprite, image
 
 
 class BaseMarioObject(sprite.Sprite):
