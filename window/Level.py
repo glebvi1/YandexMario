@@ -53,7 +53,7 @@ class Level:
                 tile_id = self.map.tiledgidmap[self.map.get_tile_gid(x, y, 0)]
                 self.add_mario_object(tile_id, x, y)
 
-    def add_mario_object(self, mo_id, x, y, image=""):
+    def add_mario_object(self, mo_id, x, y, mo_image=None):
         coords = (x * self.tile_size, y * self.tile_size)
 
         if mo_id == 1:
@@ -153,12 +153,12 @@ class Level2(Level):
         for layer in range(3):
             for y in range(self.map.height):
                 for x in range(self.map.width):
-                    image = self.map.get_tile_image(x, y, layer)
-                    if image is not None:
+                    mo_image = self.map.get_tile_image(x, y, layer)
+                    if mo_image is not None:
                         tile_id = self.map.tiledgidmap[self.map.get_tile_gid(x, y, layer)]
-                        self.add_mario_object(tile_id, x, y, image)
+                        self.add_mario_object(tile_id, x, y, mo_image)
 
-    def add_mario_object(self, mo_id, x, y, image=""):
+    def add_mario_object(self, mo_id, x, y, mo_image=None):
         coords = (x * self.tile_size, y * self.tile_size)
 
         if mo_id == 595:
@@ -166,11 +166,11 @@ class Level2(Level):
         elif mo_id == 596 or mo_id == 478:
             self.princess = MarioObject(coords, PRINCESS_PATH)
         elif 198 < mo_id <= 269 or mo_id == 479:
-            self.background1.append(BaseMarioObject(coords, image))
+            self.background1.append(BaseMarioObject(coords, mo_image))
         elif mo_id in [27, 28, 29, 30, 31, 155, 40, 41, 42, 43, 44, 53, 54, 55, 56, 57, 66,
                        67, 68, 69, 70, 79, 80, 81, 82, 83, 14, 15, 16, 17, 18, 92, 93, 94, 95,
                        96, 20, 19]:
-            self.background2.append(BaseMarioObject(coords, image))
+            self.background2.append(BaseMarioObject(coords, mo_image))
         elif mo_id == 593:
             self.enemies.append(MoveFire(coords, MOVE_FIRE_PATH))
         elif mo_id == 597:
@@ -182,11 +182,11 @@ class Level2(Level):
         elif mo_id == 592:
             self.bonus.append(MarioObject(coords, MONEY_PATH))
         elif mo_id in [45, 75, 76, 77, 10, 51, 52, 180, 189, 270]:
-            self.blocks.append(BaseMarioObject(coords, image))
+            self.blocks.append(BaseMarioObject(coords, mo_image))
 
 
 class Level3(Level2):
-    def add_mario_object(self, mo_id, x, y, image):
+    def add_mario_object(self, mo_id, x, y, mo_image=None):
         coords = (x * self.tile_size, y * self.tile_size)
 
         if mo_id == 474:
@@ -194,11 +194,11 @@ class Level3(Level2):
         elif mo_id == 478:
             self.princess = MarioObject(coords, PRINCESS_PATH)
         elif 1 <= mo_id <= 71 or mo_id == 281:
-            self.background1.append(BaseMarioObject(coords, image))
+            self.background1.append(BaseMarioObject(coords, mo_image))
         elif mo_id in [561, 537, 80, 481, 482, 499, 493, 494, 495, 506, 507, 508, 509, 510,
                        519, 520, 521, 522, 523, 532, 533, 534, 535, 536, 545, 546, 547,
                        548, 549, 558, 559, 560, 561, 562, 571, 572, 573, 574, 575]:
-            self.background2.append(BaseMarioObject(coords, image))
+            self.background2.append(BaseMarioObject(coords, mo_image))
         elif mo_id == 475:
             self.enemies.append(MoveFire(coords, MOVE_FIRE_PATH))
         elif mo_id == 479:
@@ -208,13 +208,13 @@ class Level3(Level2):
         elif mo_id == 477:
             self.bonus.append(MarioObject(coords, MONEY_PATH))
         elif mo_id in [524, 464, 455, 477, 551, 550, 563, 564, 530, 531, 554, 555, 556, 552, 72]:
-            self.blocks.append(BaseMarioObject(coords, image))
+            self.blocks.append(BaseMarioObject(coords, mo_image))
         elif mo_id == 597:
-            self.enemies.append(BaseMarioObject(coords, image))
+            self.enemies.append(BaseMarioObject(coords, mo_image))
 
 
 class Level4(Level3):
-    def add_mario_object(self, mo_id, x, y, image):
+    def add_mario_object(self, mo_id, x, y, mo_image=None):
         coords = (x * self.tile_size, y * self.tile_size)
 
         if mo_id == 596:
@@ -222,11 +222,11 @@ class Level4(Level3):
         elif mo_id == 597:
             self.princess = MarioObject(coords, PRINCESS_PATH)
         elif 81 < mo_id <= 152 or mo_id in [362, 505]:
-            self.background1.append(BaseMarioObject(coords, image))
-        elif  mo_id in [500, 501, 502, 503, 504, 513, 514, 515, 516, 517, 526,
+            self.background1.append(BaseMarioObject(coords, mo_image))
+        elif mo_id in [500, 501, 502, 503, 504, 513, 514, 515, 516, 517, 526,
                         527, 528, 529, 530, 539, 540, 541, 542, 543, 552, 553,
                         554, 555, 556, 565, 566, 567, 568, 569]:
-            self.background2.append(BaseMarioObject(coords, image))
+            self.background2.append(BaseMarioObject(coords, mo_image))
         elif mo_id == 593:
             self.enemies.append(MoveFire(coords, MOVE_FIRE_PATH))
         elif mo_id == 595:
@@ -238,12 +238,11 @@ class Level4(Level3):
         elif mo_id == 592:
             self.bonus.append(MarioObject(coords, MONEY_PATH))
         elif mo_id in [63, 153, 72, 483, 548, 549, 524, 525]:
-            self.blocks.append(BaseMarioObject(coords, image))
-
+            self.blocks.append(BaseMarioObject(coords, mo_image))
 
 
 class Level5(Level4):
-    def add_mario_object(self, mo_id, x, y, image):
+    def add_mario_object(self, mo_id, x, y, mo_image=None):
         coords = (x * self.tile_size, y * self.tile_size)
 
         if mo_id == 593:
@@ -251,12 +250,12 @@ class Level5(Level4):
         elif mo_id == 594:
             self.princess = MarioObject(coords, PRINCESS_PATH)
         elif 1 <= mo_id <= 71 or mo_id == 281:
-            self.background1.append(BaseMarioObject(coords, image))
+            self.background1.append(BaseMarioObject(coords, mo_image))
         elif mo_id in [533, 502, 503, 504, 505, 506, 515, 516, 517, 518, 519, 528, 529, 530, 531,
                        532, 541, 542, 543, 544, 545, 554, 555, 556, 557, 558, 567, 568, 569,
                        570, 571, 398, 399, 476, 477, 478, 479, 480, 407, 408, 489, 490, 491,
                        492, 493, 416, 417, 495, 494]:
-            self.background2.append(BaseMarioObject(coords, image))
+            self.background2.append(BaseMarioObject(coords, mo_image))
         elif mo_id == 595:
             self.enemies.append(MoveFire(coords, MOVE_FIRE_PATH))
         elif mo_id == 597:
@@ -268,4 +267,4 @@ class Level5(Level4):
         elif mo_id == 474:
             self.bonus.append(MarioObject(coords, MONEY_PATH))
         elif mo_id in [72, 520, 455, 464, 595, 546, 559, 560, 547, 550, 551, 552, 548, 526, 527]:
-            self.blocks.append(BaseMarioObject(coords, image))
+            self.blocks.append(BaseMarioObject(coords, mo_image))

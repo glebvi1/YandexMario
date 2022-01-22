@@ -1,7 +1,7 @@
 from pygame.rect import Rect
 
 from config import WIDTH, HEIGHT
-from models.Mario import Mario
+from models.MarioObject import MarioObject
 
 
 class Camera:
@@ -10,6 +10,6 @@ class Camera:
         self.w = w
         self.h = h
 
-    def update(self, target: Mario):
+    def update(self, target: MarioObject):
         self.state.x = min(max(target.rect.x - WIDTH // 2, 0), self.w)
         self.state.y = min(max(target.rect.y - HEIGHT // 2, 0), self.h)

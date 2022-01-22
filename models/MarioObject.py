@@ -4,15 +4,15 @@ from pygame import sprite, image
 
 
 class BaseMarioObject(sprite.Sprite):
-    def __init__(self, coordinate, image) -> None:
+    def __init__(self, coordinate, mo_image) -> None:
         """Базовый класс для любого объекта игры
         :param coordinate: начальные координаты спрайта
-        :param image_path: путь к картинке
+        :param mo_image: путь к картинке
         """
         sprite.Sprite.__init__(self)
         self.coordinate = coordinate
 
-        self.image = image
+        self.image = mo_image
         self.rect = self.image.get_rect(center=(coordinate[0], coordinate[1]))
 
     def draw(self, screen, camera) -> None:

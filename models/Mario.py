@@ -1,10 +1,11 @@
 import time
 from typing import Tuple, List
 
-from pygame import sprite, image
+from pygame import sprite, image, Surface
 from pygame.mixer import Sound
 
 from config import BUMP_PATH, BUMBS_SOUND_PATH, STATE_CONTINUE, STATE_END, STATE_WIN, START_SOUND_PATH
+from config.Camera import Camera
 from dao.db_mario_handler import save_game, get_level_number_by_win
 from models import MARIO_SPEED, MARIO_JUMP_POWER, GRAVITATION, MARIO_HEIGHT, BUMP_WIDTH, ANIMATED_RIGHT, \
     ANIMATED_JUMP, ANIMATED_LEFT, ANIMATED_STATE, ANIMATED_LJUMP, ANIMATED_RJUMP
@@ -35,7 +36,7 @@ class Mario(MarioObject):
 
         Sound(START_SOUND_PATH).play()
 
-    def draw(self, screen, camera) -> None:
+    def draw(self, screen: Surface, camera: Camera) -> None:
         """Отрисовываем спрайт
         :param screen: экран игры
         :param camera: камера
@@ -70,18 +71,18 @@ class Mario(MarioObject):
         self.__move(dt, window.blocks)
         return STATE_CONTINUE
 
-    def __move(self, dt: int, platforms: List[MarioObject]) -> None:
+    def __move(self, dt: int, blocks: List[MarioObject]) -> None:
         """Метод передвигает Марио
         :param dt: время в милисекундах
-        :param platforms: лист с блоками
+        :param blocks: лист с блоками
         """
         self.was_collide = False
         self.on_ground = False
         self.rect.y += MarioObject._direction_round(self.direction_y * dt / 100)
-        self.__collide_with_blocks(0, self.direction_y, platforms)
+        self.__collide_with_blocks(0, self.direction_y, blocks)
 
         self.rect.x += MarioObject._direction_round(self.direction_x * dt / 100)
-        self.__collide_with_blocks(self.direction_x, 0, platforms)
+        self.__collide_with_blocks(self.direction_x, 0, blocks)
 
     def __throw_bump(self, left: bool) -> None:
         """Марио бросает шишку
@@ -132,13 +133,13 @@ class Mario(MarioObject):
             self.__throw_bump(left)
 
     def __collide_with_blocks(self, control_x: float, control_y: float,
-                              platforms: List[MarioObject]) -> None:
+                              blocks: List[MarioObject]) -> None:
         """Определяем столкновения с блоками
         :param control_x: направление по x
-        :param platforms: лист с блоками
+        :param blocks: лист с блоками
         :param control_y: направление по y
         """
-        for p in platforms:
+        for p in blocks:
             if sprite.collide_rect(self, p):
 
                 if control_x > 0:  # вправо
@@ -170,7 +171,10 @@ class Mario(MarioObject):
                 return True
         return False
 
-    def __collide_with_bonus(self, bonus: List[MarioObject]):
+    def __collide_with_bonus(self, bonus: List[MarioObject]) -> None:
+        """Пересечение марио с бонусом: монеткой или шишкой
+        :param bonus: список всех бонусов в игре
+        """
         for bon in bonus.copy():
             if sprite.collide_rect(self, bon):
                 if isinstance(bon, Bump):
@@ -180,9 +184,7 @@ class Mario(MarioObject):
 
                 bonus.remove(bon)
 
-        return False
-
-    def __save_lose_game(self, level_number) -> None:
+    def __save_lose_game(self, level_number: int) -> None:
         """Сохранение проигранного уровня в БД
         :param level_number: номер уровня
         """
@@ -193,15 +195,16 @@ class Mario(MarioObject):
                 return
         save_game(False, self.get_current_time(), level_number, self.count_money)
 
-    def __teleporting(self, teleport):
-        print(self.rect.x, self.rect.y)
-        print(teleport.go_coords[0] + 20, teleport.go_coords[1] + 15)
+    def __teleporting(self, teleport: Teleport) -> None:
+        """Телепортируем Марио
+        :param teleport: телепорт, на который наступил Марио
+        """
         self.rect.x, self.rect.y = teleport.go_coords[0] + 20, teleport.go_coords[1] - 20
-        print(self.rect.x, self.rect.y)
 
     def get_current_time(self) -> str:
         """Время, проведенное в игре"""
         return Mario.__get_str_time(time.perf_counter() - self.start_time)
+
     @staticmethod
     def __get_str_time(game_time) -> str:
         """Перевод времени в строку"""
