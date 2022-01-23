@@ -7,8 +7,9 @@ from pygame.mixer import Sound
 from config import BUMP_PATH, BUMBS_SOUND_PATH, STATE_CONTINUE, STATE_END, STATE_WIN, START_SOUND_PATH
 from config.Camera import Camera
 from dao.db_mario_handler import save_game, get_level_number_by_win
-from models import MARIO_SPEED, MARIO_JUMP_POWER, GRAVITATION, MARIO_HEIGHT, BUMP_WIDTH, ANIMATED_RIGHT, \
-    ANIMATED_JUMP, ANIMATED_LEFT, ANIMATED_STATE, ANIMATED_LJUMP, ANIMATED_RJUMP
+from models import MARIO_SPEED, MARIO_JUMP_POWER, GRAVITATION, MARIO_HEIGHT, BUMP_WIDTH, \
+    ANIMATED_JUMP, ANIMATED_STATE, ANIMATED_LJUMP, ANIMATED_RJUMP, ANIMATED_LEFT, ANIMATED_RIGHT, \
+    ANIMATED_LEFT2, ANIMATED_RIGHT2
 from models.Bump import Bump
 from models.MarioObject import MarioObject
 from models.Teleport import Teleport
@@ -21,6 +22,10 @@ class Mario(MarioObject):
         :param image_path: путь к картинке
         """
         super().__init__(coordinate, image_path)
+        self.images = [image.load(path).convert_alpha() for path in
+                       [ANIMATED_LEFT, ANIMATED_LEFT2, ANIMATED_RIGHT, ANIMATED_RIGHT2, ANIMATED_RJUMP,
+                       ANIMATED_LJUMP, ANIMATED_JUMP, ANIMATED_STATE]]
+        self.frame = 0
         self.on_ground = False
         self.x = coordinate[0]
         self.y = coordinate[1]
@@ -31,6 +36,7 @@ class Mario(MarioObject):
         self.count_money = 0
         self.active_bump = None
         self.last_throw = 100
+        self.anim_v = 1
 
         self.start_time = time.perf_counter()
 
@@ -107,18 +113,20 @@ class Mario(MarioObject):
         if up:
             if self.on_ground:
                 self.direction_y = -MARIO_JUMP_POWER
-            self.image = image.load(ANIMATED_JUMP).convert_alpha()
+            self.image = self.images[6]
 
         if left:
             self.direction_x = -MARIO_SPEED
             if not up:
-                self.image = image.load(ANIMATED_LEFT).convert_alpha()
+                self.image = self.images[0 + self.frame // 5]
+                self.frame = (self.frame + 1) % 10
             else:
-                self.image = image.load(ANIMATED_LJUMP).convert_alpha()
+                self.image = self.images[5]
         elif right:
             self.direction_x = MARIO_SPEED
             if not up:
-                self.image = image.load(ANIMATED_RIGHT).convert_alpha()
+                self.image = self.images[2 + self.frame // 5]
+                self.frame = (self.frame + 1) % 10
             else:
                 self.image = image.load(ANIMATED_RJUMP).convert_alpha()
         else:
