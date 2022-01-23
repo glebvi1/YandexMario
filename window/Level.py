@@ -5,7 +5,7 @@ from pytmx import load_pygame
 
 from config import MARIO_PATH, PRINCESS_PATH, MOVE_FIRE_PATH, BLOCKS_PATH, QBLOCKS_PATH, FLY_DEATH_PATH, MONEY_PATH, \
     KISS_PATH, COLOR_TEXT_BUTTON, STATE_END, STATE_WIN, STATE_CONTINUE, KISS_SOUND_PATH, \
-    STATIC_FIRE_PATH, WIDTH, HEIGHT, KISS_SIZE
+    STATIC_FIRE_PATH, WIDTH, HEIGHT, KISS_SIZE, TELEPORT_PATH
 from config.Camera import Camera
 from models import ANIMATED_DIE
 from models.DeadMario import DeadMario
@@ -14,6 +14,8 @@ from models.Mario import Mario
 from models.MarioObject import MarioObject, BaseMarioObject
 from models.MoveFire import MoveFire
 from models.QBlock import QBlock
+from models.Teleport import Teleport
+
 
 
 class Level:
@@ -188,6 +190,8 @@ class Level3(Level2):
 
         if mo_id == 474:
             self.mario = Mario(coords, MARIO_PATH)
+            self.blocks.append(Teleport((128, 800), TELEPORT_PATH, (1250, 1505)))
+            self.blocks.append(Teleport((1250, 1505), TELEPORT_PATH, (128, 800)))
         elif mo_id == 478:
             self.princess = MarioObject(coords, PRINCESS_PATH)
         elif 1 <= mo_id <= 71 or mo_id == 281:
@@ -210,12 +214,15 @@ class Level3(Level2):
             self.enemies.append(BaseMarioObject(coords, mo_image))
 
 
+
 class Level4(Level3):
     def add_mario_object(self, mo_id, x, y, mo_image=None):
         coords = (x * self.tile_size, y * self.tile_size)
 
         if mo_id == 596:
             self.mario = Mario(coords, MARIO_PATH)
+            self.blocks.append(Teleport((500, 1504), TELEPORT_PATH, (97, 835)))
+            self.blocks.append(Teleport((97, 835), TELEPORT_PATH, (500, 1504)))
         elif mo_id == 597:
             self.princess = MarioObject(coords, PRINCESS_PATH)
         elif 81 < mo_id <= 152 or mo_id in [362, 505]:
@@ -244,6 +251,8 @@ class Level5(Level4):
 
         if mo_id == 593:
             self.mario = Mario(coords, MARIO_PATH)
+            self.blocks.append(Teleport((1120, 320), TELEPORT_PATH, (1508, 1920)))
+            self.blocks.append(Teleport((1508, 1920), TELEPORT_PATH, (1120, 320)))
         elif mo_id == 594:
             self.princess = MarioObject(coords, PRINCESS_PATH)
         elif 1 <= mo_id <= 71 or mo_id == 281:
