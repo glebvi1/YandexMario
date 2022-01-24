@@ -142,6 +142,10 @@ class Level:
         screen.blit(money_text, (275, 0, 150, 50))
 
     @staticmethod
+    def music_setting(play=True):
+        music.play(-1, 0.0) if play else music.stop()
+
+    @staticmethod
     def load_background_music(music_path):
         music.load(music_path)
         music.play(-1, 0.0)

@@ -13,7 +13,7 @@ def main():
     game = CurrentWindow()
     clock = pygame.time.Clock()
 
-    right = left = up = throw = False
+    right = left = up = throw = music_play = False
 
     while game.running:
         button, position = 0, 0
@@ -31,6 +31,8 @@ def main():
                     up = True
                 elif event.key == pygame.K_SPACE:
                     throw = True
+                elif event.key == pygame.K_p:
+                    music_play = not music_play
 
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_a or event.key == pygame.K_LEFT:
@@ -46,7 +48,7 @@ def main():
                 position, button = event.pos, event.button
 
         game.draw(screen)
-        game.update(clock.tick(FPS), (right, left, up, throw), position, button)
+        game.update(clock.tick(FPS), (right, left, up, throw), position, button, music_play)
         pygame.display.flip()
 
 
