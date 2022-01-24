@@ -25,7 +25,7 @@ class Mario(MarioObject):
         self.images = [image.load(path).convert_alpha() for path in
                        [ANIMATED_LEFT, ANIMATED_LEFT2, ANIMATED_RIGHT, ANIMATED_RIGHT2, ANIMATED_RJUMP,
                        ANIMATED_LJUMP, ANIMATED_JUMP, ANIMATED_STATE]]
-        self.frame = 0
+
         self.on_ground = False
         self.x = coordinate[0]
         self.y = coordinate[1]
@@ -36,6 +36,8 @@ class Mario(MarioObject):
         self.count_money = 0
         self.active_bump = None
         self.last_throw = 100
+
+        self.frame = 0
         self.anim_v = 1
 
         self.start_time = time.perf_counter()
@@ -76,6 +78,10 @@ class Mario(MarioObject):
         self.__set_direction(vector)
         self.__move(dt, window.blocks)
         return STATE_CONTINUE
+
+    def get_current_time(self) -> str:
+        """Время, проведенное в игре"""
+        return Mario.__get_str_time(time.perf_counter() - self.start_time)
 
     def __move(self, dt: int, blocks: List[MarioObject]) -> None:
         """Метод передвигает Марио
@@ -208,10 +214,6 @@ class Mario(MarioObject):
         :param teleport: телепорт, на который наступил Марио
         """
         self.rect.x, self.rect.y = teleport.go_coords[0] + 20, teleport.go_coords[1] - 20
-
-    def get_current_time(self) -> str:
-        """Время, проведенное в игре"""
-        return Mario.__get_str_time(time.perf_counter() - self.start_time)
 
     @staticmethod
     def __get_str_time(game_time) -> str:
