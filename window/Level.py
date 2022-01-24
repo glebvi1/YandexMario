@@ -143,7 +143,7 @@ class Level:
 
     @staticmethod
     def music_setting(play=True):
-        music.play(-1, 0.0) if play else music.stop()
+        music.unpause() if play else music.pause()
 
     @staticmethod
     def load_background_music(music_path):

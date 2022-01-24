@@ -28,10 +28,10 @@ class CurrentWindow:
         :param vector: кортеж из направлений движений
         :param position: координаты курсора во время клика
         :param button: номер кнопки, которой кликнули
+        :param music_play: включить/выключить музыку
         """
         if self.current_level is not None:
-            if music_play:
-                Level.music_setting(music_play)
+            Level.music_setting(music_play)
 
             state = self.current_level.update(delta_time, vector)
 
