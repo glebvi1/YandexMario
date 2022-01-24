@@ -13,7 +13,8 @@ def main():
     game = CurrentWindow()
     clock = pygame.time.Clock()
 
-    right = left = up = throw = music_play = False
+    right = left = up = throw = False
+    music_play = True
 
     while game.running:
         button, position = 0, 0
