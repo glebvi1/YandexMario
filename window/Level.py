@@ -136,10 +136,12 @@ class Level:
         timer_text = font.Font(None, 36).render(self.mario.get_current_time(), True, COLOR_TEXT_BUTTON)
         bumps_text = font.Font(None, 36).render(f"Шишки X {self.mario.count_bumps}", True, COLOR_TEXT_BUTTON)
         money_text = font.Font(None, 36).render(f"Монетки X {self.mario.count_money}", True, COLOR_TEXT_BUTTON)
+        life_text = font.Font(None, 36).render(f"Жизни X {self.mario.count_lives}", True, COLOR_TEXT_BUTTON)
 
         screen.blit(timer_text, (0, 0, 150, 50))
         screen.blit(bumps_text, (100, 0, 150, 50))
         screen.blit(money_text, (275, 0, 150, 50))
+        screen.blit(life_text, (455, 0, 150, 50))
 
     @staticmethod
     def music_setting(play=True):

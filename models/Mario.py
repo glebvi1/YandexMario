@@ -7,7 +7,7 @@ from pygame.mixer import Sound
 from config import BUMP_PATH, BUMBS_SOUND_PATH, STATE_CONTINUE, STATE_END, STATE_WIN, START_SOUND_PATH
 from config.Camera import Camera
 from dao.db_mario_handler import save_game, get_level_number_by_win
-from models import MARIO_SPEED, MARIO_JUMP_POWER, GRAVITATION, MARIO_HEIGHT, BUMP_WIDTH, \
+from models import MARIO_SPEED, MARIO_JUMP_POWER, GRAVITATION, MARIO_HEIGHT, MARIO_WIDTH, BUMP_WIDTH, \
     ANIMATED_JUMP, ANIMATED_STATE, ANIMATED_LJUMP, ANIMATED_RJUMP, ANIMATED_LEFT, ANIMATED_RIGHT, \
     ANIMATED_LEFT2, ANIMATED_RIGHT2
 from models.Bump import Bump
@@ -33,9 +33,12 @@ class Mario(MarioObject):
         self.direction_y = 0
 
         self.count_bumps = 5
+        self.count_lives = 3
         self.count_money = 0
         self.active_bump = None
+
         self.last_throw = 100
+        self.last_die = 100
 
         self.frame = 0
         self.anim_v = 1
@@ -60,9 +63,15 @@ class Mario(MarioObject):
         :param vector: кортеж с направлениями
         :param window: главное окно
         """
+        if time.time() - self.last_die < 1:
+            return STATE_CONTINUE
+
         if self.__collide_with_enemies(window.enemies):
-            self.__save_lose_game(window.level_number)
-            return STATE_END
+            if self.count_lives == 1:
+                self.__save_lose_game(window.level_number)
+                return STATE_END
+            self.__die(window.camera)
+            return STATE_CONTINUE
         if sprite.collide_mask(self, window.princess):
             save_game(True, self.get_current_time(), window.level_number, self.count_money)
             return STATE_WIN
@@ -192,7 +201,7 @@ class Mario(MarioObject):
         for bon in bonus.copy():
             if sprite.collide_rect(self, bon):
                 if isinstance(bon, Bump):
-                    self.count_bumps += 1
+                    self.count_bumps += 2
                 else:
                     self.count_money += 1
 
@@ -214,6 +223,14 @@ class Mario(MarioObject):
         :param teleport: телепорт, на который наступил Марио
         """
         self.rect.x, self.rect.y = teleport.go_coords[0] + 20, teleport.go_coords[1] - 20
+
+    def __die(self, camera):
+        self.count_lives -= 1
+        self.last_die = time.time()
+        self.rect.x = self.coordinate[0] - MARIO_WIDTH // 2
+        self.rect.y = self.coordinate[1] - MARIO_HEIGHT // 2 - 2
+        camera.update(self)
+        self.image = self.images[-1]
 
     @staticmethod
     def __get_str_time(game_time) -> str:
