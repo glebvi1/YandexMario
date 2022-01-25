@@ -5,7 +5,7 @@ from pytmx import load_pygame
 
 from config import MARIO_PATH, PRINCESS_PATH, MOVE_FIRE_PATH, BLOCKS_PATH, QBLOCKS_PATH, FLY_DEATH_PATH, MONEY_PATH, \
     KISS_PATH, COLOR_TEXT_BUTTON, STATE_END, STATE_WIN, STATE_CONTINUE, KISS_SOUND_PATH, \
-    STATIC_FIRE_PATH, WIDTH, HEIGHT, KISS_SIZE, TELEPORT_PATH
+    STATIC_FIRE_PATH, WIDTH, HEIGHT, KISS_SIZE, TELEPORT_PATH, BUMP_PATH
 from config.Camera import Camera
 from models import ANIMATED_DIE
 from models.DeadMario import DeadMario
@@ -15,7 +15,7 @@ from models.MarioObject import MarioObject, BaseMarioObject
 from models.MoveFire import MoveFire
 from models.QBlock import QBlock
 from models.Teleport import Teleport
-
+from models.Bump import Bump
 
 
 class Level:
@@ -166,6 +166,7 @@ class Level2(Level):
 
         if mo_id == 595:
             self.mario = Mario(coords, MARIO_PATH)
+            self.bonus.append(Bump((coords[0] + 1350, coords[1] - 5), BUMP_PATH, direction=0))
         elif mo_id == 596 or mo_id == 478:
             self.princess = MarioObject(coords, PRINCESS_PATH)
         elif 198 < mo_id <= 269 or mo_id == 479:
