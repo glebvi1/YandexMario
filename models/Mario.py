@@ -192,7 +192,7 @@ class Mario(MarioObject):
         for bon in bonus.copy():
             if sprite.collide_rect(self, bon):
                 if isinstance(bon, Bump):
-                    self.count_bumps += 1
+                    self.count_bumps += 2
                 else:
                     self.count_money += 1
 
