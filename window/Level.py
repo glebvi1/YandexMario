@@ -260,6 +260,9 @@ class Level5(Level4):
             self.mario = Mario(coords, MARIO_PATH)
             self.blocks.append(Teleport((1120, 320), TELEPORT_PATH, (1508, 1920)))
             self.blocks.append(Teleport((1508, 1920), TELEPORT_PATH, (1120, 320)))
+            self.bonus.append(Bump((coords[0] + 150, coords[1] + 1155), BUMP_PATH, direction=0))
+            self.bonus.append(Bump((coords[0] + 1315, coords[1] + 165), BUMP_PATH, direction=0))
+
         elif mo_id == 594:
             self.princess = MarioObject(coords, PRINCESS_PATH)
         elif 1 <= mo_id <= 71 or mo_id == 281:
