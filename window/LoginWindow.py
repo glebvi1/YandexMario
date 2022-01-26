@@ -1,7 +1,8 @@
+import pygame
 from config import COLOR_BACKGROUND
+from dao.db_user_handler import registration_user, login_user
 from window.Button import Button
 from window.TextEditor import TextEditor
-from dao.db_user_handler import registration_user, login_user
 
 
 class LoginWindow:
@@ -17,6 +18,8 @@ class LoginWindow:
 
         self.editors = (self.editor_name, self.editor_login, self.editor_password)
 
+        self.error_text = ""
+
     def draw(self, screen):
         screen.fill(COLOR_BACKGROUND)
 
@@ -28,10 +31,15 @@ class LoginWindow:
         self.button_ok.draw(screen)
         self.button_change_window.draw(screen)
 
+        font = pygame.font.Font(None, 40)
+        txt_surface = font.render(self.error_text, True, (64, 32, 100))
+        screen.blit(txt_surface, (100, 100))
+
     def update(self, event, position, button):
         if event is not None:
             for editor in self.editors:
-                editor.update(event)
+                if not editor.update(event):
+                    self.error_text = "Слишком много символов"
 
         if self.button_ok.click(position, button) and self.login_window:
             self.__login()
@@ -53,10 +61,8 @@ class LoginWindow:
 
     def __reg(self):
         user = registration_user(self.editor_login.text, self.editor_name.text, self.editor_password.text)
-        print(user)
         if user is None:
-            # TODO: error
-            pass
+            self.error_text = "Ошибка регистрации"
         else:
             self.is_authorizing = True
 
@@ -64,7 +70,6 @@ class LoginWindow:
         user = login_user(self.editor_login.text, self.editor_password.text)
         print(user)
         if user is None:
-            # TODO: error
-            pass
+            self.error_text = "Ошибка авторизации"
         else:
             self.is_authorizing = True

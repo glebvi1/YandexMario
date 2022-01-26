@@ -13,15 +13,15 @@ class TextEditor:
 
     def draw(self, screen):
         color = self.active_color if self.is_active else self.passive_color
-        font = pygame.font.Font(None, 40)
 
+        font = pygame.font.Font(None, 40)
         txt_surface = font.render(self.text, True, color)
 
         screen.blit(txt_surface, (self.editor.x + 5, self.editor.y + 5))
         pygame.draw.rect(screen, color, self.editor, 2)
 
     def update(self, event) -> bool:
-        if len(self.text) == self.max_text_len:
+        if len(self.text) == self.max_text_len and event.key != pygame.K_BACKSPACE:
             return False
 
         if self.is_active:
