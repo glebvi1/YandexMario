@@ -67,7 +67,6 @@ class Level:
             self.mario = Mario(coords, MARIO_PATH)
         elif mo_id == 5:
             self.blocks.append(QBlock(coords, QBLOCKS_PATH))
-
         elif mo_id == 6:
             self.enemies.append(FlyDeath(coords, FLY_DEATH_PATH))
         elif mo_id == 7:
