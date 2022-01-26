@@ -71,15 +71,12 @@ class Mario(MarioObject):
 
         if self.__collide_with_enemies(window.enemies):
             if self.count_lives == 1:
-                self.__save_lose_game(window.level_number)
+                self.__save_game(False, window.level_number)
                 return STATE_END
             self.__die(window.camera)
             return STATE_CONTINUE
         if sprite.collide_mask(self, window.princess):
-            if not self.is_saving:
-                global last_gid
-                last_gid = save_game(True, self.get_current_time(), window.level_number, self.count_money)
-                self.is_saving = True
+            self.__save_game(True, window.level_number)
             return STATE_WIN
 
         if self.active_bump is not None:
@@ -213,18 +210,13 @@ class Mario(MarioObject):
 
                 bonus.remove(bon)
 
-    def __save_lose_game(self, level_number: int) -> None:
+    def __save_game(self, is_win: bool, level_number: int) -> None:
         """Сохранение проигранного уровня в БД
         :param level_number: номер уровня
         """
-        win_games = get_level_number_by_win(is_win=True)
-
-        for level in win_games:
-            if level[0] == level_number:
-                return
         if not self.is_saving:
             global last_gid
-            last_gid = save_game(False, self.get_current_time(), level_number, self.count_money)
+            last_gid = save_game(is_win, self.get_current_time(), level_number, self.count_money)
             self.is_saving = True
 
     def __teleporting(self, teleport: Teleport) -> None:

@@ -1,6 +1,7 @@
 from config import LEVEL1_PATH, LEVEL2_PATH, LEVEL3_PATH, LEVEL4_PATH, LEVEL5_PATH, STATE_END, \
      STATE_WIN, MUS_PATH1, MUS_PATH2, MUS_PATH3, MUS_PATH4, MUS_PATH5, COLOR_BACKGROUND
 from dao.db_level_handler import get_level_by_ids
+from dao.db_user_handler import update_user
 from models.User import User
 from window.Button import Button
 from window.Level import Level, Level2, Level3, Level4, Level5
@@ -11,10 +12,9 @@ class CurrentWindow:
         """Окно, отвечающее за переходы между меню и уровнями"""
         self.running = True
         self.user = None
-        self.is_saving = False
 
         self.buttons = []
-        self.__set_buttons()
+        self.set_buttons()
         self.current_level = None
 
     def draw(self, screen) -> None:
@@ -41,17 +41,17 @@ class CurrentWindow:
 
             state = self.current_level.update(delta_time, vector)
 
-            if state in (STATE_END, STATE_WIN) and not self.is_saving:
+            if state in (STATE_END, STATE_WIN):
                 from models.Mario import last_gid
                 self.user.games.append(last_gid)
-                print(self.user)
+                update_user(self.user)
 
             if state == STATE_END:
                 self.current_level = None
-                self.__set_buttons()
+                self.set_buttons()
             elif state == STATE_WIN:
                 self.current_level = None
-                self.__set_buttons()
+                self.set_buttons()
 
         else:
             self.__start_level(position, button)
@@ -88,7 +88,7 @@ class CurrentWindow:
         print("quit")
         self.running = False
 
-    def __set_buttons(self) -> None:
+    def set_buttons(self) -> None:
         """Прорисовка кнопочек меню"""
         self.buttons = (
             Button((100, 100, 220, 50), "Уровень 1"),
@@ -97,7 +97,7 @@ class CurrentWindow:
             Button((100, 400, 220, 50), "Уровень 4"),
             Button((100, 500, 220, 50), "Уровень 5"),
         )
-
+        print(self.user)
         levels = [] if self.user is None else get_level_by_ids(self.user.games)
         for number, time, count_bumps, is_win in levels:
             if is_win:

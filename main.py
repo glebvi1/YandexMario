@@ -67,6 +67,7 @@ def main():
             user = login.update(login_event, position, button)
             if user is not None:
                 game.user = user
+                game.set_buttons()
 
         pygame.display.flip()
 

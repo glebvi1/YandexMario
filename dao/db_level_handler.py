@@ -52,4 +52,5 @@ def get_level_by_ids(list_id: list):
 
     cursor.close()
     connection.close()
+    print(levels)
     return levels
