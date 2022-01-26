@@ -3,7 +3,7 @@ from config import DB_NAME
 from dao import DB_DIR
 
 
-def save_game(is_win: bool, time: str, level_number: int, count_money: int) -> None:
+def save_game(is_win: bool, time: str, level_number: int, count_money: int) -> int:
     """Сохранение игры в БД
     :param is_win: выиграл ли уровень
     :param time: время, затраченное на уровень
@@ -13,13 +13,15 @@ def save_game(is_win: bool, time: str, level_number: int, count_money: int) -> N
     connection = sqlite3.connect(f"{DB_DIR}/{DB_NAME}")
     cursor = connection.cursor()
 
-    cursor.execute(f"DELETE FROM games WHERE level_number={level_number}")
     cursor.execute(f"INSERT INTO games (is_win, time, level_number, count_money)"
                    f"VALUES {is_win, time, level_number, count_money}")
     connection.commit()
 
+    gid = cursor.lastrowid
+
     cursor.close()
     connection.close()
+    return gid
 
 
 def get_level_number_by_win(is_win: bool):
@@ -36,3 +38,18 @@ def get_level_number_by_win(is_win: bool):
     cursor.close()
     connection.close()
     return win_levels
+
+
+def get_level_by_ids(list_id: list):
+    connection = sqlite3.connect(f"{DB_DIR}/{DB_NAME}")
+    cursor = connection.cursor()
+
+    levels = []
+    for gid in list_id:
+        levels.append(cursor.execute(f"SELECT level_number, time, count_money, is_win FROM games "
+                       f"WHERE gid={gid}").fetchone())
+    connection.commit()
+
+    cursor.close()
+    connection.close()
+    return levels

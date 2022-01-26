@@ -1,16 +1,17 @@
 from config import LEVEL1_PATH, LEVEL2_PATH, LEVEL3_PATH, LEVEL4_PATH, LEVEL5_PATH, STATE_END, \
      STATE_WIN, MUS_PATH1, MUS_PATH2, MUS_PATH3, MUS_PATH4, MUS_PATH5, COLOR_BACKGROUND
-from dao.db_mario_handler import get_level_number_by_win
+from dao.db_level_handler import get_level_by_ids
+from models.User import User
 from window.Button import Button
 from window.Level import Level, Level2, Level3, Level4, Level5
-from window.LoginWindow import LoginWindow
 
 
 class CurrentWindow:
     def __init__(self) -> None:
         """Окно, отвечающее за переходы между меню и уровнями"""
         self.running = True
-        self.login = LoginWindow()
+        self.user = None
+        self.is_saving = False
 
         self.buttons = []
         self.__set_buttons()
@@ -31,7 +32,6 @@ class CurrentWindow:
         :param button: номер кнопки, которой кликнули
         :param settings: настройки: включить/выключить музыку, выйти из уровня
         """
-
         if self.current_level is not None:
             music_play, is_quit = settings
             if is_quit:
@@ -41,12 +41,15 @@ class CurrentWindow:
 
             state = self.current_level.update(delta_time, vector)
 
+            if state in (STATE_END, STATE_WIN) and not self.is_saving:
+                from models.Mario import last_gid
+                self.user.games.append(last_gid)
+                print(self.user)
+
             if state == STATE_END:
-                print("Марио проиграл")
                 self.current_level = None
                 self.__set_buttons()
             elif state == STATE_WIN:
-                print("Марио выиграл")
                 self.current_level = None
                 self.__set_buttons()
 
@@ -94,14 +97,12 @@ class CurrentWindow:
             Button((100, 400, 220, 50), "Уровень 4"),
             Button((100, 500, 220, 50), "Уровень 5"),
         )
-        win_levels = get_level_number_by_win(is_win=True)
-        for number, time, count_bumps in win_levels:
-            self.buttons[number - 1].set_win_color()
-            text_description = f"Время: {time}, монетки: {count_bumps}"
-            self.buttons[number - 1].set_text_description(text_description)
 
-        lose_levels = get_level_number_by_win(is_win=False)
-        for number, time, count_bumps in lose_levels:
-            self.buttons[number - 1].set_lose_color()
+        levels = [] if self.user is None else get_level_by_ids(self.user.games)
+        for number, time, count_bumps, is_win in levels:
+            if is_win:
+                self.buttons[number - 1].set_win_color()
+            else:
+                self.buttons[number - 1].set_lose_color()
             text_description = f"Время: {time}, монетки: {count_bumps}"
             self.buttons[number - 1].set_text_description(text_description)

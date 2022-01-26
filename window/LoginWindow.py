@@ -42,9 +42,9 @@ class LoginWindow:
                     self.error_text = "Слишком много символов"
 
         if self.button_ok.click(position, button) and self.login_window:
-            self.__login()
+            return self.__login()
         elif self.button_ok.click(position, button) and not self.login_window:
-            self.__reg()
+            return self.__reg()
 
         if self.button_change_window.click(position, button):
             self.login_window = not self.login_window
@@ -63,13 +63,15 @@ class LoginWindow:
         user = registration_user(self.editor_login.text, self.editor_name.text, self.editor_password.text)
         if user is None:
             self.error_text = "Ошибка регистрации"
-        else:
-            self.is_authorizing = True
+            return None
+        self.is_authorizing = True
+        return user
 
     def __login(self):
         user = login_user(self.editor_login.text, self.editor_password.text)
-        print(user)
+
         if user is None:
             self.error_text = "Ошибка авторизации"
-        else:
-            self.is_authorizing = True
+            return None
+        self.is_authorizing = True
+        return user

@@ -11,4 +11,4 @@ class User:
 
     def __str__(self) -> str:
         """Красивый вывод пользователя"""
-        return f"uid = {self.uid}, login = {self.login}, name = {self.name}, password = {self.password}"
+        return f"uid = {self.uid}, login = {self.login}, name = {self.name}, password = {self.password}, games = {self.games}"

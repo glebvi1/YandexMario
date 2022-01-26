@@ -64,7 +64,10 @@ def main():
             game.update(clock.tick(FPS), (right, left, up, throw), position, button, (music_play, is_quit))
         else:
             login.draw(screen)
-            login.update(login_event, position, button)
+            user = login.update(login_event, position, button)
+            if user is not None:
+                game.user = user
+
         pygame.display.flip()
 
 
