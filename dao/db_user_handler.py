@@ -27,3 +27,21 @@ def registration_user(login: str, name: str, password: str):
     connection.close()
     return User(uid=uid, login=login, name=name, password=password)
 
+
+def login_user(login: str, password: str):
+    """Авторизация пользователя
+    :param login: логин пользователя
+    :param password: пароль пользователя
+    """
+    connection = sqlite3.connect(f"{DB_DIR}/{DB_NAME}")
+    cursor = connection.cursor()
+
+    users = cursor.execute(f"SELECT * FROM users WHERE login='{login}';").fetchall()
+
+    cursor.close()
+    connection.close()
+
+    if len(users) != 0 and users[0][3] == password:
+        return User(uid=users[0][0], login=users[0][1], name=users[0][2],
+                    password=users[0][3])
+    return None
