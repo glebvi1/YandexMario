@@ -6,7 +6,7 @@ from pygame.mixer import Sound
 
 from config import BUMP_PATH, BUMBS_SOUND_PATH, STATE_CONTINUE, STATE_END, STATE_WIN, START_SOUND_PATH
 from config.Camera import Camera
-from dao.db_level_handler import save_game, get_level_number_by_win
+from dao.db_level_handler import save_game
 from models import MARIO_SPEED, MARIO_JUMP_POWER, GRAVITATION, MARIO_HEIGHT, MARIO_WIDTH, BUMP_WIDTH, \
     ANIMATED_JUMP, ANIMATED_STATE, ANIMATED_LJUMP, ANIMATED_RJUMP, ANIMATED_LEFT, ANIMATED_RIGHT, \
     ANIMATED_LEFT2, ANIMATED_RIGHT2
@@ -75,6 +75,7 @@ class Mario(MarioObject):
                 return STATE_END
             self.__die(window.camera)
             return STATE_CONTINUE
+
         if sprite.collide_mask(self, window.princess):
             self.__save_game(True, window.level_number)
             return STATE_WIN

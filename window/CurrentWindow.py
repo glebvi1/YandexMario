@@ -12,6 +12,8 @@ class CurrentWindow:
         """Окно, отвечающее за переходы между меню и уровнями"""
         self.running = True
         self.user = None
+        self.ids_number = {}
+        self.level_id = 0
 
         self.buttons = []
         self.set_buttons()
@@ -44,6 +46,8 @@ class CurrentWindow:
             if state in (STATE_END, STATE_WIN):
                 from models.Mario import last_gid
                 self.user.games.append(last_gid)
+                if self.level_id is not None:
+                    self.user.games.remove(self.level_id)
                 update_user(self.user)
 
             if state == STATE_END:
@@ -70,18 +74,23 @@ class CurrentWindow:
             if widg.click(position, button):
                 if number == 0:
                     self.current_level = Level(LEVEL1_PATH, number + 1)
+                    self.level_id = self.ids_number[number + 1]
                     #Level.load_background_music(MUS_PATH1)
                 elif number == 1:
                     self.current_level = Level2(LEVEL2_PATH, number + 1)
+                    self.level_id = self.ids_number[number + 1]
                     #Level.load_background_music(MUS_PATH2)
                 elif number == 2:
                     self.current_level = Level3(LEVEL3_PATH, number + 1)
+                    self.level_id = self.ids_number[number + 1]
                     #Level.load_background_music(MUS_PATH3)
                 elif number == 3:
                     self.current_level = Level4(LEVEL4_PATH, number + 1)
+                    self.level_id = self.ids_number[number + 1]
                     #Level.load_background_music(MUS_PATH4)
                 elif number == 4:
                     self.current_level = Level5(LEVEL5_PATH, number + 1)
+                    self.level_id = self.ids_number[number + 1]
                     #Level.load_background_music(MUS_PATH5)
 
     def quit(self):
@@ -99,10 +108,14 @@ class CurrentWindow:
         )
         print(self.user)
         levels = [] if self.user is None else get_level_by_ids(self.user.games)
+        self.ids_number = {i + 1: None for i in range(5)}
+
         for number, time, count_bumps, is_win in levels:
             if is_win:
                 self.buttons[number - 1].set_win_color()
             else:
                 self.buttons[number - 1].set_lose_color()
+            self.ids_number[number] = self.user.games[number - 1]
             text_description = f"Время: {time}, монетки: {count_bumps}"
             self.buttons[number - 1].set_text_description(text_description)
+        print(self.ids_number)
