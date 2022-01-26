@@ -4,13 +4,16 @@ from config import COLOR_TEXT_BUTTON, COLOR_WIN_BUTTON, COLOR_LOSE_BUTTON, COLOR
 
 
 class Button:
-    def __init__(self, button_coords: tuple[int, int, int, int], text: str, text_description=""):
+    def __init__(self, button_coords: tuple[int, int, int, int], text: str, text_description="", color=None):
         self.button_coords = button_coords
         self.text = font.Font(None, 36).render(text, True, COLOR_TEXT_BUTTON)
         self.text_description = font.Font(None, 18).render(text_description, True, COLOR_TEXT_BUTTON)
         self.text_description_coords = (button_coords[0], button_coords[1] + button_coords[3] // 2,
                                         button_coords[2], button_coords[3])
-        self.color = COLOR_NEUTRAL_BUTTON
+        if color is None:
+            self.color = COLOR_NEUTRAL_BUTTON
+        else:
+            self.color = color
 
     def draw(self, screen):
         draw.rect(screen, self.color, self.button_coords)

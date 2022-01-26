@@ -1,26 +1,27 @@
 from config import LEVEL1_PATH, LEVEL2_PATH, LEVEL3_PATH, LEVEL4_PATH, LEVEL5_PATH, STATE_END, \
-     STATE_WIN, MUS_PATH1, MUS_PATH2, MUS_PATH3, MUS_PATH4, MUS_PATH5
+     STATE_WIN, MUS_PATH1, MUS_PATH2, MUS_PATH3, MUS_PATH4, MUS_PATH5, COLOR_BACKGROUND
 from dao.db_mario_handler import get_level_number_by_win
 from window.Button import Button
 from window.Level import Level, Level2, Level3, Level4, Level5
+from window.LoginWindow import LoginWindow
 
 
 class CurrentWindow:
     def __init__(self) -> None:
         """Окно, отвечающее за переходы между меню и уровнями"""
         self.running = True
+        self.login = LoginWindow()
 
         self.buttons = []
         self.__set_buttons()
         self.current_level = None
 
     def draw(self, screen) -> None:
+
         if self.current_level is not None:
             self.current_level.draw(screen)
         else:
-            screen.fill((200, 100, 50))
-            for widg in self.buttons:
-                widg.draw(screen)
+            self.__draw_menu(screen)
 
     def update(self, delta_time, vector, position, button, settings) -> None:
         """Запуск уровня; определение состояния игры
@@ -30,6 +31,7 @@ class CurrentWindow:
         :param button: номер кнопки, которой кликнули
         :param settings: настройки: включить/выключить музыку, выйти из уровня
         """
+
         if self.current_level is not None:
             music_play, is_quit = settings
             if is_quit:
@@ -50,6 +52,11 @@ class CurrentWindow:
 
         else:
             self.__start_level(position, button)
+
+    def __draw_menu(self, screen):
+        screen.fill(COLOR_BACKGROUND)
+        for widg in self.buttons:
+            widg.draw(screen)
 
     def __start_level(self, position, button) -> None:
         """Запуск уровня по клику

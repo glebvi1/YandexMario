@@ -1,4 +1,6 @@
 import sqlite3
+from config import DB_NAME
+from dao import DB_DIR
 
 
 def save_game(is_win: bool, time: str, level_number: int, count_money: int) -> None:
@@ -8,7 +10,7 @@ def save_game(is_win: bool, time: str, level_number: int, count_money: int) -> N
     :param level_number: номер уровня
     :param count_money: количество собранных монеток
     """
-    connection = sqlite3.connect("dao/mario.db")
+    connection = sqlite3.connect(f"{DB_DIR}/{DB_NAME}")
     cursor = connection.cursor()
 
     cursor.execute(f"DELETE FROM games WHERE level_number={level_number}")
@@ -24,7 +26,7 @@ def get_level_number_by_win(is_win: bool):
     """Возращаем выигранные уровни, если is_win=True, иначе - проигранные
     :param is_win: True = выигранные; False = проигранные
     """
-    connection = sqlite3.connect("dao/mario.db")
+    connection = sqlite3.connect(f"{DB_DIR}/{DB_NAME}")
     cursor = connection.cursor()
 
     win_levels = cursor.execute(f"SELECT level_number, time, count_money FROM games "
