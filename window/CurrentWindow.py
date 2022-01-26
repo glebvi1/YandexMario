@@ -22,15 +22,19 @@ class CurrentWindow:
             for widg in self.buttons:
                 widg.draw(screen)
 
-    def update(self, delta_time, vector, position, button, music_play) -> None:
+    def update(self, delta_time, vector, position, button, settings) -> None:
         """Запуск уровня; определение состояния игры
         :param delta_time: время в милисекундах
         :param vector: кортеж из направлений движений
         :param position: координаты курсора во время клика
         :param button: номер кнопки, которой кликнули
-        :param music_play: включить/выключить музыку
+        :param settings: настройки: включить/выключить музыку, выйти из уровня
         """
         if self.current_level is not None:
+            music_play, is_quit = settings
+            if is_quit:
+                self.current_level = None
+                return
             Level.music_setting(music_play)
 
             state = self.current_level.update(delta_time, vector)

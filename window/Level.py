@@ -8,6 +8,7 @@ from config import MARIO_PATH, PRINCESS_PATH, MOVE_FIRE_PATH, BLOCKS_PATH, QBLOC
     STATIC_FIRE_PATH, WIDTH, HEIGHT, KISS_SIZE, TELEPORT_PATH, BUMP_PATH
 from config.Camera import Camera
 from models import ANIMATED_DIE
+from models.Bump import Bump
 from models.DeadMario import DeadMario
 from models.FlyDeath import FlyDeath
 from models.Mario import Mario
@@ -15,7 +16,6 @@ from models.MarioObject import MarioObject, BaseMarioObject
 from models.MoveFire import MoveFire
 from models.QBlock import QBlock
 from models.Teleport import Teleport
-from models.Bump import Bump
 
 
 class Level:
@@ -223,8 +223,7 @@ class Level3(Level2):
             self.enemies.append(BaseMarioObject(coords, mo_image))
 
 
-
-class Level4(Level3):
+class Level4(Level2):
     def add_mario_object(self, mo_id, x, y, mo_image=None):
         coords = (x * self.tile_size, y * self.tile_size)
 
@@ -254,7 +253,7 @@ class Level4(Level3):
             self.blocks.append(BaseMarioObject(coords, mo_image))
 
 
-class Level5(Level4):
+class Level5(Level2):
     def add_mario_object(self, mo_id, x, y, mo_image=None):
         coords = (x * self.tile_size, y * self.tile_size)
 
