@@ -83,16 +83,11 @@ class Level:
 
         if self.dead_mario is None:
             self.mario.draw(screen, self.camera)
+            self.__draw_object(screen)
         else:
+            self.__draw_object(screen)
             self.dead_mario.draw(screen, self.camera)
         self.princess.draw(screen, self.camera)
-
-        for widg in self.blocks:
-            widg.draw(screen, self.camera)
-        for widg in self.enemies:
-            widg.draw(screen, self.camera)
-        for widg in self.bonus:
-            widg.draw(screen, self.camera)
 
         if self.is_win_end:
             self.is_win += 1
@@ -131,6 +126,14 @@ class Level:
             return STATE_WIN if self.is_win == 2 else STATE_CONTINUE
 
         return state
+
+    def __draw_object(self, screen):
+        for widg in self.blocks:
+            widg.draw(screen, self.camera)
+        for widg in self.enemies:
+            widg.draw(screen, self.camera)
+        for widg in self.bonus:
+            widg.draw(screen, self.camera)
 
     def __draw_information(self, screen) -> None:
         timer_text = font.Font(None, 36).render(self.mario.get_current_time(), True, COLOR_TEXT_BUTTON)

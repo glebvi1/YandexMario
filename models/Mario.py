@@ -45,7 +45,7 @@ class Mario(MarioObject):
 
         self.start_time = time.perf_counter()
 
-        Sound(START_SOUND_PATH).play()
+        #Sound(START_SOUND_PATH).play()
 
     def draw(self, screen: Surface, camera: Camera) -> None:
         """Отрисовываем спрайт
@@ -117,7 +117,7 @@ class Mario(MarioObject):
             self.count_bumps -= 1
             self.active_bump = bump
             self.last_throw = time.time()
-            Sound(BUMBS_SOUND_PATH).play()
+            #Sound(BUMBS_SOUND_PATH).play()
 
     def __set_direction(self, vector: Tuple[bool, bool, bool, bool]) -> None:
         """Метод задает направление движения
