@@ -2,7 +2,6 @@ from config import LEVEL1_PATH, LEVEL2_PATH, LEVEL3_PATH, LEVEL4_PATH, LEVEL5_PA
      STATE_WIN, MUS_PATH1, MUS_PATH2, MUS_PATH3, MUS_PATH4, MUS_PATH5, COLOR_BACKGROUND
 from dao.db_level_handler import get_level_by_ids
 from dao.db_user_handler import update_user
-from models.User import User
 from window.Button import Button
 from window.Level import Level, Level2, Level3, Level4, Level5
 
