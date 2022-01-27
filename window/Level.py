@@ -19,7 +19,9 @@ from models.Teleport import Teleport
 
 
 class Level:
-    def __init__(self, level_path: str, level_number: int):
+    def __init__(self, level_path: str, level_number: int, level_id):
+        self.level_id = level_id
+
         self.mario = None
         self.princess = None
         self.dead_mario = None
@@ -64,7 +66,7 @@ class Level:
         elif mo_id == 3:
             self.princess = MarioObject(coords, PRINCESS_PATH)
         elif mo_id == 4:
-            self.mario = Mario(coords, MARIO_PATH)
+            self.mario = Mario(coords, MARIO_PATH, count_lives=1)
         elif mo_id == 5:
             self.blocks.append(QBlock(coords, QBLOCKS_PATH))
         elif mo_id == 6:

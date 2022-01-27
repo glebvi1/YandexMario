@@ -18,7 +18,7 @@ last_gid = 0
 
 
 class Mario(MarioObject):
-    def __init__(self, coordinate: Tuple[int, int], image_path: str) -> None:
+    def __init__(self, coordinate: Tuple[int, int], image_path: str, count_lives=3) -> None:
         """Главный персонаж - Марио
         :param coordinate: начальные координаты
         :param image_path: путь к картинке
@@ -35,7 +35,7 @@ class Mario(MarioObject):
         self.direction_y = 0
 
         self.count_bumps = 5
-        self.count_lives = 3
+        self.count_lives = count_lives
         self.count_money = 0
         self.active_bump = None
 
@@ -71,13 +71,13 @@ class Mario(MarioObject):
 
         if self.__collide_with_enemies(window.enemies):
             if self.count_lives == 1:
-                self.__save_game(False, window.level_number)
+                self.__save_game(False, window.level_number, window.level_id)
                 return STATE_END
             self.__die(window.camera)
             return STATE_CONTINUE
 
         if sprite.collide_mask(self, window.princess):
-            self.__save_game(True, window.level_number)
+            self.__save_game(True, window.level_number, window.level_id)
             return STATE_WIN
 
         if self.active_bump is not None:
@@ -211,13 +211,13 @@ class Mario(MarioObject):
 
                 bonus.remove(bon)
 
-    def __save_game(self, is_win: bool, level_number: int) -> None:
+    def __save_game(self, is_win: bool, level_number: int, level_id: int) -> None:
         """Сохранение проигранного уровня в БД
         :param level_number: номер уровня
         """
         if not self.is_saving:
             global last_gid
-            last_gid = save_game(is_win, self.get_current_time(), level_number, self.count_money)
+            last_gid = save_game(is_win, self.get_current_time(), level_number, self.count_money, level_id)
             self.is_saving = True
 
     def __teleporting(self, teleport: Teleport) -> None:
