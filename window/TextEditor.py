@@ -1,4 +1,5 @@
 import pygame
+from pygame import Color
 
 
 class TextEditor:
@@ -8,8 +9,8 @@ class TextEditor:
         self.max_text_len = max_text_len
         self.is_active = False
         self.text = default_text
-        self.active_color = pygame.Color(141, 182, 205)
-        self.passive_color = pygame.Color(30, 144, 255)
+        self.active_color = Color(141, 182, 205)
+        self.passive_color = Color(30, 144, 255)
 
     def draw(self, screen):
         color = self.active_color if self.is_active else self.passive_color
